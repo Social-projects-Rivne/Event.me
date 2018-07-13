@@ -1,3 +1,4 @@
-#    1. docker-compose build
-#    2. docker-compose up
-#    3. localhost:6543
+#    1. docker build -t pyramid .
+#    2. docker-compose build
+#    3. docker-compose up
+#    4. localhost:6543
