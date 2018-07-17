@@ -3,7 +3,7 @@ services:
     pyramid:
         build: .
         container_name: pyramid
-        command: pserve /app/server/development.ini --reload
+        command: bash -c "pip install -e /app/server/ && pserve /app/server/development.ini --reload"
         volumes:
             - .:/app
         depends_on:
