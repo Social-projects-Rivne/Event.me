@@ -1,9 +1,9 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 
-class Users(object):
-    __tablename__ = 'users'
+class User:
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String, unique=True)
@@ -13,9 +13,12 @@ class Users(object):
     location = Column(String)
     f_name = Column(String)
     l_name = Column(String)
-    id_status = Column(Integer)
-    id_role = Column(String)
+    id_status = Column(Integer, ForeignKey("user_statuses.id"))
+    id_role = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
-    feedback = relationship('Feedbacks', back_populates='users')
-    user_statuses = relationship('UserStatuses', back_populates='users')
-    users_subscribe = relationship('Subscribe', back_populates='users')
+
+    roles = relationship("Role", foreign_keys="id_role")
+    user_statuses = relationship("UserStatuse", foreign_keys="id_status")
+    events = relationship("Event")
+    feedback = relationship("Feedback")
+    users_subscribe = relationship("Subscribe")
