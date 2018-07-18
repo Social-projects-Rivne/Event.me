@@ -1,24 +1,11 @@
 FROM ubuntu:16.04
 
-
-
 RUN apt-get update -y && \
-
     apt-get install -y python-pip python-dev && \
+    pip install --upgrade pip setuptools
 
-    pip install --upgrade pip setuptools waitress
-
-
-
-COPY . /app
-
-
+COPY ./requirements.txt /requirements.txt
 
 WORKDIR /app
 
-
-
-
-
-
-RUN cd server && python setup.py develop && pip install -e .
+RUN pip install -r /requirements.txt
