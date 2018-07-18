@@ -1,0 +1,30 @@
+version: '3'
+services:
+    pyramid:
+        build: .
+        container_name: pyramid
+        command: bash -c "pip install -e /app/server/ && pserve /app/server/development.ini --reload"
+        volumes:
+            - .:/app
+        depends_on:
+            - db
+        ports:
+            - "6543:6543"
+    db:
+        image: postgres:9.6
+        restart: always
+        container_name: eventme_postgres
+        environment:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: 1
+          POSTGRES_DB: eventme
+        volumes:
+          - ~/.eventme-postgres:/var/lib/postgresql/data
+    adminer:
+        image: adminer
+        restart: always
+        depends_on:
+            - db
+        ports:
+          - 9000:8080
+
