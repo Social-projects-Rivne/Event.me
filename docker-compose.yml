@@ -27,3 +27,4 @@ services:
             - db
         ports:
           - 9000:8080
+
