@@ -1,8 +1,11 @@
 from sqlalchemy import Column, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 
-class EventHistory:
+class EventHistory(Base):
     __tablename__ = 'event_histories'
     id = Column(Integer, primary_key=True)
     id_event = Column(Integer, ForeignKey('events.id'))

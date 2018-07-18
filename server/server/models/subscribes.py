@@ -1,8 +1,11 @@
 from sqlalchemy import Column, Integer, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 
-class Subscribe:
+class Subscribe(Base):
     __tablename__ = 'subscribes'
     id_feedback = Column(Integer, primary_key=True, autoincrement=True)
     id_user = Column(Integer, ForeignKey="users.id")
