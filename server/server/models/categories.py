@@ -1,12 +1,11 @@
-from sqlalchemy import Column, Unicode, Integer
+from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from . import Base
 
-Base = declarative_base()
 
 class Category(Base):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True)
-    category = Column(Unicode(255), unique=True, nullable=False)
+    category = Column(String, unique=True, nullable=False)
     
     user = relationship("Event")

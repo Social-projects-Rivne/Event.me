@@ -1,13 +1,11 @@
-from sqlalchemy import Column, Unicode, Integer
+from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from . import Base
 
 
 class Role(Base):
     __tablename__ = 'roles'
     id = Column(Integer, primary_key=True)
-    role = Column(Unicode(255), unique=True, nullable=False)
+    role = Column(String, unique=True, nullable=False)
 
     users = relationship("User")

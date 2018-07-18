@@ -1,14 +1,12 @@
 from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from . import Base
 
 
 class Gallery(Base):
     __tablename__ = 'galleries'
     id = Column(Integer, primary_key=True)
     img_url = Column(String, nullable=False, unique=True)
-    id_event = Column(Integer, ForeignKey('events.id'), nullable=False, index=True)
+    event_id = Column(Integer, ForeignKey('events.id'), nullable=False, index=True)
 
-    event = relationship("Event", foreign_keys="id_event")
+    event = relationship("Event", foreign_keys="event_id")

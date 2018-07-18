@@ -1,8 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from . import Base
 
 
 class User(Base):
@@ -12,16 +10,16 @@ class User(Base):
     email = Column(String, unique=True)
     nickname = Column(String, enique=True)
     password = Column(String)
-    create_date = Column(String)
+    create_date = Column(DateTime)
     location = Column(String)
-    f_name = Column(String)
-    l_name = Column(String)
-    id_status = Column(Integer, ForeignKey("user_statuses.id"))
-    id_role = Column(Integer, ForeignKey("roles.id"))
+    first_name = Column(String)
+    last_name = Column(String)
+    status_id = Column(Integer, ForeignKey("user_statuses.id"))
+    role_id = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
 
-    roles = relationship("Role", foreign_keys="id_role")
-    user_statuses = relationship("UserStatuse", foreign_keys="id_status")
+    roles = relationship("Role", foreign_keys="role_id")
+    user_statuses = relationship("UserStatuse", foreign_keys="status_id")
     events = relationship("Event")
     feedback = relationship("Feedback")
     users_subscribe = relationship("Subscribe")

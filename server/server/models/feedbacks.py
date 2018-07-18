@@ -1,18 +1,16 @@
 from sqlalchemy import Column, Integer, Boolean, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from . import Base
 
 
 class Feedback(Base):
     __tablename__ = 'feedbacks'
-    id_feedback = Column(Integer, primary_key=True, autoincrement=True)
-    id_user = Column(Integer, ForeignKey="users.id")
-    id_event = Column(Integer, ForeignKey="events.id")
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey="users.id", nullable=False)
+    event_id = Column(Integer, ForeignKey="events.id", nullable=False)
     feedback = Column(Text)
     date = Column(DateTime)
-    is_delete = Column(Boolean)
+    is_deleted = Column(Boolean)
 
-    users = relationship("User", foreign_keys="id_user")
-    events = relationship("Event", foreign_keys="id_event")
+    users = relationship("User", foreign_keys="user_id")
+    events = relationship("Event", foreign_keys="event_id")
