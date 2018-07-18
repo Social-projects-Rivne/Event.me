@@ -7,6 +7,6 @@ COPY ./requirements.txt /requirements.txt
 
 WORKDIR /app
 
-RUN pip install -r /requirements.txt
-
 EXPOSE 6543
+
+RUN pip install -r /requirements.txt
