@@ -4,6 +4,7 @@ from . import Base
 
 
 class Feedback(Base):
+    """SQLAlchemy model for table feedbacks"""
     __tablename__ = 'feedbacks'
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey="users.id", nullable=False)

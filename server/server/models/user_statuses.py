@@ -4,6 +4,7 @@ from . import Base
 
 
 class UserStatuse(Base):
+    """SQLAlchemy model for table user_statuses"""
     __tablename__ = "user_statuses"
     id = Column(Integer)
     status = Column(String)

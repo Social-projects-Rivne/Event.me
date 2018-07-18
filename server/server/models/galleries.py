@@ -4,6 +4,7 @@ from . import Base
 
 
 class Gallery(Base):
+    """SQLAlchemy model for table galleries"""
     __tablename__ = 'galleries'
     id = Column(Integer, primary_key=True)
     img_url = Column(String, nullable=False, unique=True)

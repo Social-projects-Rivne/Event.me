@@ -4,6 +4,7 @@ from . import Base
 
 
 class Event(Base):
+    """SQLAlchemy model for table events"""
     __tablename__ = 'events'
     
     id = Column(Integer, primary_key=True)

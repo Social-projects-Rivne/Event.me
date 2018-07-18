@@ -4,6 +4,7 @@ from . import Base
 
 
 class EventHistory(Base):
+    """SQLAlchemy model for table event_histories"""
     __tablename__ = 'event_histories'
     id = Column(Integer, primary_key=True)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
