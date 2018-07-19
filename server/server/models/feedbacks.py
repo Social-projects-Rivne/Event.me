@@ -10,8 +10,8 @@ class Feedback(Base):
     __tablename__ = 'feedbacks'
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey="users.id", nullable=False)
-    event_id = Column(Integer, ForeignKey="events.id", nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    event_id = Column(Integer, ForeignKey("events.id"), nullable=False)
     feedback = Column(Text)
     date = Column(DateTime)
     is_deleted = Column(Boolean)

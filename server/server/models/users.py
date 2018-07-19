@@ -11,7 +11,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String, unique=True)
-    nickname = Column(String, enique=True)
+    nickname = Column(String, unique=True)
     password = Column(String)
     create_date = Column(DateTime)
     location = Column(String)
