@@ -1,3 +1,4 @@
+"""SQLAlchemy model for table users"""
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from . import Base
@@ -5,6 +6,7 @@ from . import Base
 
 class User(Base):
     """SQLAlchemy model for table users"""
+    
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)

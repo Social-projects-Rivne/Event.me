@@ -1,3 +1,4 @@
+"""SQLAlchemy model for table event_tags"""
 from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey
 from sqlalchemy.orm import relationship
 from . import Base
@@ -5,6 +6,7 @@ from . import Base
 
 class EventTag(Base):
     """SQLAlchemy model for table event_tags"""
+    
     __tablename__ = 'event_tags'
     
     id = Column(Integer, primary_key=True)

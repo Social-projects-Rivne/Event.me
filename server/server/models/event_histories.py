@@ -1,3 +1,4 @@
+"""SQLAlchemy model for table event_histories"""
 from sqlalchemy import Column, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from . import Base
@@ -5,7 +6,9 @@ from . import Base
 
 class EventHistory(Base):
     """SQLAlchemy model for table event_histories"""
+
     __tablename__ = 'event_histories'
+    
     id = Column(Integer, primary_key=True)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     status_id = Column(Integer, ForeignKey('event_statuses.id'), nullable=False)
