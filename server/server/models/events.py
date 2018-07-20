@@ -23,3 +23,6 @@ class Event(Base):
 
     author = relationship("User", foreign_keys="author_id")
     category = relationship("Category", foreign_keys="category_id")
+    subscribes = relationship("Subscribe")
+    feedbacks = relationship("Feedback")
+    galleries = relationship("Gallery")

@@ -23,3 +23,6 @@ class User(Base):
 
     roles = relationship("Role", foreign_keys="role_id")
     user_statuses = relationship("UserStatus", foreign_keys="status_id")
+    events = relationship("Event")
+    feedback = relationship("Feedback")
+    users_subscribe = relationship("Subscribe")
