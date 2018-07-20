@@ -17,7 +17,7 @@ class User(Base):
     location = Column(String)
     first_name = Column(String)
     last_name = Column(String)
-    status_id = Column(Integer, ForeignKey("user_status.id"))
+    status_id = Column(Integer, ForeignKey("user_statuses.id"))
     role_id = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
 
