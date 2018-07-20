@@ -4,12 +4,12 @@ from sqlalchemy.orm import relationship
 from . import Base
 
 
-class UserStatuse(Base):
+class UserStatus(Base):
     """SQLAlchemy model for table user_statuses"""
 
     __tablename__ = "user_statuses"
     
-    id = Column(Integer)
+    id = Column(Integer, primary_key=True)
     status = Column(String)
 
     users = relationship('User')

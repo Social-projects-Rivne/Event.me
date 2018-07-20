@@ -11,5 +11,5 @@ class Category(Base):
     
     id = Column(Integer, primary_key=True)
     category = Column(String, unique=True, nullable=False)
-    
+
     user = relationship("Event")

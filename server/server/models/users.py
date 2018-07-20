@@ -11,7 +11,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String, unique=True)
-    nickname = Column(String, enique=True)
+    nickname = Column(String, unique=True)
     password = Column(String)
     create_date = Column(DateTime)
     location = Column(String)
@@ -22,7 +22,7 @@ class User(Base):
     avatar = Column(String)
 
     roles = relationship("Role", foreign_keys="role_id")
-    user_statuses = relationship("UserStatuse", foreign_keys="status_id")
+    user_statuses = relationship("UserStatus", foreign_keys="status_id")
     events = relationship("Event")
     feedback = relationship("Feedback")
     users_subscribe = relationship("Subscribe")
