@@ -73,7 +73,7 @@ This will drop migration from our database
 
 ### Seeding ###
 
-To push migration with test date open your Terminal and run
+To push migration with test data open your Terminal and run
 ```sh
 python config.py
 ```
