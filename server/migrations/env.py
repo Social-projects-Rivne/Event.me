@@ -2,8 +2,8 @@ from __future__ import with_statement
 from alembic import context
 from sqlalchemy import engine_from_config, pool, MetaData
 from logging.config import fileConfig
-from server.models import categories, event_histories, event_statuses, event_tags, events, feedbacks, galleries, \
-    roles, subscribes, tags, user_statuses, users
+from server.models import category, event_history, event_status, event_tag, event, feedback, gallery, \
+    role, subscribe, tag, user_status, user
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -28,18 +28,18 @@ def combine_metadata(*args):
 
 
 target_metadata = combine_metadata(
-    categories.Category.metadata,
-    event_histories.EventHistory.metadata,
-    event_statuses.EventStatus.metadata,
-    event_tags.EventTag.metadata,
-    events.Event.metadata,
-    feedbacks.Feedback.metadata,
-    galleries.Gallery.metadata,
-    roles.Role.metadata,
-    subscribes.Subscribe.metadata,
-    tags.Tag.metadata,
-    user_statuses.UserStatus.metadata,
-    users.User.metadata
+    category.Category.metadata,
+    event_history.EventHistory.metadata,
+    event_status.EventStatus.metadata,
+    event_tag.EventTag.metadata,
+    event.Event.metadata,
+    feedback.Feedback.metadata,
+    gallery.Gallery.metadata,
+    role.Role.metadata,
+    subscribe.Subscribe.metadata,
+    tag.Tag.metadata,
+    user_status.UserStatus.metadata,
+    user.User.metadata
     )
 
 # other values from the config, defined by the needs of env.py,
