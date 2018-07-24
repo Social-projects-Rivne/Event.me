@@ -28,14 +28,14 @@ def get_engine(settings, prefix='sqlalchemy.'):
     
     Arguments:
     setting -- configuration dictionary
-    prefix -- prefix to match and then strip from keys in ‘configuration’
+    prefix -- prefix to match and then strip from keys in 'configuration'
 
     """
     return engine_from_config(settings, prefix)
 
 
 def get_session_factory(engine):
-    """ Get a configured by `engine` session class """
+    """ Get a configured by 'engine' session class """
     factory = sessionmaker()
     factory.configure(bind=engine)
     return factory
@@ -54,9 +54,6 @@ def get_tm_session(session_factory, transaction_manager):
 
     """
     dbsession = session_factory()
-    # zope is very usefull module, read https://pypi.org/project/zope.sqlalchemy/
-    # i dont really understand BUT may be this shit apply to use a zope 
-    # transaction syntax for dbsession
     zope.sqlalchemy.register(
         dbsession, transaction_manager=transaction_manager)
     return dbsession
@@ -66,9 +63,10 @@ def includeme(config):
     """ Add a transactions object to every request
     
     Include pyramid_tm and pyramid_retry modules to configs and register a
-    session class in configs. Add a new method named `dbsession` to request
+    session class in configs. Add a new method named 'dbsession' to request
     object that implement a transactions to the request.
     Initialize the model for a Pyramid app.
+    
     """
     settings = config.get_settings()
     settings['tm.manager_hook'] = 'pyramid_tm.explicit_manager'
