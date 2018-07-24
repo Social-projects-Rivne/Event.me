@@ -1,7 +1,7 @@
 """SQLAlchemy model for table roles"""
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
-from . import Base
+from .meta import Base
 
 
 class Role(Base):
@@ -13,3 +13,6 @@ class Role(Base):
     role = Column(String, unique=True, nullable=False)
 
     users = relationship("User")
+
+    def __init__(self, role):
+        self.role = role

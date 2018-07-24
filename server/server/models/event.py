@@ -1,7 +1,7 @@
 """SQLAlchemy model for table events"""
 from sqlalchemy import Column, DateTime, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from . import Base
+from .meta import Base
 
 
 class Event(Base):
@@ -21,8 +21,22 @@ class Event(Base):
     author_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False, index=True)
 
-    author = relationship("User", foreign_keys="author_id")
-    category = relationship("Category", foreign_keys="category_id")
+    author = relationship("User", foreign_keys=(author_id,))
+    category = relationship("Category", foreign_keys=(category_id,))
     subscribes = relationship("Subscribe")
     feedbacks = relationship("Feedback")
     galleries = relationship("Gallery")
+    event_histories = relationship("EventHistory")
+    event_tags = relationship("EventTag")
+
+    def __init__(self, name, long, lat, description, start_date, end_date, author_name, main_image, author_id, category_id):
+        self.name = name
+        self.long = long
+        self.lat = lat
+        self.description = description
+        self.start_date = start_date
+        self.end_date = end_date
+        self.author_name = author_name
+        self.author_id = author_id
+        self.main_image = main_image
+        self.category_id = category_id

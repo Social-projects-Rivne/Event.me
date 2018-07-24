@@ -1,7 +1,7 @@
 """SQLAlchemy model for table galleries"""
 from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey
 from sqlalchemy.orm import relationship
-from . import Base
+from .meta import Base
 
 
 class Gallery(Base):
@@ -13,4 +13,8 @@ class Gallery(Base):
     img_url = Column(String, nullable=False, unique=True)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False, index=True)
 
-    event = relationship("Event", foreign_keys="event_id")
+    event = relationship("Event", foreign_keys=(event_id,))
+
+    def __init__(self, img_url, event_id):
+        self.img_url = img_url
+        self.event_id = event_id

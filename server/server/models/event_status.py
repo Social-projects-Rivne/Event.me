@@ -1,7 +1,7 @@
 """SQLAlchemy model for table event_statuses"""
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from . import Base
+from .meta import Base
 
 
 class EventStatus(Base):

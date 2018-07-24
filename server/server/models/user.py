@@ -1,7 +1,7 @@
 """SQLAlchemy model for table users"""
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from . import Base
+from .meta import Base
 
 
 class User(Base):
@@ -21,8 +21,21 @@ class User(Base):
     role_id = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
 
-    roles = relationship("Role", foreign_keys="role_id")
-    user_statuses = relationship("UserStatus", foreign_keys="status_id")
+    roles = relationship("Role", foreign_keys=(role_id,))
+    user_statuses = relationship("UserStatus", foreign_keys=(status_id,))
     events = relationship("Event")
     feedback = relationship("Feedback")
     users_subscribe = relationship("Subscribe")
+
+    def __init__(self, email, nickname, password, create_date, location, first_name, last_name, status_id, role_id, avatar):
+        self.email = email
+        self.nickname = nickname
+        # TODO: implement hasing password
+        self.password = password
+        self.create_date = create_date
+        self.location = location
+        self.first_name = first_name
+        self.last_name = last_name
+        self.status_id = status_id
+        self.role_id = role_id
+        self.avatar = avatar

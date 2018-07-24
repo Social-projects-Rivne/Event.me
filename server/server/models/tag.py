@@ -1,7 +1,7 @@
 """SQLAlchemy model for table tags"""
 from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey
 from sqlalchemy.orm import relationship
-from . import Base
+from .meta import Base
 
 
 class Tag(Base):
@@ -13,3 +13,6 @@ class Tag(Base):
     tag = Column(String, nullable=False, unique=True)
 
     event_tag = relationship("EventTag")
+
+    def __init__(self, tag):
+        self.tag = tag

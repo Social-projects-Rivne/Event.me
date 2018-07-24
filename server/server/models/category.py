@@ -1,7 +1,7 @@
 """SQLAlchemy model for table categories"""
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
-from . import Base
+from .meta import Base
 
 
 class Category(Base):
@@ -13,3 +13,6 @@ class Category(Base):
     category = Column(String, unique=True, nullable=False)
 
     user = relationship("Event")
+
+    def __init__(self, category):
+        self.category = category
