@@ -2,7 +2,8 @@ from __future__ import with_statement
 from alembic import context
 from sqlalchemy import engine_from_config, pool, MetaData
 from logging.config import fileConfig
-from server.models import categories, event_histories, event_statuses, event_tags, events, feedbacks, galleries, \
+from server.models import categories, event_histories, \
+event_statuses,  event_tags, events, feedbacks, galleries, \
     roles, subscribes, tags, user_statuses, users
 
 # this is the Alembic Config object, which provides
