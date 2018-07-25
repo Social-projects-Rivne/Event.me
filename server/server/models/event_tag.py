@@ -15,7 +15,3 @@ class EventTag(Base):
 
     event = relationship("Event", foreign_keys=(event_id,))
     tag = relationship("Tag", foreign_keys=(tag_id,))
-
-    def __init__(self, event_id, tag_id):
-        self.event_id = event_id
-        self.tag_id = tag_id

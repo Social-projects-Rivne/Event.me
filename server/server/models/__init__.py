@@ -6,7 +6,7 @@ import transaction
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import configure_mappers, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from .meta import Base
 from .user import User
 from .user_status import UserStatus
 from .tag import Tag
@@ -21,7 +21,6 @@ from .event_history import EventHistory
 from .category import Category
 
 
-Base = declarative_base()
 configure_mappers()
 
 

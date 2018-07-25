@@ -14,7 +14,3 @@ class Gallery(Base):
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False, index=True)
 
     event = relationship("Event", foreign_keys=(event_id,))
-
-    def __init__(self, img_url, event_id):
-        self.img_url = img_url
-        self.event_id = event_id

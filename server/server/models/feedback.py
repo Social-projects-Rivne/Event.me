@@ -18,10 +18,3 @@ class Feedback(Base):
 
     users = relationship("User", foreign_keys=(user_id,))
     events = relationship("Event", foreign_keys=(event_id,))
-
-    def __init__(self, user_id, event_id, feedback, date, is_deleted):
-        self.user_id = user_id
-        self.event_id = event_id
-        self.feedback = feedback
-        self.date = date
-        self.is_deleted = is_deleted

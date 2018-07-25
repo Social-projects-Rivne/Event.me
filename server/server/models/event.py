@@ -28,15 +28,3 @@ class Event(Base):
     galleries = relationship("Gallery")
     event_histories = relationship("EventHistory")
     event_tags = relationship("EventTag")
-
-    def __init__(self, name, long, lat, description, start_date, end_date, author_name, main_image, author_id, category_id):
-        self.name = name
-        self.long = long
-        self.lat = lat
-        self.description = description
-        self.start_date = start_date
-        self.end_date = end_date
-        self.author_name = author_name
-        self.author_id = author_id
-        self.main_image = main_image
-        self.category_id = category_id

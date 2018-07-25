@@ -17,9 +17,3 @@ class EventHistory(Base):
     
     events = relationship("Event", foreign_keys=(event_id,))
     event_statuses = relationship("EventStatus", foreign_keys=(status_id,))
-
-    def __init__(self, event_id, status_id, date, comment):
-        self.event_id = event_id
-        self.status_id = status_id
-        self.date = date
-        self.comment = comment

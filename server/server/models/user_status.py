@@ -13,6 +13,3 @@ class UserStatus(Base):
     status = Column(String)
 
     users = relationship('User')
-
-    def __init__(self, status):
-        self.status = status

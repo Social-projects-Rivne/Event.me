@@ -13,6 +13,3 @@ class Role(Base):
     role = Column(String, unique=True, nullable=False)
 
     users = relationship("User")
-
-    def __init__(self, role):
-        self.role = role

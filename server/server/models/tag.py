@@ -13,6 +13,3 @@ class Tag(Base):
     tag = Column(String, nullable=False, unique=True)
 
     event_tag = relationship("EventTag")
-
-    def __init__(self, tag):
-        self.tag = tag

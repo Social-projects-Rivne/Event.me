@@ -16,8 +16,3 @@ class Subscribe(Base):
 
     users = relationship("User", foreign_keys=(user_id,))
     events = relationship("Event", foreign_keys=(event_id,))
-
-    def __init__(self, user_id, event_id, is_favorite):
-        self.user_id = user_id
-        self.event_id = event_id
-        self.is_favorite = is_favorite
