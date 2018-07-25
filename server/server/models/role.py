@@ -1,7 +1,7 @@
 """SQLAlchemy model for table roles"""
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
-from .meta import Base
+from . import Base
 
 
 class Role(Base):

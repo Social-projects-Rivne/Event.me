@@ -6,21 +6,10 @@ import transaction
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import configure_mappers, sessionmaker
-from .meta import Base
-from .user import User
-from .user_status import UserStatus
-from .tag import Tag
-from .subscribe import Subscribe
-from .role import Role
-from .gallery import Gallery
-from .feedback import Feedback
-from .event import Event
-from .event_tag import EventTag
-from .event_status import EventStatus
-from .event_history import EventHistory
-from .category import Category
+from sqlalchemy.ext.declarative import declarative_base
 
 
+Base = declarative_base()
 configure_mappers()
 
 
@@ -30,7 +19,6 @@ def get_engine(settings, prefix='sqlalchemy.'):
     Arguments:
     setting -- configuration dictionary
     prefix -- prefix to match and then strip from keys in 'configuration'
-
     """
     return engine_from_config(settings, prefix)
 
@@ -52,7 +40,6 @@ def get_tm_session(session_factory, transaction_manager):
     session_factory -- configured sqlalchemy session class
     transaction_manager -- transaction manager, transaction object of active
     request
-
     """
     dbsession = session_factory()
     zope.sqlalchemy.register(
@@ -75,7 +62,6 @@ def includeme(config):
     session class in configs. Add a new method named 'dbsession' to request
     object that implement a transactions to the request.
     Initialize the model for a Pyramid app.
-
     """
     settings = config.get_settings()
     settings['tm.manager_hook'] = 'pyramid_tm.explicit_manager'

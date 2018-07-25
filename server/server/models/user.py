@@ -1,7 +1,7 @@
 """SQLAlchemy model for table users"""
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from .meta import Base
+from . import Base
 
 
 class User(Base):

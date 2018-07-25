@@ -1,7 +1,7 @@
 """SQLAlchemy model for table subscribes"""
 from sqlalchemy import Column, Integer, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
-from .meta import Base
+from . import Base
 
 
 class Subscribe(Base):

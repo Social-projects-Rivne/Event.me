@@ -1,7 +1,7 @@
 """SQLAlchemy model for table feedbacks"""
 from sqlalchemy import Column, Integer, Boolean, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from .meta import Base
+from . import Base
 
 
 class Feedback(Base):

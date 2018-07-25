@@ -1,7 +1,7 @@
 """SQLAlchemy model for table user_statuses"""
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from .meta import Base
+from . import Base
 
 
 class UserStatus(Base):
