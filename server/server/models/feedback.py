@@ -16,5 +16,5 @@ class Feedback(Base):
     date = Column(DateTime)
     is_deleted = Column(Boolean)
 
-    users = relationship("User", foreign_keys="user_id")
-    events = relationship("Event", foreign_keys="event_id")
+    users = relationship("User", foreign_keys=(user_id,))
+    events = relationship("Event", foreign_keys=(event_id,))

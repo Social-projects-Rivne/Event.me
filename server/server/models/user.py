@@ -21,8 +21,8 @@ class User(Base):
     role_id = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
 
-    roles = relationship("Role", foreign_keys="role_id")
-    user_statuses = relationship("UserStatus", foreign_keys="status_id")
+    roles = relationship("Role", foreign_keys=(role_id,))
+    user_statuses = relationship("UserStatus", foreign_keys=(status_id,))
     events = relationship("Event")
     feedback = relationship("Feedback")
     users_subscribe = relationship("Subscribe")

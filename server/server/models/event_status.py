@@ -13,6 +13,3 @@ class EventStatus(Base):
     status = Column(String)
 
     histories = relationship("EventHistory")
-    
-    def __init__(self, status):
-        self.status = status

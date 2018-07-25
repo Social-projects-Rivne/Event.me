@@ -14,5 +14,5 @@ class Subscribe(Base):
     event_id = Column(Integer, ForeignKey("events.id"), nullable=False)
     is_favorite = Column(Boolean)
 
-    users = relationship("User", foreign_keys="user_id")
-    events = relationship("Event", foreign_keys="event_id")
+    users = relationship("User", foreign_keys=(user_id,))
+    events = relationship("Event", foreign_keys=(event_id,))

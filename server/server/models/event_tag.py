@@ -13,5 +13,5 @@ class EventTag(Base):
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
     tag_id = Column(Integer, ForeignKey('tags.id'), nullable=False)
 
-    event = relationship("Event", foreign_keys="event_id")
-    tag = relationship("Tag", foreign_keys="tag_id")
+    event = relationship("Event", foreign_keys=(event_id,))
+    tag = relationship("Tag", foreign_keys=(tag_id,))
