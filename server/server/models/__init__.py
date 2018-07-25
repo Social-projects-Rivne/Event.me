@@ -1,12 +1,12 @@
 """
 SQLAlchemy models for database
 """
-import zope.sqlalchemy
 import transaction
+import zope.sqlalchemy
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy import engine_from_config
-from sqlalchemy.orm import configure_mappers, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import configure_mappers, sessionmaker
 
 
 Base = declarative_base()
