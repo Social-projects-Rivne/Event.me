@@ -1,6 +1,7 @@
 import ConfigParser
 import subprocess
 
+
 config = ConfigParser.RawConfigParser()
 config.read('config.cfg')
 
