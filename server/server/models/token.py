@@ -18,9 +18,9 @@ class Token(Base):
 
     @classmethod
     def add_token(cls, req, token, user_id):
-        token_obj = cls(token=token, user_id=user_id, expiration_date=datetime.now()+timedelta(days=7))
+        token_obj = cls(token=token, user_id=user_id,
+                        expiration_date=datetime.now()+timedelta(days=7))
         req.dbsession.add(token_obj)
-
 
     @classmethod
     def deactivate(cls, req, token):
