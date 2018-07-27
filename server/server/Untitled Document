@@ -1,0 +1,121 @@
+pyramid    | Traceback (most recent call last):
+pyramid    |   File "<string>", line 1, in <module>
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/hupper/ipc.py", line 315, in spawn_main
+pyramid    |     func(**kwargs)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/hupper/worker.py", line 233, in worker_main
+pyramid    |     func(*spec_args, **spec_kwargs)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/pyramid/scripts/pserve.py", line 32, in main
+pyramid    |     return command.run()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/pyramid/scripts/pserve.py", line 229, in run
+pyramid    |     app = loader.get_wsgi_app(app_name, config_vars)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/plaster_pastedeploy/__init__.py", line 131, in get_wsgi_app
+pyramid    |     global_conf=defaults)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/loadwsgi.py", line 247, in loadapp
+pyramid    |     return loadobj(APP, uri, name=name, **kw)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/loadwsgi.py", line 272, in loadobj
+pyramid    |     return context.create()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/loadwsgi.py", line 710, in create
+pyramid    |     return self.object_type.invoke(self)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/loadwsgi.py", line 146, in invoke
+pyramid    |     return fix_call(context.object, context.global_conf, **context.local_conf)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/util.py", line 55, in fix_call
+pyramid    |     val = callable(*args, **kw)
+pyramid    |   File "/app/server/server/__init__.py", line 11, in main
+pyramid    |     config.scan()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/pyramid/config/__init__.py", line 1043, in scan
+pyramid    |     ignore=ignore)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/venusian/__init__.py", line 230, in scan
+pyramid    |     __import__(modname)
+pyramid    |   File "/app/server/server/views/recover.py", line 13, in <module>
+pyramid    |     transaction.commit()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_manager.py", line 131, in commit
+pyramid    |     return self.get().commit()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_transaction.py", line 311, in commit
+pyramid    |     reraise(t, v, tb)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_transaction.py", line 302, in commit
+pyramid    |     self._commitResources()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_transaction.py", line 447, in _commitResources
+pyramid    |     reraise(t, v, tb)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_transaction.py", line 429, in _commitResources
+pyramid    |     rm.tpc_finish(self)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/repoze/sendmail/delivery.py", line 164, in tpc_finish
+pyramid    |     self.callable(*self.args)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/repoze/sendmail/mailer.py", line 72, in send
+pyramid    |     connection = self.smtp_factory()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/repoze/sendmail/mailer.py", line 62, in smtp_factory
+pyramid    |     connection = self.smtp(hostname, port, timeout=timeout)
+pyramid    |   File "/usr/local/lib/python2.7/smtplib.py", line 256, in __init__
+pyramid    |     (code, msg) = self.connect(host, port)
+pyramid    |   File "/usr/local/lib/python2.7/smtplib.py", line 317, in connect
+pyramid    |     self.sock = self._get_socket(host, port, self.timeout)
+pyramid    |   File "/usr/local/lib/python2.7/smtplib.py", line 292, in _get_socket
+pyramid    |     return socket.create_connection((host, port), timeout)
+pyramid    |   File "/usr/local/lib/python2.7/socket.py", line 575, in create_connection
+pyramid    |     raise err
+pyramid    | socket.error: [Errno 99] Cannot assign requested address
+pyramid    | Server with PID 32 exited with code 1.
+pyramid    | Waiting for changes before reloading.
+pyramid    | /app/server/development.ini changed; reloading ...
+pyramid    | Starting monitor for PID 40.
+pyramid    | /usr/local/lib/python2.7/site-packages/psycopg2/__init__.py:144: UserWarning: The psycopg2 wheel package will be renamed from release 2.8; in order to keep installing from binary please use "pip install psycopg2-binary" instead. For details see: <http://initd.org/psycopg/docs/install.html#binary-install-from-pypi>.
+pyramid    |   """)
+pyramid    | 2018-07-26 21:22:34,081 CRITI [txn.139871393027840:434][MainThread] A storage error occurred during the second phase of the two-phase commit.  Resources may be in an inconsistent state.
+pyramid    | Traceback (most recent call last):
+pyramid    |   File "<string>", line 1, in <module>
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/hupper/ipc.py", line 315, in spawn_main
+pyramid    |     func(**kwargs)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/hupper/worker.py", line 233, in worker_main
+pyramid    |     func(*spec_args, **spec_kwargs)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/pyramid/scripts/pserve.py", line 32, in main
+pyramid    |     return command.run()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/pyramid/scripts/pserve.py", line 229, in run
+pyramid    |     app = loader.get_wsgi_app(app_name, config_vars)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/plaster_pastedeploy/__init__.py", line 131, in get_wsgi_app
+pyramid    |     global_conf=defaults)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/loadwsgi.py", line 247, in loadapp
+pyramid    |     return loadobj(APP, uri, name=name, **kw)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/loadwsgi.py", line 272, in loadobj
+pyramid    |     return context.create()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/loadwsgi.py", line 710, in create
+pyramid    |     return self.object_type.invoke(self)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/loadwsgi.py", line 146, in invoke
+pyramid    |     return fix_call(context.object, context.global_conf, **context.local_conf)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/paste/deploy/util.py", line 55, in fix_call
+pyramid    |     val = callable(*args, **kw)
+pyramid    |   File "/app/server/server/__init__.py", line 11, in main
+pyramid    |     config.scan()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/pyramid/config/__init__.py", line 1043, in scan
+pyramid    |     ignore=ignore)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/venusian/__init__.py", line 230, in scan
+pyramid    |     __import__(modname)
+pyramid    |   File "/app/server/server/views/recover.py", line 13, in <module>
+pyramid    |     transaction.commit()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_manager.py", line 131, in commit
+pyramid    |     return self.get().commit()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_transaction.py", line 311, in commit
+pyramid    |     reraise(t, v, tb)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_transaction.py", line 302, in commit
+pyramid    |     self._commitResources()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_transaction.py", line 447, in _commitResources
+pyramid    |     reraise(t, v, tb)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/transaction/_transaction.py", line 429, in _commitResources
+pyramid    |     rm.tpc_finish(self)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/repoze/sendmail/delivery.py", line 164, in tpc_finish
+pyramid    |     self.callable(*self.args)
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/repoze/sendmail/mailer.py", line 72, in send
+pyramid    |     connection = self.smtp_factory()
+pyramid    |   File "/usr/local/lib/python2.7/site-packages/repoze/sendmail/mailer.py", line 62, in smtp_factory
+pyramid    |     connection = self.smtp(hostname, port, timeout=timeout)
+pyramid    |   File "/usr/local/lib/python2.7/smtplib.py", line 256, in __init__
+pyramid    |     (code, msg) = self.connect(host, port)
+pyramid    |   File "/usr/local/lib/python2.7/smtplib.py", line 317, in connect
+pyramid    |     self.sock = self._get_socket(host, port, self.timeout)
+pyramid    |   File "/usr/local/lib/python2.7/smtplib.py", line 292, in _get_socket
+pyramid    |     return socket.create_connection((host, port), timeout)
+pyramid    |   File "/usr/local/lib/python2.7/socket.py", line 575, in create_connection
+pyramid    |     raise err
+pyramid    | socket.error: [Errno 99] Cannot assign requested address
+pyramid    | Server with PID 40 exited with code 1.
+pyramid    | Waiting for changes before reloading.
+pyramid exited with code 137
+
