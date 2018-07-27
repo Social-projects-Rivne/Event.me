@@ -24,3 +24,22 @@ Adminer:
 ```sh
 localhost:9000
 ```
+
+
+### mailer ###
+======
+
+- Change directory into Event.me/server.
+
+- Open file development.ini.
+
+- Find in file lines.
+    
+    mail.username  
+    
+  and
+
+    mail.password 
+
+- Set your email address in mail.username and password in mail.password.
+
