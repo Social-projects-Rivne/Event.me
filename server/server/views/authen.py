@@ -27,6 +27,6 @@ def log_out(request):
         'msg': "",
         'success': False
     }
-    if(Token.deactivate(request, request.json_body['token'])):
+    if(Token.deactivate(request, request.headers['Authorization-token'])):
         response['success'] = True
     return response

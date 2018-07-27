@@ -24,9 +24,5 @@ class Token(Base):
 
     @classmethod
     def deactivate(cls, req, token):
-        token_obj = req.dbsession.query(cls).filter_by(token=token).one_or_none()
-        if(token_obj is None):
-            return False
-        token_obj.expiration_date = datetime.now()
+        req.dbsession.query(cls).filter_by(token=token).delete()
         return True
-
