@@ -1,6 +1,7 @@
 """Views for log-in and log-out system"""
 from passlib.totp import generate_secret
 from pyramid.view import view_config
+
 from ..models.token import Token
 from ..models.user import User
 

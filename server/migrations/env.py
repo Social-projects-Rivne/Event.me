@@ -2,7 +2,10 @@ from __future__ import with_statement
 from alembic import context
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool, MetaData
-from server.models import category, event_history, event_status, event_tag, event, feedback, gallery, role, subscribe, tag, user_status, user, token
+
+from server.models import category, event_history, event_status, event_tag,\
+                        event, feedback, gallery, role,\
+                        subscribe, tag, user_status, user, token
 
 
 # this is the Alembic Config object, which provides
@@ -12,6 +15,7 @@ config = context.config
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
+
 
 # add your model's MetaData object here
 # for 'autogenerate' support

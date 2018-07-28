@@ -1,8 +1,10 @@
 """SQLAlchemy model for table tokens"""
 from datetime import datetime, timedelta
+
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+
 from . import Base
 
 
