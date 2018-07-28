@@ -23,7 +23,7 @@ class User(Base):
     status_id = Column(Integer, ForeignKey("user_statuses.id"))
     role_id = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
-    unban_date = Column(DateTime)
+    banned_to_date = Column(DateTime)
 
     tokens = relationship("Token")
     roles = relationship("Role", foreign_keys=(role_id,))
@@ -33,21 +33,37 @@ class User(Base):
     users_subscribe = relationship("Subscribe")
 
     @classmethod
-    def get_one(cls, req, **kwargs):
-        user = req.dbsession.query(cls).filter_by(**kwargs).one_or_none()
+    def get_one(cls, request, **kwargs):
+        """Get one user from db by params
+
+        Return user object if user exist and return None if not
+        Arguments:
+        request -- request object that provides from view
+        **kwargs -- parameters for searching user
+        (e.g. field=value, field=value)
+        """
+        user = request.dbsession.query(cls).filter_by(**kwargs).one_or_none()
         return user
 
     def check_password(self, password):
+        """Check if user password valid"""
         return pbkdf2_sha256.verify(password, self.password)
 
-    def is_active(self, req):
-        user_status = req.dbsession.query(UserStatus)\
-                        .filter_by(id=self.status_id).one()
-        if(user_status.status == "Active"):
+    def is_active(self, request):
+        """Check is user active
+
+        Change user status to active if user was banned but time of his
+        ban ended. Return True if user active and return False if not.
+        Arguments:
+        request -- request object that provides from view
+        """
+        user_status = request.dbsession.query(UserStatus)\
+            .filter_by(id=self.status_id).one()
+        if user_status.status == "Active":
             return True
-        elif(user_status.status == "Banned"):
-            if(self.unban_date < datetime.now()):
-                self.status_id = req.dbsession.query(UserStatus)\
+        elif user_status.status == "Banned":
+            if self.banned_to_date < datetime.now():
+                self.status_id = request.dbsession.query(UserStatus)\
                                 .filter_by(status="Active").one().id
                 return True
         return False
