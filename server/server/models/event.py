@@ -1,6 +1,7 @@
 """SQLAlchemy model for table events"""
 from sqlalchemy import Column, DateTime, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
+
 from . import Base
 
 

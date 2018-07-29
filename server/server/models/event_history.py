@@ -1,6 +1,7 @@
 """SQLAlchemy model for table event_histories"""
 from sqlalchemy import Column, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+
 from . import Base
 
 
