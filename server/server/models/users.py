@@ -43,7 +43,7 @@ class User(Base):
     """SQLAlchemy model for table users"""
 
     __tablename__ = "users"
-    #__json_exclude__ = set(["create_date", "status_id", "role_id"])
+    #__json_exclude__ = set(["create_date", "status_id", "role_id", ])
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String, unique=True)
@@ -75,15 +75,16 @@ class User(Base):
         self.role_id = role_id
         self.avatar = avatar
 
-
-def from_json(cls, data):
-    """ Deserialize User object from JSON """
-    return cls(**data)
-
 def users_to_json(obj):
     """ Serialize User object to JSON """
+
     to_serialize = ['id', 'email', 'nickname', 'password', 'create_date', 'location', 'first_name', 'last_name', 'status_id', 'role_id', 'avatar']
     d = {}
     for attr_name in to_serialize:
         d[attr_name] = getattr(obj, attr_name)
     return d
+
+def from_json(cls, data):
+    """ Deserialize User object from JSON """
+
+    return cls(**data)

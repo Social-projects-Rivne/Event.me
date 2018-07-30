@@ -27,44 +27,35 @@ def get_users(request):
 
 @view_config(route_name='users.create', renderer='json')
 def create_user(request):
-    try:
-        user = User(email='email9', nickname='nick9', password='pass4', create_date=None, location='loc4', first_name='f_name4', last_name='l_name4', status_id=None, role_id=None, avatar='avatar4')
-        DBSession.add(user)
-        transaction.commit()
-        request.render_schema = UserSchema()
-        return json.dumps(user, cls=AlchemyEncoder)
-    except:
-        return {'return': 'Could not create user'}
+    json_str = request.json_body
+    json_encoded = json.dumps(json_str)
+    json_decoded = json.loads(json_encoded)
+    user = User(**json_decoded)
+    DBSession.add(user)
+    return {'status': 'Success!'}
+
 @view_config(route_name='users.read', renderer='json')
 def read_user(request):
     try:
         qry = DBSession.query(User).filter(User.id==request.matchdict['user_id']).first()
-        request.render_schema = UserSchema()
         d = users_to_json(qry)
+        request.render_schema = UserSchema()
         return json.dumps(d, default=datetime_conv)
+        #return d
     except:
         return {'return': 'No object found'}
 
 @view_config(route_name='users.update', renderer='json')
 def update_user(request):
-    try:
-        qry = DBSession.query(User).get(request.matchdict['user_id'])
-        qry.nickname = 'CHANGED'
-        transaction.commit()
-        request.render_schema = UserSchema()
-        d = users_to_json(qry)
-        return json.dumps(d, default=AlchemyEncoder)
-    except:
-        return {'return': 'No object found'}
+    json_str = request.json_body
+    json_encoded = json.dumps(json_str)
+    DBSession.query(User).filter(User.id==request.matchdict['user_id']).update(json.loads(json_encoded))
+    transaction.commit()
+    return {'status': 'Success!'}
 
 @view_config(route_name='users.delete', renderer='json')
 def delete_user(request):
-    try:
-        qry = DBSession.query(User).get(request.matchdict['user_id'])
-        DBSession.delete(qry)
-        transaction.commit()
-        request.render_schema = UserSchema()
-        d = users_to_json(qry)
-        return {'return': 'Success!'}
-    except:
-        return {'return': 'Could not delete user'}
+    qry = DBSession.query(User).get(request.matchdict['user_id'])
+    DBSession.delete(qry)
+    transaction.commit()
+    return {'return': 'Success!'}
