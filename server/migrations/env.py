@@ -19,6 +19,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
+#
 
 def combine_metadata(*args):
     m = MetaData()

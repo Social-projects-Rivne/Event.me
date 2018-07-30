@@ -20,11 +20,11 @@ with engine.connect() as con:
              "location": "Kaer Morhen", "first_name": "Geralt", "last_name": "of Rivia", "status_id": 4,
              "role_id": 2}
             )
-    
+
     statement = text(
         """INSERT INTO users(email, nickname, password, location, first_name, last_name, status_id, role_id)
         VALUES (:email, :nickname, :password, :location, :first_name, :last_name, :status_id, :role_id)"""
     )
-    
+
     for line in data:
         con.execute(statement, **line)
