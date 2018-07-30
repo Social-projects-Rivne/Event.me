@@ -1,6 +1,7 @@
 """SQLAlchemy model for table galleries"""
 from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey
 from sqlalchemy.orm import relationship
+
 from . import Base
 
 
