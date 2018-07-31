@@ -72,6 +72,7 @@ class User(Base):
         return False
 
     def get_role(self, request):
+        """Return string with user role"""
         role_obj = request.dbsession.query(Role).get(self.role_id)
         if role_obj is not None:
             return role_obj.role
