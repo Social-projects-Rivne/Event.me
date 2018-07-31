@@ -1,6 +1,7 @@
 """SQLAlchemy model for table event_histories"""
 from sqlalchemy import Column, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+
 from . import Base
 
 
@@ -14,6 +15,7 @@ class EventHistory(Base):
     status_id = Column(Integer, ForeignKey('event_statuses.id'), nullable=False)
     date = Column(DateTime)
     comment = Column(Text)
+<<<<<<< HEAD
 
     events = relationship("Event", foreign_keys=(event_id,))
     event_statuses = relationship("EventStatus", foreign_keys=(status_id,))
@@ -23,3 +25,8 @@ class EventHistory(Base):
         self.status_id = status_id
         self.date = date
         self.comment = comment
+=======
+    
+    events = relationship("Event", foreign_keys=(event_id,))
+    event_statuses = relationship("EventStatus", foreign_keys=(status_id,))
+>>>>>>> 4121399caf6002f09fb109557ac96ae2bd35067d

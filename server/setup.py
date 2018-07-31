@@ -13,6 +13,8 @@ requires = [
     'pyramid',
     'pyramid_jinja2',
     'pyramid_debugtoolbar',
+    'pyramid_retry',
+    'pyramid_tm',
     'waitress',
     'sqlalchemy',
     'zope.sqlalchemy',
