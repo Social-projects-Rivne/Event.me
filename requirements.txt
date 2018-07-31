@@ -23,7 +23,4 @@ WebOb==1.8.2
 zope.deprecation==4.3.0
 zope.interface==4.5.0
 zope.sqlalchemy==1.0
-<<<<<<< HEAD
 passlib==1.7.1
-=======
->>>>>>> 4121399caf6002f09fb109557ac96ae2bd35067d

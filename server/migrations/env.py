@@ -1,12 +1,5 @@
 from __future__ import with_statement
 from alembic import context
-<<<<<<< HEAD
-from sqlalchemy import engine_from_config, pool, MetaData
-from logging.config import fileConfig
-from server.models import category, event_history, \
-event_status,  event_tag, event, feedback, gallery, \
-    role, subscribe, tag, user_status, users
-=======
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool, MetaData
 
@@ -14,7 +7,6 @@ from server.models import (category, event_history, event_status, event_tag,
                            event, feedback, gallery, role, subscribe, tag,
                            user_status, user, token)
 
->>>>>>> 4121399caf6002f09fb109557ac96ae2bd35067d
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -29,10 +21,6 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-<<<<<<< HEAD
-
-=======
->>>>>>> 4121399caf6002f09fb109557ac96ae2bd35067d
 def combine_metadata(*args):
     m = MetaData()
     for metadata in args:
@@ -40,10 +28,7 @@ def combine_metadata(*args):
             t.tometadata(m)
     return m
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 4121399caf6002f09fb109557ac96ae2bd35067d
 target_metadata = combine_metadata(
     category.Category.metadata,
     event_history.EventHistory.metadata,
@@ -56,14 +41,9 @@ target_metadata = combine_metadata(
     subscribe.Subscribe.metadata,
     tag.Tag.metadata,
     user_status.UserStatus.metadata,
-<<<<<<< HEAD
-    users.User.metadata
-    )
-=======
     user.User.metadata,
     token.Token.metadata
 )
->>>>>>> 4121399caf6002f09fb109557ac96ae2bd35067d
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -73,15 +53,12 @@ target_metadata = combine_metadata(
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
-
     This configures the context with just a URL
     and not an Engine, though an Engine is acceptable
     here as well.  By skipping the Engine creation
     we don't even need a DBAPI to be available.
-
     Calls to context.execute() here emit the given string to the
     script output.
-
     """
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
@@ -90,13 +67,10 @@ def run_migrations_offline():
     with context.begin_transaction():
         context.run_migrations()
 
-
 def run_migrations_online():
     """Run migrations in 'online' mode.
-
     In this scenario we need to create an Engine
     and associate a connection with the context.
-
     """
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),

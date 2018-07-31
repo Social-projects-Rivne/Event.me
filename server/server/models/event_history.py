@@ -15,18 +15,6 @@ class EventHistory(Base):
     status_id = Column(Integer, ForeignKey('event_statuses.id'), nullable=False)
     date = Column(DateTime)
     comment = Column(Text)
-<<<<<<< HEAD
 
     events = relationship("Event", foreign_keys=(event_id,))
     event_statuses = relationship("EventStatus", foreign_keys=(status_id,))
-
-    def __init__(self, event_id, status_id, date, comment):
-        self.event_id = event_id
-        self.status_id = status_id
-        self.date = date
-        self.comment = comment
-=======
-    
-    events = relationship("Event", foreign_keys=(event_id,))
-    event_statuses = relationship("EventStatus", foreign_keys=(status_id,))
->>>>>>> 4121399caf6002f09fb109557ac96ae2bd35067d
