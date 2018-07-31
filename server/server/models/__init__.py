@@ -1,8 +1,7 @@
 """
 SQLAlchemy models for database
 """
-# import sys
-# sys.path.append("/home/github/Event.me/server")
+import transaction
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers
@@ -10,28 +9,12 @@ from sqlalchemy import *
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy import engine_from_config
 from zope.sqlalchemy import ZopeTransactionExtension
-from marshmallow import Schema
+import zope.sqlalchemy
 
-DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension(keep_session=True)))
-
-class RenderSchema(Schema):
-    """
-    Schema to prevent marshmallow from using its default type mappings.
-    We use this schema for rendering output: For those cases we don't want
-    marshmallow's default type mappings. We want Pyramid's JSON-rendering
-    functionality instead, where we already have some json-adapers.
-    """
-    TYPE_MAPPING = {}
-
-# class Base(object):
-#     def __json__(self, request):
-#         json_exclude = getattr(self, '__json_exclude__', set())
-#         return {key: value for key, value in self.__dict__.items()
-#                 if not key.startswith('_')
-#                 and key not in json_exclude}
 
 Base = declarative_base()
 configure_mappers()
+
 
 def get_engine(settings, prefix='sqlalchemy.'):
     """ Get an Engine instance

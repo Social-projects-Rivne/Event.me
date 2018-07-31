@@ -19,6 +19,3 @@ Data.fs*
 .DS_Store
 coverage
 test
-venv*/
-server/venv*/
-server/venv/
