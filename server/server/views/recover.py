@@ -30,5 +30,5 @@ def my_view(request):
     password = request.dbsession.query(User).filter_by(password=jsn['password']).one_or_none()
     if user.email is not None:
         user = request.dbsession.query(User).filter_by(email=jsn['email']).update(dict(password=jsn['password']))
-    
+
     return {'status': 'OK'}
