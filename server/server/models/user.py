@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
 from . import Base
+from .role import Role
 from .user_status import UserStatus
 
 
@@ -69,3 +70,8 @@ class User(Base):
                                 .filter_by(status="Active").one().id
                 return True
         return False
+
+    def get_role(self, request):
+        role_obj = request.dbsession.query(Role).get(self.role_id)
+        if role_obj is not None:
+            return role_obj.role

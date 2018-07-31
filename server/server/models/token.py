@@ -22,6 +22,16 @@ class Token(Base):
     user = relationship("User", foreign_keys=(user_id,))
 
     @classmethod
+    def get_user_id(cls, request):
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization'].split(' ')[1]
+            token_obj = request.dbsession.query(cls)\
+                        .filter_by(token=token).one_or_none()
+            if token_obj is None:
+                return None
+            return token_obj.user_id
+
+    @classmethod
     def add_token(cls, request, token, user_id):
         """Add authorization token to the db"""
         token_obj = cls(token=token, user_id=user_id,
