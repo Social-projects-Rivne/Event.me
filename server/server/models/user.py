@@ -39,7 +39,7 @@ class User(Base):
     """SQLAlchemy model for table users"""
 
     __tablename__ = "users"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String, unique=True)
     nickname = Column(String, unique=True)
@@ -51,9 +51,9 @@ class User(Base):
     status_id = Column(Integer, ForeignKey("user_statuses.id"))
     role_id = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
-    #banned_to_date = Column(DateTime)
+    banned_to_date = Column(DateTime)
 
-    #tokens = relationship("Token")
+    tokens = relationship("Token")
     roles = relationship("Role", foreign_keys=(role_id,))
     user_statuses = relationship("UserStatus", foreign_keys=(status_id,))
     events = relationship("Event")
@@ -96,7 +96,7 @@ class User(Base):
                 return True
         return False
 
-    def __init__(self, email, nickname, password, create_date, location, first_name, last_name, status_id, role_id, avatar):
+    def __init__(self, email, nickname, password, create_date, location, first_name, last_name, status_id, role_id, avatar, banned_to_date):
         self.email = email
         self.nickname = nickname
         self.password = password
@@ -107,11 +107,12 @@ class User(Base):
         self.status_id = status_id
         self.role_id = role_id
         self.avatar = avatar
+        self.banned_to_date = banned_to_date
 
 def users_to_json(obj):
     """ Serialize User object to JSON """
 
-    to_serialize = ['id', 'email', 'nickname', 'password', 'create_date', 'location', 'first_name', 'last_name', 'status_id', 'role_id', 'avatar']
+    to_serialize = ['id', 'email', 'nickname', 'password', 'create_date', 'location', 'first_name', 'last_name', 'status_id', 'role_id', 'avatar', 'banned_to_date']
     d = {}
     for attr_name in to_serialize:
         d[attr_name] = getattr(obj, attr_name)
