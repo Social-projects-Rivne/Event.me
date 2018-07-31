@@ -16,10 +16,6 @@ requires = [
     'pyramid_retry',
     'pyramid_tm',
     'waitress',
-    'sqlalchemy',
-    'zope.sqlalchemy',
-    'cornice',
-    'marshmallow'
 ]
 
 tests_require = [
