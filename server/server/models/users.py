@@ -1,19 +1,16 @@
 """SQLAlchemy model for table users"""
-import sys
-sys.path.append('..')
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, bindparam
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Query
-from . import DBSession, Base
-from . import RenderSchema
-from sqlalchemy.ext.declarative import DeclarativeMeta
+# import sys
+# sys.path.append('..')
 import json
 import decimal, datetime
 
-def datetime_conv(o):
-    """ Convert DateTime to String for JSON """
-    if isinstance(o, datetime.datetime):
-        return o.__str__()
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, bindparam
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Query
+from sqlalchemy.ext.declarative import DeclarativeMeta
+
+from . import DBSession, Base
+from . import RenderSchema
 
 class AlchemyEncoder(json.JSONEncoder):
     """ Helper method for serialization conflicts  """
@@ -32,6 +29,11 @@ class AlchemyEncoder(json.JSONEncoder):
             return fields
 
         return json.JSONEncoder.default(self, obj)
+
+def datetime_conv(o):
+    """ Convert DateTime to String for JSON """
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
 
 class UserSchema(RenderSchema):
     """Schema for Users"""

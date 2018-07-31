@@ -1,10 +1,10 @@
 from pyramid.config import Configurator
 from sqlalchemy.orm import sessionmaker
-from .models import DBSession
 from sqlalchemy import create_engine
 from pyramid.paster import get_appsettings
 
 from .models import Base
+from .models import DBSession
 
 def db(request):
     maker = request.registry.dbmaker

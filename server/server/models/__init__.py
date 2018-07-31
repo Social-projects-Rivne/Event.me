@@ -1,8 +1,9 @@
 """
 SQLAlchemy models for database
 """
-import sys
-sys.path.append("/home/github/Event.me/server")
+# import sys
+# sys.path.append("/home/github/Event.me/server")
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers
 from sqlalchemy import *
