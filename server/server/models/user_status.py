@@ -14,3 +14,9 @@ class UserStatus(Base):
     status = Column(String)
 
     users = relationship('User')
+
+    @classmethod
+    def get_status_id(cls, request, status):
+        """Get status from db"""
+        user_status = request.dbsession.query(cls).filter_by(status=status).one()
+        return user_status

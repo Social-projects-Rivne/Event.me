@@ -1,12 +1,14 @@
 """Viws for registration user and confirm registration user in system"""
 from pyramid.view import view_config
-from server.models.user import User
 from passlib.hash import pbkdf2_sha256
 from passlib.totp import generate_secret
 from pyramid_mailer.mailer import Mailer
 from pyramid_mailer.message import Message
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
+from server.models.user import User
+from server.models.user_status import UserStatus
+from server.models.role import Role
 
 
 @view_config(route_name='registration', renderer='json')
@@ -22,7 +24,7 @@ def registration_view(request):
         User.add_user(request, email=request.json['email'],
                       password=pbkdf2_sha256.hash(request.json['password']),
                       url_token=generate_secret(),
-                      status_id=4)
+                      status_id=UserStatus.get_status_id(request, status="Non_active").id)
         token = User.get_one(request, email=request.json['email'])
         mailer = request.mailer
         message = Message(subject="confirm email",
@@ -50,6 +52,7 @@ def confirm_registration_view(request):
         return HTTPNotFound()
     else:
         url = 'localhost:6543/users/{}'.format(user)
-        user_status.status_id = 1
-        user_status.role_id = 2
+
+        user_status.status_id = UserStatus.get_status_id(request, status="Active").id
+        user_status.role_id = Role.set_role(request, role="user").id
         return Response('Your email address is confirmed')
