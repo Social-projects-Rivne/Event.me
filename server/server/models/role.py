@@ -16,7 +16,7 @@ class Role(Base):
     users = relationship("User")
 
     @classmethod
-    def set_role(cls, request, role):
+    def get_role(cls, request, role):
         """Get role from db"""
         user_role = request.dbsession.query(cls).filter_by(role=role).one()
         return user_role

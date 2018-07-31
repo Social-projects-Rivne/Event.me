@@ -1,11 +1,12 @@
 """Viws for registration user and confirm registration user in system"""
-from pyramid.view import view_config
 from passlib.hash import pbkdf2_sha256
 from passlib.totp import generate_secret
+from pyramid.view import view_config
 from pyramid_mailer.mailer import Mailer
 from pyramid_mailer.message import Message
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
+
 from server.models.user import User
 from server.models.user_status import UserStatus
 from server.models.role import Role
@@ -54,5 +55,5 @@ def confirm_registration_view(request):
         url = 'localhost:6543/users/{}'.format(user)
 
         user_status.status_id = UserStatus.get_status_id(request, status="Active").id
-        user_status.role_id = Role.set_role(request, role="user").id
+        user_status.role_id = Role.get_role(request, role="user").id
         return Response('Your email address is confirmed')
