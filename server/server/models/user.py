@@ -1,43 +1,24 @@
 """SQLAlchemy model for table users"""
 
 import json
-import decimal, datetime
+import decimal
+import datetime
+import transaction
 
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, bindparam
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Query
 from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy.orm import class_mapper, ColumnProperty
 
 from . import Base
+from server.models import get_dbsession
 from .user_status import UserStatus
 
-class AlchemyEncoder(json.JSONEncoder):
-    """ Helper method for serialization conflicts  """
-    def default(self, obj):
-        if isinstance(obj.__class__, DeclarativeMeta):
-            # an SQLAlchemy class
-            fields = {}
-            for field in [x for x in dir(obj) if not x.startswith('_') and x != 'metadata']:
-                data = obj.__getattribute__(field)
-                try:
-                    json.dumps(data) # this will fail on non-encodable values, like other classes
-                    fields[field] = data
-                except TypeError:
-                    fields[field] = None
-            # a json-encodable dict
-            return fields
-
-        return json.JSONEncoder.default(self, obj)
-
-def datetime_conv(o):
-    """ Convert DateTime to String for JSON """
-    if isinstance(o, datetime.datetime):
-        return o.__str__()
 
 class User(Base):
     """SQLAlchemy model for table users"""
-
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -96,7 +77,9 @@ class User(Base):
                 return True
         return False
 
-    def __init__(self, email, nickname, password, create_date, location, first_name, last_name, status_id, role_id, avatar, banned_to_date):
+    def __init__(self, email, nickname, password, create_date, location,
+                 first_name, last_name, status_id, role_id, avatar,
+                 banned_to_date):
         self.email = email
         self.nickname = nickname
         self.password = password
@@ -109,16 +92,81 @@ class User(Base):
         self.avatar = avatar
         self.banned_to_date = banned_to_date
 
-def users_to_json(obj):
-    """ Serialize User object to JSON """
-
-    to_serialize = ['id', 'email', 'nickname', 'password', 'create_date', 'location', 'first_name', 'last_name', 'status_id', 'role_id', 'avatar', 'banned_to_date']
-    d = {}
-    for attr_name in to_serialize:
-        d[attr_name] = getattr(obj, attr_name)
-    return d
 
 def from_json(cls, data):
     """ Deserialize User object from JSON """
-
     return cls(**data)
+
+
+def model_to_json(sqlalchemy_object):
+    fields_arr = [prop.key for prop in
+                  class_mapper(sqlalchemy_object.__class__).iterate_properties
+                  if isinstance(prop, ColumnProperty)]
+    _dict = {}
+    for key in fields_arr:
+        _dict[key] = str(getattr(sqlalchemy_object, key))
+    return _dict
+
+
+def users_to_json(obj):
+    """ Serialize User object to JSON """
+    to_serialize = ['id', 'email', 'nickname', 'password', 'create_date',
+                    'location', 'first_name', 'last_name', 'status_id',
+                    'role_id', 'avatar', 'banned_to_date']
+    d = {}
+    for attr_name in to_serialize:
+        d[attr_name] = str(getattr(obj, attr_name))
+    return d
+
+
+def get_all_users():
+    """ Method to get all users from database """
+    qry = get_dbsession().query(User).all()
+    usr_in_json = list(map(lambda x: model_to_json(x), qry))
+    return usr_in_json
+
+
+def create_usr(json_str):
+    """ Method to add user to database """
+    user = User(**json_str)
+    get_dbsession().add(user)
+    transaction.commit()
+    return {'status': 'Success!'}
+
+
+def read_usr(request):
+    """ Method to read user from database """
+    try:
+        qry = get_dbsession().query(User)\
+            .filter(User.id == request.matchdict['user_id']).first()
+        dict_ = users_to_json(qry)
+    except:
+        request.response.status = 404
+        return {'status': '404'}
+    return json.loads(json.dumps(dict_))
+
+
+def update_usr(json_str, request):
+    """ Method to update user in database """
+    json_encoded = json.dumps(json_str)
+    try:
+        get_dbsession().query(User)\
+            .filter(User.id == request.matchdict['user_id']).\
+            update(json.loads(json_encoded))
+        transaction.commit()
+    except:
+        request.response.status = 404
+        return {'status': '404'}
+    return {'status': 'Success!'}
+
+
+def delete_usr(request):
+    """ Method to delete user from database """
+    try:
+        get_dbsession().query(User).\
+            filter(User.id == request.matchdict['user_id']).delete()
+        transaction.commit()
+    except:
+        request.response.status = 404
+        return {'status': '404'}
+    return {'return': 'Success!'}
