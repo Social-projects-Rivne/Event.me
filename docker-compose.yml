@@ -30,9 +30,10 @@ services:
         ports:
           - 9000:8080
     client:
-        build: ./client
+        image: node:10
         container_name: react
-        command: npm start
+        command: bash -c "npm install && npm start"
+        working_dir: /app/client
         volumes:
             - ./client:/app/client
         depends_on:
