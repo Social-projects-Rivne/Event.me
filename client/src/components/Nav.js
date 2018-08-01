@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {Navbar, NavItem} from 'react-materialize'
+import {Navbar} from 'react-materialize'
+import {NavLink} from 'react-router-dom';
 
 export class Nav extends Component {
   render() {
     return (
         <Navbar brand='Even.me' right>
-            <NavItem href='/'>Home</NavItem>
-            <NavItem href='/log-in'>Log In</NavItem>
+            <li><NavLink to='/'>Home</NavLink></li>
+            <li><NavLink to='/log-in'>Log In</NavLink></li>
         </Navbar>
     );
   }

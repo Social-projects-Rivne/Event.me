@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {HashRouter, Route} from 'react-router-dom';
 import {Home} from './components/Home';
 import {LogIn} from './components/LogIn';
 import {Nav} from './components/Nav'
@@ -7,16 +7,15 @@ import {Nav} from './components/Nav'
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <div class="wrapper">
+      <HashRouter>
+        <div className="wrapper">
           <Nav />
-          <Switch>
+          <div className="content">
             <Route path="/" component={Home} exact/>
             <Route path="/log-in" component={LogIn} />
-            <Route render={() => <p>Not Found</p>} />
-          </Switch>
+          </div>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
