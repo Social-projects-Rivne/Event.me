@@ -22,13 +22,10 @@ class Token(Base):
     user = relationship("User", foreign_keys=(user_id,))
 
     @classmethod
-    def get_token_obj(cls,request):
-        if 'Authorization' in request.headers:
-            token_str = request.headers['Authorization'].split(' ')[1]
-            token = request.dbsession.query(cls)\
-                    .filter_by(token=token_str).one_or_none()
-            return token
-        return None
+    def get_token_obj(cls, request, token):
+        token_obj = request.dbsession.query(cls)\
+                .filter_by(token=token).one_or_none()
+        return token_obj
 
     @classmethod
     def add_token(cls, request, token, user_id):
