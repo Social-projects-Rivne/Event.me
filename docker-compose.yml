@@ -29,4 +29,13 @@ services:
             - db
         ports:
           - 9000:8080
-
+    client:
+        build: ./client
+        container_name: react
+        command: npm start
+        volumes:
+            - ./client:/app/client
+        depends_on:
+            - pyramid
+        ports:
+            - "3000:3000"
