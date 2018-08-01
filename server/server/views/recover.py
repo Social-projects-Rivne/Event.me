@@ -1,14 +1,15 @@
 import transaction
+from passlib.totp import generate_secret
 from pyramid_mailer.mailer import Mailer
 from pyramid_mailer.message import Message
-from pyramid.view import view_config
-from server.models.user_status import UserStatus
 from passlib.hash import pbkdf2_sha256
-from passlib.totp import generate_secret
+from server.models.user_status import UserStatus
+from pyramid.view import view_config
+
 from ..models.user import User
 
 @view_config(route_name='recover_password', renderer='json')
-def my_view(request):
+def recover_send_mail(request):
     jsn = request.json_body
     user = request.dbsession.query(User).filter_by(email=jsn['email']).one_or_none()
     if user.email is not None:
@@ -21,10 +22,10 @@ def my_view(request):
         mailer.send(message)
         mailer.send_immediately(message, fail_silently=False)
 
-    return "olala"
+    return "We send link for change password in your mail", jsn['email']
 
 @view_config(route_name='change_password', renderer='json')
-def my_view(request):
+def recover_change_password(request):
     jsn = request.json_body
     user = request.dbsession.query(User).filter_by(email=jsn['email']).one_or_none()
     password = request.dbsession.query(User).filter_by(password=jsn['password']).one_or_none()
