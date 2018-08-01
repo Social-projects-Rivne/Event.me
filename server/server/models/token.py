@@ -22,12 +22,13 @@ class Token(Base):
     user = relationship("User", foreign_keys=(user_id,))
 
     @classmethod
-    def get_token_obj(cls, request, token):
-        token_obj = request.dbsession.query(cls)\
-                    .filter_by(token=token).one_or_none()
-        if token_obj is None:
-            return None
-        return token_obj
+    def get_token_obj(cls,request):
+        if 'Authorization' in request.headers:
+            token_str = request.headers['Authorization'].split(' ')[1]
+            token = request.dbsession.query(cls)\
+                    .filter_by(token=token_str).one_or_none()
+            return token
+        return None
 
     @classmethod
     def add_token(cls, request, token, user_id):
@@ -37,10 +38,10 @@ class Token(Base):
                         timedelta(days=TOKEN_LIFETIME))
         request.dbsession.add(token_obj)
 
-    @classmethod
-    def deactivate(cls, request, token):
+    def deactivate(self, request):
         """Delete authorization token from db"""
-        request.dbsession.query(cls).filter_by(token=token).delete()
+        request.dbsession.query(self.__class__)\
+            .filter_by(token=self.token).delete()
         return True
 
     def update(self):

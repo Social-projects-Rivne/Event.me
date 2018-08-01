@@ -15,12 +15,10 @@ class MyAuthenticationPolicy(CallbackAuthenticationPolicy):
 
     def unauthenticated_userid(self, request):
         """Returns user's id by token"""
-        if 'Authorization' in request.headers:
-            token = request.headers['Authorization'].split(' ')[1]
-            token_obj = Token.get_token_obj(request, token)
-            if token_obj is not None:
-                token_obj.update()
-                return token_obj.user_id
+        token_obj = Token.get_token_obj(request)
+        if token_obj is not None:
+            token_obj.update()
+            return token_obj.user_id
 
     def authenticated_userid(self, request):
         """Get authenticated user id from user object in request object"""
@@ -46,13 +44,8 @@ class MyAuthenticationPolicy(CallbackAuthenticationPolicy):
 
     def forget(self, request):
         """Delete token from db if it exist"""
-        if 'Authorization' in request.headers:
-            if Token.deactivate(request,
-                                request.headers['Authorization'].split(' ')[1]
-                                ):
-                return True
-        else:
-            return False
+        token_obj = Token.get_token_obj(request)
+        return token_obj.deactivate(request)
 
 
 def get_user(request):
