@@ -26,7 +26,6 @@ localhost:9000
 ```
 
 ### mailer ###
-======
 
 - Change directory into Event.me/server.
 
@@ -42,7 +41,6 @@ localhost:9000
 
 - Set your email address in mail.username and password in mail.password.
 
-=======
 # Migration & Seeding #
 
 ### Migration ###
