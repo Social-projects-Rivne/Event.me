@@ -15,9 +15,10 @@ class MyAuthenticationPolicy(CallbackAuthenticationPolicy):
 
     def unauthenticated_userid(self, request):
         """Returns user's id by token"""
-        userid = Token.get_user_id(request)
-        if userid is not None:
-            return userid
+        token_obj = Token.get_token_obj(request)
+        if token_obj is not None:
+            token_obj.update()
+            return token_obj.user_id
 
     def authenticated_userid(self, request):
         """Get authenticated user id from user object in request object"""
@@ -32,7 +33,7 @@ class MyAuthenticationPolicy(CallbackAuthenticationPolicy):
         if user is not None:
             principals.append(Authenticated)
             principals.append(str(user.id))
-            principals.append('role:' + user.get_role(request))
+            principals.append('role:' + user.get_role())
         return principals
 
     def remember(self, request, userid, **kw):

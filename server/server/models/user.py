@@ -60,8 +60,7 @@ class User(Base):
         Arguments:
         request -- request object that provides from view
         """
-        user_status = request.dbsession.query(UserStatus)\
-            .filter_by(id=self.status_id).one()
+        user_status = self.user_statuses
         if user_status.status == "Active":
             return True
         elif user_status.status == "Banned":
@@ -71,8 +70,6 @@ class User(Base):
                 return True
         return False
 
-    def get_role(self, request):
+    def get_role(self):
         """Return string with user role"""
-        role_obj = request.dbsession.query(Role).get(self.role_id)
-        if role_obj is not None:
-            return role_obj.role
+        return self.roles.role
