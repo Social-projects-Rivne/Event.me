@@ -25,8 +25,6 @@ Adminer:
 localhost:9000
 ```
 
-<<<<<<< HEAD
-
 ### mailer ###
 ======
 

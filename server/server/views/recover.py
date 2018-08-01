@@ -10,26 +10,26 @@ from ..models.user import User
 
 @view_config(route_name='recover_password', renderer='json')
 def recover_send_mail(request):
-    jsn = request.json_body
-    user = request.dbsession.query(User).filter_by(email=jsn['email']).one_or_none()
+    json = request.json_body
+    user = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
     if user.email is not None:
-        token = request.dbsession.query(User).filter_by(email=jsn['email']).one_or_none()
+        token = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
         mailer = request.mailer
         message = Message(subject="hello world",
                           sender="eventmerv@gmail.com",
-                          recipients=[jsn["email"]],
+                          recipients=[json["email"]],
                           body='http://localhost:6543/change_password/')
         mailer.send(message)
         mailer.send_immediately(message, fail_silently=False)
 
-    return "We send link for change password in your mail", jsn['email']
+    return "We send link for change password in your mail", json['email']
 
 @view_config(route_name='change_password', renderer='json')
 def recover_change_password(request):
-    jsn = request.json_body
+    json = request.json_body
     user = request.dbsession.query(User).filter_by(email=jsn['email']).one_or_none()
-    password = request.dbsession.query(User).filter_by(password=jsn['password']).one_or_none()
+    password = request.dbsession.query(User).filter_by(password=json['password']).one_or_none()
     if user.email is not None:
-        user = request.dbsession.query(User).filter_by(email=jsn['email']).update(dict(password=jsn['password']))
+        user = request.dbsession.query(User).filter_by(email=json['email']).update(dict(password=json['password']))
 
     return {'status': 'OK'}
