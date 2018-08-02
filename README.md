@@ -25,6 +25,11 @@ Adminer:
 localhost:9000
 ```
 
+Client:
+```sh
+localhost:3000
+```
+
 # Migration & Seeding #
 
 ### Migration ###
