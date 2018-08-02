@@ -41,5 +41,5 @@ class Token(Base):
             .filter_by(token=self.token).delete()
         return True
 
-    def update(self):
+    def update_expiration_date(self):
         self.expiration_date = datetime.now() + timedelta(days=TOKEN_LIFETIME)

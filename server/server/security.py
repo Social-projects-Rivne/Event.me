@@ -18,7 +18,7 @@ class MyAuthenticationPolicy(CallbackAuthenticationPolicy):
         token_obj = Token.get_token_obj(request,
                                         get_token_from_header(request))
         if token_obj is not None:
-            token_obj.update()
+            token_obj.update_expiration_date()
             return token_obj.user_id
 
     def authenticated_userid(self, request):
