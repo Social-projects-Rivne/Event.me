@@ -7,7 +7,7 @@ from pyramid.view import view_config
 
 from server.models import get_dbsession
 from server.models.user import get_all_users, create_usr, \
-read_usr, update_usr, delete_usr
+                                read_usr, update_usr, delete_usr
 
 
 @view_config(route_name='users.view', renderer='json')

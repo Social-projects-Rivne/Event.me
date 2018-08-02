@@ -104,7 +104,11 @@ def model_to_json(sqlalchemy_object):
                   if isinstance(prop, ColumnProperty)]
     _dict = {}
     for key in fields_arr:
-        _dict[key] = str(getattr(sqlalchemy_object, key))
+        temp = getattr(sqlalchemy_object, key)
+        if isinstance(temp, datetime.datetime):
+            _dict[key] = str(getattr(sqlalchemy_object, key))
+        else:
+            _dict[key] = getattr(sqlalchemy_object, key)
     return _dict
 
 
@@ -136,37 +140,25 @@ def create_usr(json_str):
 
 def read_usr(request):
     """ Method to read user from database """
-    try:
-        qry = get_dbsession().query(User)\
-            .filter(User.id == request.matchdict['user_id']).first()
-        dict_ = users_to_json(qry)
-    except:
-        request.response.status = 404
-        return {'status': '404'}
-    return json.loads(json.dumps(dict_))
+    qry = get_dbsession().query(User)\
+        .filter(User.id == request.matchdict['user_id']).first()
+    dict_ = users_to_json(qry)
+    return json.loads(json.dumps(dict_, cls=DTEncoder))
 
 
 def update_usr(json_str, request):
     """ Method to update user in database """
     json_encoded = json.dumps(json_str)
-    try:
-        get_dbsession().query(User)\
-            .filter(User.id == request.matchdict['user_id']).\
-            update(json.loads(json_encoded))
-        transaction.commit()
-    except:
-        request.response.status = 404
-        return {'status': '404'}
+    get_dbsession().query(User)\
+        .filter(User.id == request.matchdict['user_id']).\
+        update(json.loads(json_encoded))
+    transaction.commit()
     return {'status': 'Success!'}
 
 
 def delete_usr(request):
     """ Method to delete user from database """
-    try:
-        get_dbsession().query(User).\
-            filter(User.id == request.matchdict['user_id']).delete()
-        transaction.commit()
-    except:
-        request.response.status = 404
-        return {'status': '404'}
+    get_dbsession().query(User).\
+        filter(User.id == request.matchdict['user_id']).delete()
+    transaction.commit()
     return {'return': 'Success!'}
