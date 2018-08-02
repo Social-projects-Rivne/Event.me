@@ -31,16 +31,16 @@ def registration_view(request):
         message = Message(subject="confirm email",
                           sender="asstelite@gmail.com",
                           recipients=[json['email']],
-                          body='http://localhost:6543/users/{}'.format(token.url_token))
+                          body=request.current_route_url(token.url_token))
         mailer.send(message)
         mailer.send_immediately(message, fail_silently=False)
 
         return {"msg": "We sent token to your email address"}
     else:
-        return {"msg": "Your email address is already taken"}
+        return {"msg": "Your email address is already registered"}
 
 
-@view_config(route_name='user')
+@view_config(route_name='user', renderer='json')
 def confirm_registration_view(request):
     """confirm registration view
 
@@ -52,8 +52,6 @@ def confirm_registration_view(request):
     if user_status is None:
         return HTTPNotFound()
     else:
-        url = 'localhost:6543/users/{}'.format(user)
-
         user_status.status_id = UserStatus.get_status_id(request, status="Active").id
         user_status.role_id = Role.get_role(request, role="user").id
-        return Response('Your email address is confirmed')
+        return {"msg": "Your email address is confirmed"}
