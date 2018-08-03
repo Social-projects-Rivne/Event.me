@@ -1,4 +1,4 @@
-"""Viws for registration user and confirm registration user in system"""
+"""Views for registration user and confirm registration user in system"""
 from passlib.hash import pbkdf2_sha256
 from passlib.totp import generate_secret
 from pyramid.view import view_config
@@ -18,7 +18,8 @@ def registration_view(request):
 
     This function get email and password from json request, check if email
     isn't in db - add email and password into db, set status_id to 'Non_active',
-    generate and send url-token to user email."""
+    generate and send url-token to user email.
+    """
     json = request.json_body
     user_query = User.get_one(request, email=request.json_body['email'])
     if user_query is None:
@@ -32,7 +33,6 @@ def registration_view(request):
                           sender="asstelite@gmail.com",
                           recipients=[json['email']],
                           body=request.route_url('user', user=token.url_token))
-        mailer.send(message)
         mailer.send_immediately(message, fail_silently=False)
 
         return {"msg": "We sent token to your email address"}
@@ -42,11 +42,12 @@ def registration_view(request):
 
 @view_config(route_name='user', renderer='json')
 def confirm_registration_view(request):
-    """confirm registration view
+    """Confirm registration view
 
     This function get url_token, check if it isn't in db
     return the 404 Error. If url_token is in db, this function
-    create url address, change status_id to 'Active', and set role_id to 'user'."""
+    create url address, change status_id to 'Active', and set role_id to 'user'.
+    """
     user = request.matchdict['user']
     user_status = User.get_one(request, url_token=user)
     if user_status is None:
