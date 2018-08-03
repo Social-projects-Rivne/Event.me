@@ -5,7 +5,6 @@ import transaction
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers
-from sqlalchemy import *
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy import engine_from_config
 from zope.sqlalchemy import ZopeTransactionExtension
@@ -34,6 +33,7 @@ def get_session_factory(engine):
 
 def get_tm_session(session_factory, transaction_manager):
     """ Get a sqlalchemy Session instance backed by a transaction.
+
     This function will hook the session to the transaction manager which
     will take care of committing any changes, and apply to use zope queries
     syntax in transactions.
@@ -57,9 +57,11 @@ def get_dbsession():
 
 def includeme(config):
     """ Add a transactions object to every request
+
     Include pyramid_tm and pyramid_retry modules to configs and register a
     session class in configs. Add a new method named 'dbsession' to request
     object that implement a transactions to the request.
+
     Initialize the model for a Pyramid app.
     """
     settings = config.get_settings()
