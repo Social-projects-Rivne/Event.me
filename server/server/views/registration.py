@@ -31,7 +31,7 @@ def registration_view(request):
         message = Message(subject="confirm email",
                           sender="asstelite@gmail.com",
                           recipients=[json['email']],
-                          body=request.current_route_url(token.url_token))
+                          body=request.route_url('user', user=token.url_token))
         mailer.send(message)
         mailer.send_immediately(message, fail_silently=False)
 

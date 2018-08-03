@@ -24,6 +24,15 @@ Getting Started
 
     env/bin/pytest
 
+- Copy development.ini.sample to development.ini and fill credentails before first deployment:
+    mail.host = smtp.gmail.com
+    mail.username = "your email address"
+    mail.password = "your password"
+    mail.port = 465
+    mail.ssl = True
+
+    server/development.ini
+
 - Run your project.
 
     env/bin/pserve development.ini
