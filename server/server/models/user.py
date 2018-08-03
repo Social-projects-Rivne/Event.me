@@ -120,18 +120,18 @@ def users_to_json(obj):
     to_serialize = ['id', 'email', 'nickname', 'password', 'create_date',
                     'location', 'first_name', 'last_name', 'status_id',
                     'role_id', 'avatar', 'banned_to_date']
-    d = {}
+    dict_ = {}
     for attr_name in to_serialize:
         d[attr_name] = str(getattr(obj, attr_name))
-    return d
+    return dict_
 
 
 class DTEncoder(json.JSONEncoder):
     """ Decoder class for datetime (json) """
-    def default(self, o):
-        if isinstance(o, datetime.datetime):
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
             return o.isoformat()
-        return json.JSONEncoder.default(self, o)
+        return json.JSONEncoder.default(self, obj)
 
 
 def get_all_users(request):
@@ -157,7 +157,7 @@ def read_usr(request):
         dict_ = users_to_json(qry)
     else:
         raise exc.exception_response(404)
-    return json.loads(json.dumps(dict_, cls=DTEncoder))
+    return dict_
 
 
 def update_usr(json_str, request):
