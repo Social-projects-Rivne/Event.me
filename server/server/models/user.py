@@ -1,9 +1,7 @@
 """SQLAlchemy model for table users"""
 
 import json
-import decimal
 import datetime
-import transaction
 
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, bindparam
@@ -11,9 +9,10 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Query
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import class_mapper, ColumnProperty
+import pyramid.httpexceptions as exc
 
 from . import Base
-from server.models import get_dbsession
+from .role import Role
 from .user_status import UserStatus
 
 
@@ -44,7 +43,6 @@ class User(Base):
     @classmethod
     def get_one(cls, request, **kwargs):
         """Get one user from db by params
-
         Return user object if user exist and return None if not
         Arguments:
         request -- request object that provides from view
@@ -60,14 +58,12 @@ class User(Base):
 
     def is_active(self, request):
         """Check is user active
-
         Change user status to active if user was banned but time of his
         ban ended. Return True if user active and return False if not.
         Arguments:
         request -- request object that provides from view
         """
-        user_status = request.dbsession.query(UserStatus)\
-            .filter_by(id=self.status_id).one()
+        user_status = self.user_statuses
         if user_status.status == "Active":
             return True
         elif user_status.status == "Banned":
@@ -76,6 +72,10 @@ class User(Base):
                                 .filter_by(status="Active").one().id
                 return True
         return False
+
+    def get_role(self):
+        """Return string with user role"""
+        return self.roles.role
 
     def __init__(self, email, nickname, password, create_date, location,
                  first_name, last_name, status_id, role_id, avatar,
@@ -94,11 +94,14 @@ class User(Base):
 
 
 def from_json(cls, data):
-    """ Deserialize User object from JSON """
+    """ Deserializes User object """
     return cls(**data)
 
 
 def model_to_json(sqlalchemy_object):
+    """ Serializes sqlalchemy_object to json
+    and converts datetime to string
+    """
     fields_arr = [prop.key for prop in
                   class_mapper(sqlalchemy_object.__class__).iterate_properties
                   if isinstance(prop, ColumnProperty)]
@@ -113,7 +116,7 @@ def model_to_json(sqlalchemy_object):
 
 
 def users_to_json(obj):
-    """ Serialize User object to JSON """
+    """ Specific serializer for User object (json) """
     to_serialize = ['id', 'email', 'nickname', 'password', 'create_date',
                     'location', 'first_name', 'last_name', 'status_id',
                     'role_id', 'avatar', 'banned_to_date']
@@ -123,42 +126,59 @@ def users_to_json(obj):
     return d
 
 
-def get_all_users():
+class DTEncoder(json.JSONEncoder):
+    """ Decoder class for datetime (json) """
+    def default(self, o):
+        if isinstance(o, datetime.datetime):
+            return o.isoformat()
+        return json.JSONEncoder.default(self, o)
+
+
+def get_all_users(request):
     """ Method to get all users from database """
-    qry = get_dbsession().query(User).all()
+    qry = request.dbsession.query(User).all()
     usr_in_json = list(map(lambda x: model_to_json(x), qry))
     return usr_in_json
 
 
-def create_usr(json_str):
+def create_usr(json_str, request):
     """ Method to add user to database """
     user = User(**json_str)
-    get_dbsession().add(user)
-    transaction.commit()
+    request.dbsession.add(user)
     return {'status': 'Success!'}
 
 
 def read_usr(request):
     """ Method to read user from database """
-    qry = get_dbsession().query(User)\
-        .filter(User.id == request.matchdict['user_id']).first()
-    dict_ = users_to_json(qry)
+    if request.dbsession.query(User)\
+            .filter(User.id == request.matchdict['profile_id']).count():
+        qry = request.dbsession.query(User)\
+            .filter(User.id == request.matchdict['profile_id']).first()
+        dict_ = users_to_json(qry)
+    else:
+        raise exc.exception_response(404)
     return json.loads(json.dumps(dict_, cls=DTEncoder))
 
 
 def update_usr(json_str, request):
     """ Method to update user in database """
     json_encoded = json.dumps(json_str)
-    get_dbsession().query(User)\
-        .filter(User.id == request.matchdict['user_id']).\
-        update(json.loads(json_encoded))
-    transaction.commit()
+    if request.dbsession.query(User)\
+            .filter(User.id == request.matchdict['profile_id']).count():
+        request.dbsession.query(User)\
+            .filter(User.id == request.matchdict['profile_id']).\
+            update(json.loads(json_encoded))
+    else:
+        raise exc.exception_response(404)
     return {'status': 'Success!'}
 
 
 def delete_usr(request):
     """ Method to delete user from database """
-    get_dbsession().query(User).\
-        filter(User.id == request.matchdict['user_id']).delete()
-    transaction.commit()
+    if request.dbsession.query(User)\
+            .filter(User.id == request.matchdict['profile_id']).count():
+        request.dbsession.query(User).\
+            filter(User.id == request.matchdict['profile_id']).delete()
+    else:
+        raise exc.exception_response(404)
     return {'return': 'Success!'}
