@@ -1,4 +1,7 @@
 """Views for registration user and confirm registration user in system"""
+from datetime import datetime
+
+from cornice import Service
 from passlib.hash import pbkdf2_sha256
 from passlib.totp import generate_secret
 from pyramid.view import view_config
@@ -12,7 +15,11 @@ from server.models.user_status import UserStatus
 from server.models.role import Role
 
 
-@view_config(route_name='registration', renderer='json')
+register = Service(name='registration', path='/registration')
+confirm_register = Service(name='email_confirm', path='/email_confirm/{email_confirm}')
+
+#@view_config(route_name='registration', renderer='json')
+@register.post()
 def registration_view(request):
     """Registration view
 
@@ -26,13 +33,14 @@ def registration_view(request):
         User.add_user(request, email=request.json['email'],
                       password=pbkdf2_sha256.hash(request.json['password']),
                       url_token=generate_secret(),
-                      status_id=UserStatus.get_status_id(request, status="Non_active").id)
+                      status_id=UserStatus.get_status_id(request, status="Non_active").id,
+                      create_date=datetime.now())
         token = User.get_one(request, email=request.json['email'])
         mailer = request.mailer
         message = Message(subject="confirm email",
                           sender="asstelite@gmail.com",
                           recipients=[json['email']],
-                          body=request.route_url('user', user=token.url_token))
+                          body=request.route_url('email_confirm', email_confirm=token.url_token))
         mailer.send_immediately(message, fail_silently=False)
 
         return {"msg": "We sent token to your email address"}
@@ -40,7 +48,8 @@ def registration_view(request):
         return {"msg": "Your email address is already registered"}
 
 
-@view_config(route_name='user', renderer='json')
+#@view_config(route_name='email_confirm', renderer='json')
+@confirm_register.get()
 def confirm_registration_view(request):
     """Confirm registration view
 
@@ -48,7 +57,7 @@ def confirm_registration_view(request):
     return the 404 Error. If url_token is in db, this function
     create url address, change status_id to 'Active', and set role_id to 'user'.
     """
-    user = request.matchdict['user']
+    user = request.matchdict['email_confirm']
     user_status = User.get_one(request, url_token=user)
     if user_status is None:
         return HTTPNotFound()
