@@ -1,20 +1,13 @@
-from cornice.resource import resource, view
+from cornice import Service
 from pyramid.security import Allow, Everyone
 
 
-@resource(path='/', renderer='json')
-class Home(object):
+home = Service(name='home', path='/', cors_origins=('http://localhost:3000',))
 
-    def __init__(self, request, context=None):
-        self.request = request
-        self.context = context
 
-    def __acl__(self):
-        return [(Allow, Everyone, 'everything')]
-
-    @view(permission='everything')
-    def get(self):
-        return {
-            "msg": "Get home page",
-            'success': True
-            }
+@home.get()
+def home_get(request):
+    return {
+        "msg": "Get home page",
+        'success': True
+        }
