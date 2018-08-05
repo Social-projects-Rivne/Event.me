@@ -1,8 +1,8 @@
+from passlib.hash import pbkdf2_sha256
 from sqlalchemy import create_engine
 from sqlalchemy.sql.expression import insert
-from passlib.hash import pbkdf2_sha256
-from server.models import Base
-from server.models import (user, user_status, tag, token, event, event_history,
+
+from server.models import (Base, user, user_status, tag, token, event, event_history,
                            event_status, event_tag, category, subscribe,
                            feedback, gallery, role)
 
