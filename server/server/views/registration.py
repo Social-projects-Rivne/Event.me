@@ -18,7 +18,7 @@ from server.models.role import Role
 register = Service(name='registration', path='/registration')
 confirm_register = Service(name='email_confirm', path='/email_confirm/{email_confirm}')
 
-#@view_config(route_name='registration', renderer='json')
+
 @register.post()
 def registration_view(request):
     """Registration view
@@ -48,7 +48,6 @@ def registration_view(request):
         return {"msg": "Your email address is already registered"}
 
 
-#@view_config(route_name='email_confirm', renderer='json')
 @confirm_register.get()
 def confirm_registration_view(request):
     """Confirm registration view

@@ -8,5 +8,6 @@ def main(global_config, **settings):
     config.include('cornice')
     config.include('pyramid_mailer')
     config.include('.models')
+    config.include('.security')
     config.scan()
     return config.make_wsgi_app()
