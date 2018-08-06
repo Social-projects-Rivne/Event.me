@@ -2,21 +2,21 @@ from passlib.hash import pbkdf2_sha256
 from sqlalchemy import create_engine
 from sqlalchemy.sql.expression import insert
 
-from server.models import (Base, user, user_status, tag, token, event, event_history,
-                           event_status, event_tag, category, subscribe,
-                           feedback, gallery, role)
+from server.models import (Base, user, user_status, tag, token, event,
+                           event_history, event_status, event_tag, category,
+                           subscribe, feedback, gallery, role)
 
 
 engine = create_engine('postgresql://admin:1@localhost:5555/eventme',
-                        echo=True)
+                       echo=True)
 Base.metadata.create_all(bind=engine)
 
-role_data = (
+role_data = [
     {"role": "admin"},
     {"role": "user"},
     {"role": "moderator"}
-)
-tag_data = (
+]
+tag_data = [
     {"tag": "concert"},
     {"tag": "vynnyk"},
     {"tag": "fans"},
@@ -24,26 +24,26 @@ tag_data = (
     {"tag": "gore"},
     {"tag": "metal"},
     {"tag": "violence"}
-)
-category_data = (
+]
+category_data = [
     {"category": "holiday"},
     {"category": "concert"},
     {"category": "movie"}
-)
-user_status_data = (
+]
+user_status_data = [
     {"status": "Active"},
     {"status": "Banned"},
     {"status": "Delete"},
     {"status": "Non_active"}
-)
-event_status_data = (
+]
+event_status_data = [
     {"status": "New"},
     {"status": "Close"},
     {"status": "Approved"},
     {"status": "Disapproved"},
     {"status": "Hot"}
-)
-user_data = (
+]
+user_data = [
     {
         "email": "sashaemail@gmail.com",
         "nickname": "oleksandttarar",
@@ -79,7 +79,7 @@ user_data = (
         "nickname": "KnowNothing",
         "password": pbkdf2_sha256.hash("Ygritte"),
         "location": "Wall",
-        "first_name": "Aegon", 
+        "first_name": "Aegon",
         "last_name": "Targaryen",
         "status_id": 1,
         "role_id": 1
@@ -94,8 +94,8 @@ user_data = (
         "status_id": 4,
         "role_id": 2
     }
-)
-event_data = (
+]
+event_data = [
     {
         "name": "Oleh Vynnyk Rivne Show",
         "long": 26.251617,
@@ -132,8 +132,8 @@ event_data = (
         "author_id": 1,
         "category_id": 1
     }
-)
-event_tag_data = (
+]
+event_tag_data = [
     {"event_id": 1, "tag_id": 1},
     {"event_id": 1, "tag_id": 2},
     {"event_id": 1, "tag_id": 7},
@@ -141,21 +141,21 @@ event_tag_data = (
     {"event_id": 2, "tag_id": 5},
     {"event_id": 3, "tag_id": 4},
     {"event_id": 2, "tag_id": 5}
-)
-event_history_data = (
+]
+event_history_data = [
     {"event_id": 1, "status_id": 2,
      "date": "2017-12-21", "comment": "omg vynnyk best"},
     {"event_id": 3, "status_id": 2,
      "date": "2018-07-05", "comment": "wow was fun"},
-    {"event_id": 2, "status_id": 3, 
+    {"event_id": 2, "status_id": 3,
      "date": "2019-11-01", "comment": "coming soon"}
-)
-gallery_data = (
+]
+gallery_data = [
     {"img_url": "somevynnykurl", "event_id": 1},
     {"img_url": "somedrizzturl", "event_id": 2},
     {"img_url": "someindependenturl", "event_id": 3}
-)
-feedback_data = (
+]
+feedback_data = [
     {
         "user_id": 2,
         "event_id": 3,
@@ -176,23 +176,29 @@ feedback_data = (
         "feedback": "Drizzt or better Dzirt",
         "date": "2018-07-01",
         "is_deleted": False}
-    )
-subscribe_data = (
+]
+subscribe_data = [
     {"user_id": 4, "event_id": 1, "is_favorite": False},
     {"user_id": 2, "event_id": 2, "is_favorite": True},
     {"user_id": 5, "event_id": 2, "is_favorite": True}
-)
+]
+
+data = [
+    (role.Role, role_data),
+    (tag.Tag, tag_data),
+    (category.Category, category_data),
+    (user_status.UserStatus, user_status_data),
+    (event_status.EventStatus, event_status_data),
+    (user.User, user_data),
+    (event.Event, event_data),
+    (event_tag.EventTag, event_tag_data),
+    (event_history.EventHistory, event_history_data),
+    (gallery.Gallery, gallery_data),
+    (feedback.Feedback, feedback_data),
+    (subscribe.Subscribe, subscribe_data)
+]
 
 conn = engine.connect()
-conn.execute(role.Role.__table__.insert(), role_data)
-conn.execute(tag.Tag.__table__.insert(), tag_data)
-conn.execute(category.Category.__table__.insert(), category_data)
-conn.execute(user_status.UserStatus.__table__.insert(), user_status_data)
-conn.execute(event_status.EventStatus.__table__.insert(), event_status_data)
-conn.execute(user.User.__table__.insert(), user_data)
-conn.execute(event.Event.__table__.insert(), event_data)
-conn.execute(event_tag.EventTag.__table__.insert(), event_tag_data)
-conn.execute(event_history.EventHistory.__table__.insert(), event_history_data)
-conn.execute(gallery.Gallery.__table__.insert(), gallery_data)
-conn.execute(feedback.Feedback.__table__.insert(), feedback_data)
-conn.execute(subscribe.Subscribe.__table__.insert(), subscribe_data)
+
+for model_class, model_data in data:
+    conn.execute(model_class.__table__.insert(), model_data)
