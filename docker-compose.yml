@@ -29,4 +29,14 @@ services:
             - db
         ports:
           - 9000:8080
-
+    client:
+        image: node:10
+        container_name: react
+        command: bash -c "npm install && npm start"
+        working_dir: /app/client
+        volumes:
+            - ./client:/app/client
+        depends_on:
+            - pyramid
+        ports:
+            - "3000:3000"
