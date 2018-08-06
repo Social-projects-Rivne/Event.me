@@ -58,6 +58,13 @@ def get_dbsession():
     return dbsession
 
 
+def init_tables(engine):
+    from server.models import (user, user_status, tag, token, event, event_history,
+                               event_status, event_tag, category, subscribe,
+                               feedback, gallery, role)
+    Base.metadata.create_all(bind=engine)
+    
+
 def includeme(config):
     """ Add a transactions object to every request
 
@@ -75,6 +82,8 @@ def includeme(config):
 
     session_factory = get_session_factory(get_engine(settings))
     config.registry['dbsession_factory'] = session_factory
+
+    init_tables(get_engine(settings))
 
     config.add_request_method(
         lambda r: get_tm_session(session_factory, r.tm),
