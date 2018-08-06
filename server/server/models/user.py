@@ -27,6 +27,7 @@ class User(Base):
     role_id = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
     banned_to_date = Column(DateTime)
+    url_token = Column(String)
 
     tokens = relationship("Token")
     roles = relationship("Role", foreign_keys=(role_id,))
@@ -69,6 +70,12 @@ class User(Base):
                                 .filter_by(status="Active").one().id
                 return True
         return False
+
+
+    @classmethod
+    def add_user(cls, request, **kwargs):
+        """Add user into db"""
+        request.dbsession.add(cls(**kwargs))
 
     def get_role(self):
         """Return string with user role"""
