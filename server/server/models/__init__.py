@@ -2,10 +2,12 @@
 SQLAlchemy models for database
 """
 import transaction
+import datetime
 
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers
+from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers, \
+                            class_mapper, ColumnProperty
 from sqlalchemy import engine_from_config
 from zope.sqlalchemy import ZopeTransactionExtension
 
@@ -79,3 +81,19 @@ def includeme(config):
         'dbsession',
         reify=True
     )
+
+def model_to_dict(sqlalchemy_object):
+    """ Serializes sqlalchemy_object to dict
+    and converts datetime to string
+    """
+    fields_arr = [prop.key for prop in
+                  class_mapper(sqlalchemy_object.__class__).iterate_properties
+                  if isinstance(prop, ColumnProperty)]
+    _dict = {}
+    for key in fields_arr:
+        temp = getattr(sqlalchemy_object, key)
+        if isinstance(temp, datetime.datetime):
+            _dict[key] = str(getattr(sqlalchemy_object, key))
+        else:
+            _dict[key] = getattr(sqlalchemy_object, key)
+    return _dict

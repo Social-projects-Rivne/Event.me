@@ -10,6 +10,7 @@ from pyramid.security import Allow, Everyone, Authenticated, ALL_PERMISSIONS
 
 from server.models import get_dbsession
 from server.models.user import User
+from server.models import model_to_dict
 
 
 @resource(collection_path='/profile', path='/profile/{profile_id}',
@@ -26,9 +27,10 @@ class UserProfile(object):
 
     def get(self):
         request = self.request
-        return User.read_user(request=request)
+        user = User.get_one(request, id=request.matchdict['profile_id'])
+        return model_to_dict(user)
 
     def put(self):
         request = self.request
         data = request.json_body
-        return User.update_user(request=request, json_data=data)
+        return User.update_user(request, data)

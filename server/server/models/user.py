@@ -91,15 +91,6 @@ class User(Base):
         self.avatar = avatar
         self.banned_to_date = banned_to_date
 
-    @staticmethod
-    def read_user(request):
-        """ Method to read user from database """
-        user = User.get_one(request, id=request.matchdict['profile_id'])
-        if user:
-            dict_ = model_to_dict(user)
-        else:
-            raise exc.exception_response(404)
-        return dict_
 
     @staticmethod
     def update_user(json_data, request):
@@ -111,20 +102,3 @@ class User(Base):
         else:
             raise exc.exception_response(404)
         return {'status': 'Success!'}
-
-
-def model_to_dict(sqlalchemy_object):
-    """ Serializes sqlalchemy_object to dict
-    and converts datetime to string
-    """
-    fields_arr = [prop.key for prop in
-                  class_mapper(sqlalchemy_object.__class__).iterate_properties
-                  if isinstance(prop, ColumnProperty)]
-    _dict = {}
-    for key in fields_arr:
-        temp = getattr(sqlalchemy_object, key)
-        if isinstance(temp, datetime.datetime):
-            _dict[key] = str(getattr(sqlalchemy_object, key))
-        else:
-            _dict[key] = getattr(sqlalchemy_object, key)
-    return _dict
