@@ -1,14 +1,13 @@
 """SQLAlchemy model for table users"""
 
-import json
 import datetime
+import json
 
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, bindparam
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Query
 from sqlalchemy.ext.declarative import DeclarativeMeta
-from sqlalchemy.orm import class_mapper, ColumnProperty
+from sqlalchemy.orm import class_mapper, ColumnProperty, Query, relationship
+
 import pyramid.httpexceptions as exc
 
 from . import Base
@@ -92,14 +91,30 @@ class User(Base):
         self.avatar = avatar
         self.banned_to_date = banned_to_date
 
+    @staticmethod
+    def read_user(request):
+        """ Method to read user from database """
+        user = User.get_one(request, id=request.matchdict['profile_id'])
+        if user:
+            dict_ = model_to_dict(user)
+        else:
+            raise exc.exception_response(404)
+        return dict_
 
-def from_json(cls, data):
-    """ Deserializes User object """
-    return cls(**data)
+    @staticmethod
+    def update_user(json_data, request):
+        """ Method to update user in database """
+        if request.dbsession.query(User).get(request.matchdict['profile_id']):
+            request.dbsession.query(User)\
+                .filter(User.id == request.matchdict['profile_id']).\
+                update(json_data)
+        else:
+            raise exc.exception_response(404)
+        return {'status': 'Success!'}
 
 
-def model_to_json(sqlalchemy_object):
-    """ Serializes sqlalchemy_object to json
+def model_to_dict(sqlalchemy_object):
+    """ Serializes sqlalchemy_object to dict
     and converts datetime to string
     """
     fields_arr = [prop.key for prop in
@@ -113,72 +128,3 @@ def model_to_json(sqlalchemy_object):
         else:
             _dict[key] = getattr(sqlalchemy_object, key)
     return _dict
-
-
-def users_to_json(obj):
-    """ Specific serializer for User object (json) """
-    to_serialize = ['id', 'email', 'nickname', 'password', 'create_date',
-                    'location', 'first_name', 'last_name', 'status_id',
-                    'role_id', 'avatar', 'banned_to_date']
-    dict_ = {}
-    for attr_name in to_serialize:
-        d[attr_name] = str(getattr(obj, attr_name))
-    return dict_
-
-
-class DTEncoder(json.JSONEncoder):
-    """ Decoder class for datetime (json) """
-    def default(self, obj):
-        if isinstance(obj, datetime.datetime):
-            return o.isoformat()
-        return json.JSONEncoder.default(self, obj)
-
-
-def get_all_users(request):
-    """ Method to get all users from database """
-    qry = request.dbsession.query(User).all()
-    usr_in_json = list(map(lambda x: model_to_json(x), qry))
-    return usr_in_json
-
-
-def create_usr(json_str, request):
-    """ Method to add user to database """
-    user = User(**json_str)
-    request.dbsession.add(user)
-    return {'status': 'Success!'}
-
-
-def read_usr(request):
-    """ Method to read user from database """
-    if request.dbsession.query(User)\
-            .filter(User.id == request.matchdict['profile_id']).count():
-        qry = request.dbsession.query(User)\
-            .filter(User.id == request.matchdict['profile_id']).first()
-        dict_ = users_to_json(qry)
-    else:
-        raise exc.exception_response(404)
-    return dict_
-
-
-def update_usr(json_str, request):
-    """ Method to update user in database """
-    json_encoded = json.dumps(json_str)
-    if request.dbsession.query(User)\
-            .filter(User.id == request.matchdict['profile_id']).count():
-        request.dbsession.query(User)\
-            .filter(User.id == request.matchdict['profile_id']).\
-            update(json.loads(json_encoded))
-    else:
-        raise exc.exception_response(404)
-    return {'status': 'Success!'}
-
-
-def delete_usr(request):
-    """ Method to delete user from database """
-    if request.dbsession.query(User)\
-            .filter(User.id == request.matchdict['profile_id']).count():
-        request.dbsession.query(User).\
-            filter(User.id == request.matchdict['profile_id']).delete()
-    else:
-        raise exc.exception_response(404)
-    return {'return': 'Success!'}
