@@ -1,11 +1,4 @@
-import json
-import transaction
-
-from cornice.resource import resource, view
-from cornice import Service
-from pyramid.config import Configurator
-from pyramid.response import Response
-from pyramid.view import view_config
+from cornice.resource import resource
 from pyramid.security import Allow, Everyone, Authenticated, ALL_PERMISSIONS
 
 from server.models import model_to_dict

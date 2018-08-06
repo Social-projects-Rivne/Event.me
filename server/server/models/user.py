@@ -1,12 +1,10 @@
 """SQLAlchemy model for table users"""
 
 import datetime
-import json
 
 from passlib.hash import pbkdf2_sha256
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, bindparam
-from sqlalchemy.ext.declarative import DeclarativeMeta
-from sqlalchemy.orm import class_mapper, ColumnProperty, Query, relationship
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 
 import pyramid.httpexceptions as exc
 
