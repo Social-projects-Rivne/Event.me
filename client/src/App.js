@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {HashRouter, Route} from 'react-router-dom';
 import {Home} from './components/Home';
-import {Nav} from './components/Nav'
+import {Nav} from './components/Nav';
+import {LogIn} from './components/LogIn'
 
 class App extends Component {
   render() {
@@ -11,6 +12,7 @@ class App extends Component {
           <Nav />
           <div className="content">
             <Route path="/" component={Home} exact/>
+            <Route path="/log-in" component={LogIn} />
           </div>
         </div>
       </HashRouter>
