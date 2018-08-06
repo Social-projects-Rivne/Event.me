@@ -75,8 +75,7 @@ class User(Base):
     @classmethod
     def add_user(cls, request, **kwargs):
         """Add user into db"""
-        user = request.dbsession.add(cls(**kwargs))
-        return user
+        request.dbsession.add(cls(**kwargs))
 
     def get_role(self):
         """Return string with user role"""

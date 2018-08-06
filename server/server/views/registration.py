@@ -56,11 +56,11 @@ def confirm_registration_view(request):
     return the 404 Error. If url_token is in db, this function
     create url address, change status_id to 'Active', and set role_id to 'user'.
     """
-    user = request.matchdict['email_confirm']
-    user_status = User.get_one(request, url_token=user)
-    if user_status is None:
+    user_email_token = request.matchdict['email_confirm']
+    non_active_user = User.get_one(request, url_token=user_email_token)
+    if non_active_user is None:
         return HTTPNotFound()
     else:
-        user_status.status_id = UserStatus.get_status_id(request, status="Active").id
-        user_status.role_id = Role.get_role(request, role="user").id
+        non_active_user.status_id = UserStatus.get_status_id(request, status="Active").id
+        non_active_user.role_id = Role.get_role(request, role="user").id
         return {"msg": "Your email address is confirmed"}

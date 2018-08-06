@@ -1,3 +1,15 @@
+# Settings mailer into development.ini #
+Copy development.ini.sample to development.ini and fill credentails before first deployment:
+```
+mail.host = smtp.gmail.com
+mail.username = "your email address"
+mail.password = "your password"
+mail.port = 465
+mail.ssl = True
+
+server/development.ini
+```
+    
 # Docker #
 
 Open your favorite Terminal and run these commands.
