@@ -30,17 +30,17 @@ def registration_view(request):
     json = request.json_body
     user_query = User.get_one(request, email=request.json_body['email'])
     if user_query is None:
+        url_token_confirmation = generate_secret()
         User.add_user(request, email=request.json['email'],
                       password=pbkdf2_sha256.hash(request.json['password']),
-                      url_token=generate_secret(),
-                      status_id=UserStatus.get_status_id(request, status="Non_active").id,
+                      url_token=url_token_confirmation,
+                      status_id=UserStatus.get_user_by_status(request, status="Non_active").id,
                       create_date=datetime.now())
-        token = User.get_one(request, email=request.json['email'])
         mailer = request.mailer
         message = Message(subject="confirm email",
                           sender="asstelite@gmail.com",
                           recipients=[json['email']],
-                          body=request.route_url('email_confirm', email_confirm=token.url_token))
+                          body=request.route_url('email_confirm', email_confirm=url_token_confirmation))
         mailer.send_immediately(message, fail_silently=False)
 
         return {"msg": "We sent token to your email address"}
@@ -61,6 +61,7 @@ def confirm_registration_view(request):
     if non_active_user is None:
         return HTTPNotFound()
     else:
-        non_active_user.status_id = UserStatus.get_status_id(request, status="Active").id
+        non_active_user.status_id = UserStatus.get_user_by_status(request, status="Active").id
         non_active_user.role_id = Role.get_role(request, role="user").id
+        non_active_user.url_token = None
         return {"msg": "Your email address is confirmed"}

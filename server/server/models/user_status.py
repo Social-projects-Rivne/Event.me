@@ -16,7 +16,7 @@ class UserStatus(Base):
     users = relationship('User')
 
     @classmethod
-    def get_status_id(cls, request, status):
+    def get_user_by_status(cls, request, status):
         """Get status from db"""
         user_status = request.dbsession.query(cls).filter_by(status=status).one()
         return user_status
