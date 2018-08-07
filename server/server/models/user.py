@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
 from . import Base
+from .role import Role
 from .user_status import UserStatus
 
 
@@ -59,8 +60,7 @@ class User(Base):
         Arguments:
         request -- request object that provides from view
         """
-        user_status = request.dbsession.query(UserStatus)\
-            .filter_by(id=self.status_id).one()
+        user_status = self.user_statuses
         if user_status.status == "Active":
             return True
         elif user_status.status == "Banned":
@@ -69,3 +69,7 @@ class User(Base):
                                 .filter_by(status="Active").one().id
                 return True
         return False
+
+    def get_role(self):
+        """Return string with user role"""
+        return self.roles.role
