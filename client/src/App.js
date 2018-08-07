@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import {HashRouter, Route} from 'react-router-dom';
-import {Home} from './components/Home';
+import {HashRouter} from 'react-router-dom';
 import {Nav} from './components/Nav';
-import {LogIn} from './components/LogIn'
+import {Routes} from './components/Routes'
 
 class App extends Component {
   render() {
@@ -10,10 +9,7 @@ class App extends Component {
       <HashRouter>
         <div className="wrapper">
           <Nav />
-          <div className="content">
-            <Route path="/" component={Home} exact/>
-            <Route path="/log-in" component={LogIn} />
-          </div>
+          <Routes />
         </div>
       </HashRouter>
     );
