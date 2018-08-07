@@ -5,8 +5,7 @@ import datetime
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-
-import pyramid.httpexceptions as exc
+from pyramid import httpexceptions
 
 from . import Base
 from .role import Role
@@ -98,5 +97,5 @@ class User(Base):
                 .filter(User.id == request.matchdict['profile_id']).\
                 update(json_data)
         else:
-            raise exc.exception_response(404)
+            raise httpexceptions.exception_response(404)
         return {'status': 'Success!'}
