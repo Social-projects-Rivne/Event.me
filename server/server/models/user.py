@@ -1,9 +1,11 @@
 """SQLAlchemy model for table users"""
-from datetime import datetime
+
+import datetime
 
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+from pyramid import httpexceptions
 
 from . import Base
 from .role import Role
@@ -12,7 +14,6 @@ from .user_status import UserStatus
 
 class User(Base):
     """SQLAlchemy model for table users"""
-
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -39,7 +40,6 @@ class User(Base):
     @classmethod
     def get_one(cls, request, **kwargs):
         """Get one user from db by params
-
         Return user object if user exist and return None if not
         Arguments:
         request -- request object that provides from view
@@ -55,7 +55,6 @@ class User(Base):
 
     def is_active(self, request):
         """Check is user active
-
         Change user status to active if user was banned but time of his
         ban ended. Return True if user active and return False if not.
         Arguments:
@@ -80,3 +79,30 @@ class User(Base):
     def get_role(self):
         """Return string with user role"""
         return self.roles.role
+
+    def __init__(self, email, nickname, password, create_date, location,
+                 first_name, last_name, status_id, role_id, avatar,
+                 banned_to_date):
+        self.email = email
+        self.nickname = nickname
+        self.password = password
+        self.create_date = create_date
+        self.location = location
+        self.first_name = first_name
+        self.last_name = last_name
+        self.status_id = status_id
+        self.role_id = role_id
+        self.avatar = avatar
+        self.banned_to_date = banned_to_date
+
+
+    @staticmethod
+    def update_user(json_data, request):
+        """ Method to update user in database """
+        if request.dbsession.query(User).get(request.matchdict['profile_id']):
+            request.dbsession.query(User)\
+                .filter(User.id == request.matchdict['profile_id']).\
+                update(json_data)
+        else:
+            raise httpexceptions.exception_response(404)
+        return {'status': 'Success!'}
