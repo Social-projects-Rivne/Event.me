@@ -1,4 +1,3 @@
-import random
 import transaction
 from cornice import Service
 from passlib.totp import generate_secret
@@ -6,12 +5,9 @@ from pyramid_mailer.mailer import Mailer
 from pyramid_mailer.message import Message
 from passlib.hash import pbkdf2_sha256
 from passlib.totp import generate_secret
-from server.models.user_status import UserStatus
 from pyramid.view import view_config
-from pyramid.httpexceptions import HTTPNotFound
 
 from ..models.user import User
-from server.models.user_status import UserStatus
 
 
 recover_password = Service(name='recover_password', path='/recover-password')
@@ -20,6 +16,12 @@ change_password = Service(name='change_password', path='/change-password/{change
 
 @recover_password.post()
 def recover_send_mail(request):
+    """Recover password view
+
+    This function get email from json request,
+    check if email is in db, check if status active,
+    generate and send url-token to user email.
+    """
     json = request.json_body
     user = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
     if (user.email is not None) and user.is_active(request):
@@ -41,6 +43,13 @@ def recover_send_mail(request):
 
 @change_password.post()
 def recover_change_password(request):
+    """Change on new password view
+
+    This function get email and new password from json request,
+    function get url_token, check if it in db.
+    Check if this email and token are in db,
+    after change password and delete value from url_token.
+    """
     json = request.json_body
     user_change_password = request.matchdict['change_password_hash']
     user = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
