@@ -7,9 +7,9 @@ from . import Base
 
 class Event(Base):
     """SQLAlchemy model for table events"""
-    
+
     __tablename__ = 'events'
-    
+
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
     long = Column(Float, nullable=False)

@@ -9,7 +9,7 @@ class Gallery(Base):
     """SQLAlchemy model for table galleries"""
 
     __tablename__ = 'galleries'
-    
+
     id = Column(Integer, primary_key=True)
     img_url = Column(String, nullable=False, unique=True)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False, index=True)
