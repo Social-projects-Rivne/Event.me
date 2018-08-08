@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import {withRouter} from 'react-router-dom'
 import { NavItem } from 'react-materialize'
 import { server_url } from '../config.json'
 
 let myHeaders = new Headers();
 
-class LogOut extends Component {
+export class LogOut extends Component {
     state = {
         msg: ''
     }
@@ -24,8 +23,10 @@ class LogOut extends Component {
                 .then((data) => {
                     if (data.success) {
                         sessionStorage.removeItem('Authorization-token')
+                        sessionStorage.removeItem('User-nickname')
+                        sessionStorage.removeItem('User-avatar')
                         console.log("Token successfuly removed")
-                        this.props.history.push('/');
+                        this.props.update()
                     }
                     else {
                         console.log(data.msg);
@@ -40,5 +41,3 @@ class LogOut extends Component {
         return <NavItem onClick={this.log_out} href="log-out">Log Out</NavItem>
     }
 }
-
-export default withRouter(LogOut)

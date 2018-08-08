@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import {Navbar} from 'react-materialize'
-import {NavLink} from 'react-router-dom'
+import {LogIn} from './LogIn'
 import {NavProfile} from './NavProfile'
-import LogOut from './LogOut'
+import {LogOut} from './LogOut'
 
 
 export class Nav extends Component {
   isLogged = () => (typeof(sessionStorage['Authorization-token']) !== 'undefined') ? true : false
+
+  update = () => {
+    this.forceUpdate()
+  }
 
   render() {
     return (
@@ -14,11 +18,11 @@ export class Nav extends Component {
           {
             this.isLogged() ?
             <React.Fragment>
-              <NavProfile />
-              <LogOut isLogged={this.isLogged}/>
+              <NavProfile isLogged={this.isLogged}/>
+              <LogOut update={this.update} isLogged={this.isLogged}/>
             </React.Fragment>
             :
-            <li><NavLink to='log-in'>Log In</NavLink></li>
+            <LogIn update={this.update}/>
           }
         </Navbar>
     );

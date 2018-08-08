@@ -1,7 +1,9 @@
 """Views for log-in and log-out system"""
-from pyramid.security import remember, forget
+import colander
+
 from cornice import Service
-from pyramid.security import Allow, Everyone, Authenticated
+from cornice.validators import colander_body_validator
+from pyramid.security import remember, forget
 
 from ..models.token import Token
 from ..models.user import User
@@ -13,15 +15,12 @@ log_out = Service(name='log_out', path='/log-out',
                   cors_origins=('http://localhost:3000',))
 
 
-@log_in.get()
-def log_in_get(request):
-        return {
-            "msg": "Get log in page",
-            'success': True
-            }
+class LogInSchema(colander.MappingSchema):
+    email = colander.SchemaNode(colander.String())
+    password = colander.SchemaNode(colander.String())
 
 
-@log_in.post()
+@log_in.post(schema=LogInSchema(), validators=(colander_body_validator,))
 def log_in_post(request):
     """Log-in view
 
@@ -29,16 +28,21 @@ def log_in_post(request):
     are valid, generate token for user and return it."""
     response = {
         'msg': "",
-        'success': False
+        'success': False,
+        'user': {}
     }
-    user = User.get_one(request, email=request.json_body['email'])
+    user = User.get_one(request, email=request.validated['email'])
 
     if (user is not None and
-            user.check_password(request.json_body['password'])):
+            user.check_password(request.validated['password'])):
         if user.is_active(request):
             key = remember(request, user.id)
             response['token'] = key
             response['success'] = True
+            response['user'] = {
+                'nickname': user.nickname,
+                'avatar': user.avatar
+            }
             return response
         else:
             response['msg'] = "Your account is not active"
