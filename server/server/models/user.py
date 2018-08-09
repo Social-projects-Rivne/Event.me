@@ -1,9 +1,11 @@
 """SQLAlchemy model for table users"""
-from datetime import datetime
+
+import datetime
 
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+from pyramid import httpexceptions
 
 from . import Base
 from .role import Role
@@ -12,7 +14,6 @@ from .user_status import UserStatus
 
 class User(Base):
     """SQLAlchemy model for table users"""
-
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -27,6 +28,7 @@ class User(Base):
     role_id = Column(Integer, ForeignKey("roles.id"))
     avatar = Column(String)
     banned_to_date = Column(DateTime)
+    url_token = Column(String)
 
     tokens = relationship("Token")
     roles = relationship("Role", foreign_keys=(role_id,))
@@ -38,7 +40,6 @@ class User(Base):
     @classmethod
     def get_one(cls, request, **kwargs):
         """Get one user from db by params
-
         Return user object if user exist and return None if not
         Arguments:
         request -- request object that provides from view
@@ -54,7 +55,6 @@ class User(Base):
 
     def is_active(self, request):
         """Check is user active
-
         Change user status to active if user was banned but time of his
         ban ended. Return True if user active and return False if not.
         Arguments:
@@ -71,6 +71,22 @@ class User(Base):
                 return True
         return False
 
+    @classmethod
+    def add_user(cls, request, **kwargs):
+        """Add user into db"""
+        request.dbsession.add(cls(**kwargs))
+
     def get_role(self):
         """Return string with user role"""
         return self.roles.role
+
+    @staticmethod
+    def update_user(json_data, request):
+        """ Method to update user in database """
+        if request.dbsession.query(User).get(request.matchdict['profile_id']):
+            request.dbsession.query(User)\
+                .filter(User.id == request.matchdict['profile_id']).\
+                update(json_data)
+        else:
+            raise httpexceptions.exception_response(404)
+        return {'status': 'Success!'}
