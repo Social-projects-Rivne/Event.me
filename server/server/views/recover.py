@@ -1,6 +1,4 @@
-import transaction
 from cornice import Service
-from passlib.totp import generate_secret
 from pyramid_mailer.mailer import Mailer
 from pyramid_mailer.message import Message
 from passlib.hash import pbkdf2_sha256
@@ -31,7 +29,7 @@ def recover_send_mail(request):
         message = Message(subject="Recover password",
                           sender="eventmerv@gmail.com",
                           recipients=[json["email"]],
-                          body='Follow the link below' + '\n' + request.route_url('change_password',
+                          body='Follow the link below\n' + request.route_url('change_password',
                                                                                   change_password_hash=url_token_confirmation))
         mailer.send_immediately(message, fail_silently=False)
 
@@ -51,9 +49,9 @@ def recover_change_password(request):
     after change password and delete value from url_token.
     """
     json = request.json_body
-    user_change_password = request.matchdict['change_password_hash']
+    change_password_url_token = request.matchdict['change_password_hash']
     user = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
-    if user.email is not None and user.url_token == user_change_password:
+    if request.dbsession.query(User).filter_by(email=json['email']) and request.dbsession.query(User).filter_by(url_token=change_password_url_token):
         user.password=pbkdf2_sha256.hash(json['password'])
         user.url_token = None
-    return {'status': 'OK'}
+    return {'success': True/False}
