@@ -1,15 +1,15 @@
 from cornice import Service
-from pyramid_mailer.mailer import Mailer
-from pyramid_mailer.message import Message
 from passlib.hash import pbkdf2_sha256
 from passlib.totp import generate_secret
-from pyramid.view import view_config
+from pyramid_mailer.message import Message
 
 from ..models.user import User
 
 
-recover_password = Service(name='recover_password', path='/recover-password')
-change_password = Service(name='change_password', path='/change-password/{change_password_hash}')
+recover_password = Service(name='recover_password',
+                           path='/recover-password')
+change_password = Service(name='change_password',
+                          path='/change-password/{change_password_hash}')
 
 
 @recover_password.post()
@@ -22,15 +22,16 @@ def recover_send_mail(request):
     """
     json = request.json_body
     user = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
-    if (user.email is not None) and user.is_active(request):
+    if (user is not None) and user.is_active(request):
         url_token_confirmation = generate_secret()
         user.url_token = url_token_confirmation
         mailer = request.mailer
-        message = Message(subject="Recover password",
-                          sender="eventmerv@gmail.com",
-                          recipients=[json["email"]],
-                          body='Follow the link below\n' + request.route_url('change_password',
-                                                                                  change_password_hash=url_token_confirmation))
+        message = Message(
+            subject="Recover password",
+            sender="eventmerv@gmail.com",
+            recipients=[json["email"]],
+            body='Follow the link below\n' + request.route_url('change_password',
+                                                               change_password_hash=url_token_confirmation))
         mailer.send_immediately(message, fail_silently=False)
 
     return {
@@ -51,7 +52,8 @@ def recover_change_password(request):
     json = request.json_body
     change_password_url_token = request.matchdict['change_password_hash']
     user = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
-    if request.dbsession.query(User).filter_by(email=json['email']) and request.dbsession.query(User).filter_by(url_token=change_password_url_token):
+    if (user is not None
+            and user.url_token == change_password_url_token):
         user.password=pbkdf2_sha256.hash(json['password'])
         user.url_token = None
-    return {'success': True/False}
+    return {'success': True}
