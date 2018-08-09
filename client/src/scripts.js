@@ -1,6 +1,6 @@
 import { server_url } from './config.json'
 
-export async function ajax(path="", method="GET", data=null){
+export async function request(path="", method="GET", data=null){
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     if(sessionStorage['Authorization-token']){

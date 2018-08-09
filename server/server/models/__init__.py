@@ -58,9 +58,9 @@ def get_dbsession():
 
 
 def init_tables(engine):
-    from server.models import (user, user_status, tag, token, event,
-                               event_history, event_status, event_tag,
-                               category, subscribe, feedback, gallery, role)
+    from . import (user, user_status, tag, token, event, event_history,
+                   event_status, event_tag, category, subscribe, feedback,
+                   gallery, role)
     Base.metadata.create_all(bind=engine)
 
 

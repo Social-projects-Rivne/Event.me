@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon } from 'react-materialize'
-import { ajax, emailValidation } from '../scripts'
+import { request, emailValidation } from '../scripts'
 
 export class LogIn extends Component {
   state = {
@@ -23,7 +23,7 @@ export class LogIn extends Component {
       window.Materialize.toast("Invalid input", 3000)
       return null
     }
-    ajax('/log-in', 'POST', JSON.stringify(log_in_data))
+    request('/log-in', 'POST', JSON.stringify(log_in_data))
     .then(data=>{
       if (typeof (Storage) === "undefined") {
         this.setState({ msg: "Your sessionStorage is not active" })
@@ -37,9 +37,9 @@ export class LogIn extends Component {
         }
         else {
           this.setState({ msg: data.msg })
+          window.Materialize.toast(this.state.msg, 3000)
         }
       }
-      window.Materialize.toast(this.state.msg, 3000)
     })
   }
 

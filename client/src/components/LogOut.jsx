@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavItem } from 'react-materialize'
-import { ajax } from '../scripts'
+import { request } from '../scripts'
 
 export class LogOut extends Component {
   state = {
@@ -8,7 +8,7 @@ export class LogOut extends Component {
   }
   log_out = (e) => {
     e.preventDefault()
-    ajax('/log-out', 'POST')
+    request('/log-out', 'POST')
     .then(data => {
       if (data.success) {
         sessionStorage.removeItem('Authorization-token')
