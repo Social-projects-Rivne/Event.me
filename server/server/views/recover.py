@@ -33,10 +33,14 @@ def recover_send_mail(request):
             body='Follow the link below\n' + request.route_url('change_password',
                                                                change_password_hash=url_token_confirmation))
         mailer.send_immediately(message, fail_silently=False)
+        return {
+            'msg': "We send link for change password in your mail " + json['email'],
+            'success': True
+        }
 
     return {
-        'msg': "We send link for change password in your mail "+ json['email'],
-        'success': True
+        'msg': "Not existing mail ",
+        'success': False
     }
 
 
@@ -56,4 +60,5 @@ def recover_change_password(request):
             and user.url_token == change_password_url_token):
         user.password=pbkdf2_sha256.hash(json['password'])
         user.url_token = None
-    return {'success': True}
+        return {'success': True}
+    return {'success': False}
