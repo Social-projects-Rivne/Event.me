@@ -1,23 +1,17 @@
 """Views for log-in and log-out system"""
-import colander
-
 from cornice import Service
 from cornice.validators import colander_body_validator
 from pyramid.security import remember, forget
 
 from ..models.token import Token
 from ..models.user import User
+from ..validation_schema import LogInSchema
 
 
 log_in = Service(name='log_in', path='/log-in',
                  cors_origins=('http://localhost:3000',))
 log_out = Service(name='log_out', path='/log-out',
                   cors_origins=('http://localhost:3000',))
-
-
-class LogInSchema(colander.MappingSchema):
-    email = colander.SchemaNode(colander.String())
-    password = colander.SchemaNode(colander.String())
 
 
 @log_in.post(schema=LogInSchema(), validators=(colander_body_validator,))
