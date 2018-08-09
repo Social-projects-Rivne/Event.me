@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { NavItem } from 'react-materialize'
+import {isLogged} from '../../utils'
 
 
-export class NavProfile extends Component {
+class NavProfile extends Component {
   get_pictogram_url() {
     if (sessionStorage['User-avatar'] !== "null") {
       return sessionStorage['User-avatar']
@@ -14,7 +15,7 @@ export class NavProfile extends Component {
     return (
       <React.Fragment>
         {
-          this.props.isLogged() ? (
+          isLogged() ? (
             <NavItem>
               <img
                 alt="user pictogram"
@@ -30,3 +31,5 @@ export class NavProfile extends Component {
     );
   }
 }
+
+export default NavProfile;

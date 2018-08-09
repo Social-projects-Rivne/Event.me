@@ -14,3 +14,10 @@ class EventStatus(Base):
     status = Column(String)
 
     histories = relationship("EventHistory")
+
+    @classmethod
+    def get_status(cls, request, status):
+        """Get role from db"""
+        event_status = request.dbsession.query(cls)\
+            .filter_by(status=status).one()
+        return event_status
