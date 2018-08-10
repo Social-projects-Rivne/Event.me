@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { NavItem } from 'react-materialize'
-import { request } from '../scripts'
+import { request } from '../../scripts'
 
-export class LogOut extends Component {
+class LogOut extends Component {
   state = {
     msg: ''
   }
@@ -24,6 +24,8 @@ export class LogOut extends Component {
   }
 
   render() {
-    return <NavItem onClick={this.log_out} href="log-out">Log Out</NavItem>
+    return <NavItem onClick={this.log_out}>Log Out</NavItem>
   }
 }
+
+export default LogOut;

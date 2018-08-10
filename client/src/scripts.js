@@ -20,3 +20,7 @@ export async function request(path="", method="GET", data=null){
 export function emailValidation(email){
     return /.+@{1}.+/.test(email);
 }
+
+export function isLogged() {
+  return typeof (sessionStorage['Authorization-token']) !== 'undefined'
+};

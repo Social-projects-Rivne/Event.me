@@ -1,29 +1,26 @@
 import React, { Component } from 'react';
 import { Navbar } from 'react-materialize';
-import { LogIn } from './LogIn';
-import { NavProfile } from './NavProfile';
-import { LogOut } from './LogOut';
+import LogIn from './LogIn';
+import NavProfile from './NavProfile';
+import LogOut from './LogOut';
+import {isLogged} from '../../scripts'
 
 
-export class Nav extends Component {
+class Nav extends Component {
   constructor(props) {
     super(props);
     this.update = this.update.bind(this);
   }
-
-  isLogged() {
-    return typeof (sessionStorage['Authorization-token']) !== 'undefined' ? true : false
-  };
 
   update() {
     this.forceUpdate();
   };
 
   renderAuthFileds() {
-    if (this.isLogged()) {
+    if (isLogged()) {
       return (
         <React.Fragment>
-          <NavProfile isLogged={this.isLogged} />
+          <NavProfile isLogged={isLogged} />
           <LogOut update={this.update} />
         </React.Fragment>
       )
@@ -39,3 +36,5 @@ export class Nav extends Component {
     );
   }
 }
+
+export default Nav;

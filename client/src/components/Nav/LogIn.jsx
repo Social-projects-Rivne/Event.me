@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon } from 'react-materialize'
-import { request, emailValidation } from '../scripts'
+import { request, emailValidation } from '../../scripts'
 
-export class LogIn extends Component {
+class LogIn extends Component {
   state = {
     email: '',
     password: '',
@@ -74,3 +74,5 @@ export class LogIn extends Component {
     );
   }
 }
+
+export default LogIn;

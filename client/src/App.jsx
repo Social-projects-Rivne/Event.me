@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
-import { Nav } from './components/Nav';
-import { Routes } from './components/Routes'
+import Nav from './components/Nav';
+import Routes from './components/Routes'
 
 function App() {
   return (
