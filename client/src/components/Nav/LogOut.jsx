@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavItem } from 'react-materialize'
-import { request } from '../../scripts'
+import { request } from '../../utils'
 
 class LogOut extends Component {
   state = {

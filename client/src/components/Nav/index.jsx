@@ -3,7 +3,7 @@ import { Navbar } from 'react-materialize';
 import LogIn from './LogIn';
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
-import {isLogged} from '../../scripts'
+import {isLogged} from '../../utils'
 
 
 class Nav extends Component {

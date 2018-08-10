@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavItem } from 'react-materialize'
-import {isLogged} from '../../scripts'
+import {isLogged} from '../../utils'
 
 
 class NavProfile extends Component {
