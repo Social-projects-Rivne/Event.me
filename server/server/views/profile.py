@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import json
 import transaction
 
@@ -7,11 +8,13 @@ from passlib.hash import pbkdf2_sha256
 from pyramid.config import Configurator
 from pyramid.response import Response
 from pyramid.view import view_config
+=======
+from cornice.resource import resource
+>>>>>>> origin
 from pyramid.security import Allow, Everyone, Authenticated, ALL_PERMISSIONS
 
-from server.models import get_dbsession
-from server.models.user import User
 from server.models import model_to_dict
+from server.models.user import User
 
 
 @resource(collection_path='/profile', path='/profile/{profile_id}',
