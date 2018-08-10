@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Navbar } from 'react-materialize';
+import {Button, Navbar} from 'react-materialize';
 import { LogIn } from './LogIn';
 import { NavProfile } from './NavProfile';
 import { LogOut } from './LogOut';
+import {NavLink} from 'react-router-dom'
 
 
 export class Nav extends Component {
@@ -35,6 +36,7 @@ export class Nav extends Component {
     return (
       <Navbar brand="Event.me" right>
         {this.renderAuthFileds()}
+        <Button waves="light"><NavLink to='registration'>Registration</NavLink></Button>
       </Navbar>
     );
   }
