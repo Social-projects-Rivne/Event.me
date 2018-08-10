@@ -76,26 +76,11 @@ class User(Base):
         """Return string with user role"""
         return self.roles.role
 
-    def __init__(self, email, nickname, password, create_date, location,
-                 first_name, last_name, status_id, role_id, avatar,
-                 banned_to_date):
-        self.email = email
-        self.nickname = nickname
-        self.password = password
-        self.create_date = create_date
-        self.location = location
-        self.first_name = first_name
-        self.last_name = last_name
-        self.status_id = status_id
-        self.role_id = role_id
-        self.avatar = avatar
-        self.banned_to_date = banned_to_date
-
-
     @staticmethod
-    def update_user(json_data, request):
+    def update_user(request, json_data):
         """ Method to update user in database """
-        if request.dbsession.query(User).get(request.matchdict['profile_id']):
+        if request.dbsession.query(User)\
+            .get(request.matchdict['profile_id']):
             request.dbsession.query(User)\
                 .filter(User.id == request.matchdict['profile_id']).\
                 update(json_data)
