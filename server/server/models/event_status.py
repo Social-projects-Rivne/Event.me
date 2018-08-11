@@ -9,7 +9,7 @@ class EventStatus(Base):
     """SQLAlchemy model for table event_statuses"""
 
     __tablename__ = 'event_statuses'
-    
+
     id = Column(Integer, primary_key=True)
     status = Column(String)
 

@@ -19,8 +19,10 @@ class Event(Base):
     end_date = Column(DateTime, nullable=False)
     author_name = Column(String, nullable=False)
     main_image = Column(String, nullable=False)
-    author_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
-    category_id = Column(Integer, ForeignKey('categories.id'), nullable=False, index=True)
+    author_id = Column(Integer, ForeignKey('users.id'), nullable=False,
+                       index=True)
+    category_id = Column(Integer, ForeignKey('categories.id'), nullable=False,
+                         index=True)
 
     author = relationship("User", foreign_keys=(author_id,))
     category = relationship("Category", foreign_keys=(category_id,))

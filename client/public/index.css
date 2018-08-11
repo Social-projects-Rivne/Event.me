@@ -1,0 +1,13 @@
+.nav-wrapper {
+    padding: 0 15px;
+}
+.nav-wrapper .input-field label{
+    color: white;
+  }
+.nav-wrapper .input-field input[type=email]:focus {
+    border-bottom: none;
+    box-shadow: none;
+}
+.nav-wrapper .user-pictogram {
+    vertical-align: middle;
+}

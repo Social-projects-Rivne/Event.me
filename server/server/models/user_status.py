@@ -18,5 +18,6 @@ class UserStatus(Base):
     @classmethod
     def get_user_by_status(cls, request, status):
         """Get status from db"""
-        user_status = request.dbsession.query(cls).filter_by(status=status).one()
+        user_status = request.dbsession.query(cls)\
+            .filter_by(status=status).one()
         return user_status

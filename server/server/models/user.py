@@ -64,12 +64,12 @@ class User(Base):
         if user_status.status == "Active":
             return True
         elif user_status.status == "Banned":
-            if self.banned_to_date < datetime.now():
+            if (self.banned_to_date is not None and
+                    self.banned_to_date < datetime.now()):
                 self.status_id = request.dbsession.query(UserStatus)\
                                 .filter_by(status="Active").one().id
                 return True
         return False
-
 
     @classmethod
     def add_user(cls, request, **kwargs):
@@ -79,22 +79,6 @@ class User(Base):
     def get_role(self):
         """Return string with user role"""
         return self.roles.role
-
-    def __init__(self, email, nickname, password, create_date, location,
-                 first_name, last_name, status_id, role_id, avatar,
-                 banned_to_date):
-        self.email = email
-        self.nickname = nickname
-        self.password = password
-        self.create_date = create_date
-        self.location = location
-        self.first_name = first_name
-        self.last_name = last_name
-        self.status_id = status_id
-        self.role_id = role_id
-        self.avatar = avatar
-        self.banned_to_date = banned_to_date
-
 
     @staticmethod
     def update_user(json_data, request):

@@ -12,6 +12,7 @@ class Gallery(Base):
 
     id = Column(Integer, primary_key=True)
     img_url = Column(String, nullable=False, unique=True)
-    event_id = Column(Integer, ForeignKey('events.id'), nullable=False, index=True)
+    event_id = Column(Integer, ForeignKey('events.id'), nullable=False,
+                      index=True)
 
     event = relationship("Event", foreign_keys=(event_id,))
