@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon } from 'react-materialize'
-import { request, emailValidation } from '../../scripts'
+import { request, emailValidation } from '../../utils'
 
 class LogIn extends Component {
   state = {
