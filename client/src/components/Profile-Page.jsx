@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Input, Button } from 'react-materialize';
 import { server_url } from '../config.json';
 import Fade from '@material-ui/core/Fade'
+import Zoom from '@material-ui/core/Zoom'
 
 
 export default class ProfilePage extends Component {
@@ -15,12 +16,6 @@ export default class ProfilePage extends Component {
             Change: false,
             msg: '',
             user: [],
-            // input_email: '',
-            // input_f_name: '',
-            // input_l_name: '',
-            // input_nick: '',
-            // input_loc: '',
-            // input_pass: '',
             input_image: null
         };
 
@@ -97,13 +92,13 @@ export default class ProfilePage extends Component {
           avatar_image = <img src="http://dialpharma.com/media/img/default_profile.png" alt="Default icon" />
       }
       else {
-          avatar_image = <img src={this.state.user.avatar} alt="Avatar icon" />
+          avatar_image = <img style={{width: '512px', height: '512px'}} src={this.state.user.avatar} alt="Avatar icon" />
       }
       let page
       if (this.state.Change === false) {
           page = <div id="main" style={{marginTop: '2em', float: 'right'}}>
             <Row>
-                <Col style={{marginRight: '20em', marginLeft: '2em'}}>
+                <Col style={{marginRight: '5em', marginLeft: '2em'}}>
                     <Row>
                           {avatar_image}
                     </Row>

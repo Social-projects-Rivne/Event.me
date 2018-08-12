@@ -6,7 +6,7 @@ export class Nav extends Component {
 		return (<Navbar brand='Event.me' right="right" style={{
 				paddingLeft: "3em"
 			}}>
-			<NavItem onClick={() => console.log('test click')}>Getting started</NavItem>
+			<NavItem onClick={() => console.log('test click')}>Sample Text</NavItem>
 		</Navbar>);
 	}
 }
