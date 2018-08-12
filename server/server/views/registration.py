@@ -9,15 +9,31 @@ from pyramid_mailer.mailer import Mailer
 from pyramid_mailer.message import Message
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
+from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 from server.models.user import User
 from server.models.user_status import UserStatus
 from server.models.role import Role
 
 
-register = Service(name='registration', path='/registration')
+class RegistrateUser(object):
+    """Factory for adding ACL to the Service"""
+
+    def __init__(self, request, context=None):
+        self.request = request
+
+    def __acl__(self):
+        return [(Allow, Everyone, ALL_PERMISSIONS)]
+
+
+register = Service(name='registration',
+                   path='/registration',
+                   factory=RegistrateUser,
+                   cors_origins=('http://localhost:3000',))
 confirm_register = Service(name='email_confirm',
-                           path='/email_confirm/{email_confirm}')
+                           path='/email_confirm/{email_confirm}',
+                           factory=RegistrateUser,
+                           cors_origins=('http://localhost:3000',))
 
 
 @register.post()
@@ -44,9 +60,7 @@ def registration_view(request):
         message = Message(subject="confirm email",
                           sender="asstelite@gmail.com",
                           recipients=[json['email']],
-                          body=request.route_url(
-                              'email_confirm',
-                              email_confirm=url_token_confirmation)
+                          body='http://localhost:3000/#/email_confirm/{}'.format(url_token_confirmation)
                           )
         mailer.send_immediately(message, fail_silently=False)
 
