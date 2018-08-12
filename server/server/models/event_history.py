@@ -12,7 +12,8 @@ class EventHistory(Base):
 
     id = Column(Integer, primary_key=True)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
-    status_id = Column(Integer, ForeignKey('event_statuses.id'), nullable=False)
+    status_id = Column(Integer, ForeignKey('event_statuses.id'),
+                       nullable=False)
     date = Column(DateTime)
     comment = Column(Text)
 

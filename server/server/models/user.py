@@ -64,12 +64,12 @@ class User(Base):
         if user_status.status == "Active":
             return True
         elif user_status.status == "Banned":
-            if self.banned_to_date < datetime.now():
+            if (self.banned_to_date is not None and
+                    self.banned_to_date < datetime.now()):
                 self.status_id = request.dbsession.query(UserStatus)\
                                 .filter_by(status="Active").one().id
                 return True
         return False
-
 
     @classmethod
     def add_user(cls, request, **kwargs):

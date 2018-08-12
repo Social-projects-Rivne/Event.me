@@ -4,14 +4,13 @@ SQLAlchemy models for database
 import transaction
 import datetime
 
+import zope.sqlalchemy
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers, \
                             class_mapper, ColumnProperty
 from sqlalchemy import engine_from_config
 from zope.sqlalchemy import ZopeTransactionExtension
-
-import zope.sqlalchemy
 
 
 Base = declarative_base()
@@ -59,11 +58,11 @@ def get_dbsession():
 
 
 def init_tables(engine):
-    from server.models import (user, user_status, tag, token, event, event_history,
-                               event_status, event_tag, category, subscribe,
-                               feedback, gallery, role)
+    from . import (user, user_status, tag, token, event, event_history,
+                   event_status, event_tag, category, subscribe, feedback,
+                   gallery, role)
     Base.metadata.create_all(bind=engine)
-    
+
 
 def includeme(config):
     """ Add a transactions object to every request
@@ -90,6 +89,7 @@ def includeme(config):
         'dbsession',
         reify=True
     )
+
 
 def model_to_dict(sqlalchemy_object):
     """ Serializes sqlalchemy_object to dict

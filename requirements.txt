@@ -1,3 +1,4 @@
+colander==1.4
 cornice==3.4.0
 freeze==1.0.10
 hupper==1.3
