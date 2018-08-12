@@ -1,5 +1,6 @@
 import { server_url } from './config.json'
 
+
 export const log_event = new CustomEvent('user-log');
 
 export async function request(path="", method="GET", data=null) {

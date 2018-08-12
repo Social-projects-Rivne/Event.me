@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Input, Button, Icon } from 'react-materialize'
 import { request, emailValidation, log_event } from '../../utils'
 
+
 class LogIn extends Component {
   state = {
     email: '',

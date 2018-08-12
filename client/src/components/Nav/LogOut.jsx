@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { NavItem } from 'react-materialize'
 import { request, log_event } from '../../utils'
 
+
 class LogOut extends Component {
   state = {
     msg: ''
