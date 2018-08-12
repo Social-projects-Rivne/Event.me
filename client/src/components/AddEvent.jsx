@@ -1,6 +1,7 @@
+import moment from 'moment'
 import React, { Component } from 'react'
 import { Row, Col, Input, Button, Autocomplete } from 'react-materialize'
-import { request, dateFromString } from '../utils'
+import { request } from '../utils'
 
 
 class AddEvent extends Component {
@@ -54,14 +55,16 @@ class AddEvent extends Component {
       long: this.state.long,
       description: this.state.description,
       category: this.state.category,
-      start_date: dateFromString(
-        [this.state.start_date, this.state.start_time].join(' ')
-      ).toJSON(),
+      start_date: moment(
+        [this.state.start_date, this.state.start_time].join(' '),
+        'D MMMM, YYYY h:mmA'
+      )._d.toJSON(),
     };
     if (this.state.end_date && this.state.end_time) {
-      event_data.end_date = dateFromString(
-        [this.state.end_date, this.state.end_time].join(' ')
-      ).toJSON();
+      event_data.end_date = moment(
+        [this.state.end_date, this.state.end_time].join(' '),
+        'D MMMM, YYYY h:mmA'
+      )._d.toJSON();
 
       if (event_data.end_date < event_data.start_date){
         window.Materialize.toast('End date must be later than start', 3000);
@@ -69,7 +72,7 @@ class AddEvent extends Component {
       }
     };
 
-    request('/add-event', 'POST', JSON.stringify(event_data))
+    request('/event', 'POST', JSON.stringify(event_data))
     .then(data => {
       if ('errors' in data) {
         for (let i = 0; i < data['errors'].length; i++) {
