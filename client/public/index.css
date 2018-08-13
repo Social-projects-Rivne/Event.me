@@ -3,8 +3,9 @@
 }
 .nav-wrapper .input-field label{
     color: white;
-  }
-.nav-wrapper .input-field input[type=email]:focus {
+}
+.nav-wrapper .input-field input[type=email]:focus,
+.nav-wrapper .input-field input[type=password]:focus {
     border-bottom: none;
     box-shadow: none;
 }
