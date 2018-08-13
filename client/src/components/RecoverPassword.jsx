@@ -1,18 +1,50 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, Row } from 'react-materialize'
-import { request } from '../scripts'
-import {Home} from "./Home";
+import { Input, Button, Icon, Row, Col } from 'react-materialize'
+import {emailValidation, request} from '../utils.js'
 import {Route} from "react-router-dom";
 
 export class RecoverPassword extends Component {
     state = {
-        email: ''
+        email: '',
+        msg: ''
     }
 
-    render(){
+    onChangeHandler = (e) => {
+        let { id } = e.currentTarget
+        this.setState({ [id]: e.currentTarget.value })
+    };
+
+    make_recover = (e) => {
+        let recover_data = {
+            email: this.state.email_recover
+        }
+        if (!emailValidation(this.state.email_recover)) {
+            window.Materialize.toast("Invalid input", 3000)
+            return null
+        }
+    request('/recover-password', "POST", JSON.stringify(recover_data))
+         .then(data => {
+         this.setState({msg: data.msg})
+         window.Materialize.toast(this.state.msg, 3000)
+     })
+   }
+     render(){
         return (
             <Row>
-                <Input type="email" label="Email" s={12} />
+                <Col offset="s4" s={5}>
+                    <h3> RecoverPassword </h3>
+                    <Input
+                      id="email_recover"
+                      value={this.state.email_recover}
+                      onChange={this.onChangeHandler}
+                      placeholder="Email"
+                      type="email"
+                      label="Email"
+                    />
+                    <Button waves='light' onClick={this.make_recover}>Send</Button>
+                </Col>
             </Row>
-        )}
+        );}
 }
+
+export default RecoverPassword;

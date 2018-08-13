@@ -8,6 +8,7 @@ function Routes() {
   return (
     <div className="content">
       <Route path="/" component={Home} exact />
+      <Route path="/recover" component={RecoverPassword} exact />
     </div>
   )
 }
