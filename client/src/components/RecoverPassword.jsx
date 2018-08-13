@@ -5,7 +5,7 @@ import {Route} from "react-router-dom";
 
 export class RecoverPassword extends Component {
     state = {
-        email: '',
+        email_recover: '',
         msg: ''
     }
 

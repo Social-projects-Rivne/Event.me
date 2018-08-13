@@ -7,9 +7,11 @@ from ..models.user import User
 
 
 recover_password = Service(name='recover_password',
-                           path='/recover-password')
+                           path='/recover-password',
+                           cors_origins=('http://localhost:3000',))
 change_password = Service(name='change_password',
-                          path='/change-password/{change_password_hash}')
+                          path='/change-password/{change_password_hash}',
+                          cors_origins=('http://localhost:3000',))
 
 
 @recover_password.post()
@@ -30,8 +32,7 @@ def recover_send_mail(request):
             subject="Recover password",
             sender="eventmerv@gmail.com",
             recipients=[json["email"]],
-            body='Follow the link below\n' + request.route_url('change_password',
-                                                               change_password_hash=url_token_confirmation))
+            body='Follow the link below\n' + 'http://localhost:3000/#/change-password/'+url_token_confirmation)
         mailer.send_immediately(message, fail_silently=False)
         return {
             'msg': "We send link for change password in your mail " + json['email'],
@@ -55,9 +56,8 @@ def recover_change_password(request):
     """
     json = request.json_body
     change_password_url_token = request.matchdict['change_password_hash']
-    user = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
-    if (user is not None
-            and user.url_token == change_password_url_token):
+    user = request.dbsession.query(User).filter_by(url_token=change_password_url_token).one_or_none()
+    if user is not None:
         user.password=pbkdf2_sha256.hash(json['password'])
         user.url_token = None
         return {'success': True}
