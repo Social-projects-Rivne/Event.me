@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {request} from '../utils';
-import {Home} from "./Home";
+import { request } from '../utils';
+import { Home } from "./Home";
 
 class ConfirmEmail extends Component{
     state = {
@@ -15,7 +15,7 @@ class ConfirmEmail extends Component{
             })
     }
     render() {
-        return <p></p>
+        return <div></div>
     }
 }
 
