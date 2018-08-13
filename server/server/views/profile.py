@@ -1,5 +1,3 @@
-import json
-
 from cornice.resource import resource, view
 from passlib.hash import pbkdf2_sha256
 from pyramid.security import Allow, Everyone, Authenticated, ALL_PERMISSIONS

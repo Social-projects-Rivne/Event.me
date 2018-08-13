@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavItem } from 'react-materialize'
 import {isLogged} from '../../utils'
+import {Link} from 'react-router-dom'
 
 
 class NavProfile extends Component {
@@ -11,20 +12,13 @@ class NavProfile extends Component {
     else return '/person.jpg'
   }
 
-  constuctor() {
-    this.routeChange = this.routeChange.bind(this);
-   }
-
-   routeChange(){
-      window.location.hash = "/profile/" + sessionStorage['User-id'];
-    }
-
   render() {
     return (
       <React.Fragment>
         {
           isLogged() ? (
-            <NavItem onClick={this.routeChange}>
+            <NavItem>
+              <li><Link to={"/profile/" + sessionStorage['User-id']}>
               <img
                 alt="user pictogram"
                 className="user-pictogram"
@@ -32,6 +26,8 @@ class NavProfile extends Component {
               />
               &nbsp;
               {sessionStorage['User-nickname']}
+            </Link>
+            </li>
             </NavItem>
           ) : null
         }
