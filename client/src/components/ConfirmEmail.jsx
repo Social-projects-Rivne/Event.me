@@ -8,7 +8,7 @@ class ConfirmEmail extends Component{
     }
 
     componentDidMount(){
-        request('/email_confirm/'+this.props.match.params.token, "GET")
+        request('/email_confirm/'+this.props.match.params.token)
             .then(data=>{
                 this.setState({msg: data.msg})
                 window.Materialize.toast(this.state.msg, 3000)
