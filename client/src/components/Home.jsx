@@ -3,7 +3,7 @@ import {Row, Col} from 'react-materialize'
 import {server_url} from '../config.json'
 
 
-export class Home extends Component {
+export default class Home extends Component {
   componentDidMount() {
     fetch(server_url)
       .then(response => {

@@ -9,9 +9,9 @@ from ..validation_schema import LogInSchema
 
 
 log_in = Service(name='log_in', path='/log-in',
-                 cors_origins=('http://localhost:3000',))
+                 cors_origins=('*',))
 log_out = Service(name='log_out', path='/log-out',
-                  cors_origins=('http://localhost:3000',))
+                  cors_origins=('*',))
 
 
 @log_in.post(schema=LogInSchema(), validators=(colander_body_validator,))
@@ -35,7 +35,8 @@ def log_in_post(request):
             response['success'] = True
             response['user'] = {
                 'nickname': user.nickname,
-                'avatar': user.avatar
+                'avatar': user.avatar,
+                'user_id': user.id
             }
             return response
         else:

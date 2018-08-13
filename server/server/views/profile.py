@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import json
 import transaction
 
@@ -8,9 +7,7 @@ from passlib.hash import pbkdf2_sha256
 from pyramid.config import Configurator
 from pyramid.response import Response
 from pyramid.view import view_config
-=======
 from cornice.resource import resource
->>>>>>> origin
 from pyramid.security import Allow, Everyone, Authenticated, ALL_PERMISSIONS
 
 from server.models import model_to_dict
@@ -21,14 +18,15 @@ from server.models.user import User
           renderer='json', cors_origins=('*',))
 class UserProfile(object):
 
-    def __init__(self, request, context=None):
+    def __init__(self, request, context=None,):
         self.request = request
         self.context = context
 
     def __acl__(self):
         return [(Allow, Everyone, ALL_PERMISSIONS),
-                (Allow, self.owner, 'edit')]
+                (Allow, Authenticated, 'edit')]
 
+    @view(permission=ALL_PERMISSIONS)
     def get(self):
         request = self.request
         user = User.get_one(request, id=request.matchdict['profile_id'])
@@ -40,5 +38,6 @@ class UserProfile(object):
     def put(self):
         request = self.request
         data = request.json_body
-        data['password'] = pbkdf2_sha256.hash(data['password']),
+        if 'password' in data is not "":
+            data['password'] = pbkdf2_sha256.hash(data['password']),
         return User.update_user(request, data)
