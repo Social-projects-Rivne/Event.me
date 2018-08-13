@@ -33,6 +33,6 @@ class UserProfile(object):
     def put(self):
         request = self.request
         data = request.json_body
-        if 'password' in data is not "":
+        if data.get('password'):
             data['password'] = pbkdf2_sha256.hash(data['password']),
         return User.update_user(request, data)
