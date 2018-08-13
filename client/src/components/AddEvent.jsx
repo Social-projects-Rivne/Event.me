@@ -20,7 +20,7 @@ class AddEvent extends Component {
 
   componentDidMount() {
     window.addEventListener('user-log', (e) => this.props.history.push('/'), {once: true});
-    request('/add-event').then(data => {
+    request('/category').then(data => {
       let autocomplete = {};
       for (const obj in data.categories) {
         if (data.categories.hasOwnProperty(obj)) {

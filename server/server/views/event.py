@@ -15,7 +15,7 @@ from ..validation_schema import EventSchema
 
 @resource(collection_path='/event', path='/event/{event_id}', renderer='json',
           cors_origins=('http://localhost:3000',))
-class EventPage(object):
+class EventView(object):
 
     def __init__(self, request, context=None):
         self.request = request
