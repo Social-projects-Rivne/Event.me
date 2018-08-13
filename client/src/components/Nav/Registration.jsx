@@ -22,7 +22,9 @@ class Registration extends Component {
             password: this.state.password,
             repeat_password: this.state.repeat_password
         }
-        if (!emailValidation(this.state.email) || !this.state.password.length || this.state.password !== this.state.repeat_password){
+        if (!emailValidation(this.state.email)
+            || !this.state.password.length
+            || this.state.password !== this.state.repeat_password){
             window.Materialize.toast("Invalid input", 3000)
             return null
         }
