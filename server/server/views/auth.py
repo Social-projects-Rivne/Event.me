@@ -9,9 +9,9 @@ from ..validation_schema import LogInSchema
 
 
 log_in = Service(name='log_in', path='/log-in',
-                 cors_origins=('*',))
+                 cors_origins=('http://localhost:3000',))
 log_out = Service(name='log_out', path='/log-out',
-                  cors_origins=('*',))
+                  cors_origins=('http://localhost:3000',))
 
 
 @log_in.post(schema=LogInSchema(), validators=(colander_body_validator,))

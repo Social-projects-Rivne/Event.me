@@ -49,7 +49,7 @@ export default class Profile extends Component {
             fetch(server_url + '/profile/' + window.location.href.split("/").pop(), {
                 method: 'PUT',
                 headers: {'Content-Type':'application/json',
-                'Access-Control-Allow-Origin':'*'},
+                'Access-Control-Allow-Origin':'http://localhost:3000'},
                 body: JSON.stringify(data)
             })
             window.Materialize.toast("Profile Updated", 2500);

@@ -15,7 +15,7 @@ from server.models.user import User
 
 
 @resource(collection_path='/profile', path='/profile/{profile_id}',
-          renderer='json', cors_origins=('*',))
+          renderer='json', cors_origins=('http://localhost:3000',))
 class UserProfile(object):
 
     def __init__(self, request, context=None,):
