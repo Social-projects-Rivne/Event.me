@@ -24,7 +24,6 @@ export default class Profile extends Component {
         .then(response => response.json())
         .then(json => {
             this.setState({ user: json });
-            console.log(json)
         })
 
     }
