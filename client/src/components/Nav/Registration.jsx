@@ -43,7 +43,7 @@ class Registration extends Component {
           <h3>Registration form</h3>
           <Input
             id="email"
-            velue={this.state.email}
+            value={this.state.email}
             onChange={this.onChangeHandler}
             placeholder="Email"
             type="email"
