@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, Row, Col } from 'react-materialize'
-import {emailValidation, request} from '../utils.js'
+import { Input, Button, Row, Col } from 'react-materialize'
+import { request } from '../utils.js'
 import {Route} from "react-router-dom";
 
 export class ChangePassword extends Component {
     state = {
         new_password: '',
-        check_new_password: '',
-        msg: ''
+        check_new_password: ''
     }
 
     onChangeHandler = (e) => {
@@ -17,7 +16,7 @@ export class ChangePassword extends Component {
 
     change_old_password = (e) => {
         if (this.state.new_password !== this.state.check_new_password) {
-            window.Materialize.toast("Wrong field confirm password ", 3000);
+            window.Materialize.toast("Passwords do not match ", 3000);
             return 1;
         }
         let change_password_data = {
@@ -29,8 +28,6 @@ export class ChangePassword extends Component {
         }
     request(`/change-password/${this.props.match.params.token}`, "POST", JSON.stringify(change_password_data))
          .then(data => {
-         this.setState({msg: data.msg})
-         window.Materialize.toast(this.state.msg, 3000);
          this.props.history.push('/');
      })
    }
@@ -51,9 +48,9 @@ export class ChangePassword extends Component {
                       id="check_new_password"
                       value={this.state.check_new_password}
                       onChange={this.onChangeHandler}
-                      placeholder="Password"
+                      placeholder="Confirm_password"
                       type="password"
-                      label="password"
+                      label="confirm_password"
                     />
                     <Button waves='light' onClick={this.change_old_password}>Confirm</Button>
                 </Col>

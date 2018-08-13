@@ -14,7 +14,7 @@ export class RecoverPassword extends Component {
         this.setState({ [id]: e.currentTarget.value })
     };
 
-    make_recover = (e) => {
+    recover_password = (e) => {
         let recover_data = {
             email: this.state.email_recover
         }
@@ -41,7 +41,7 @@ export class RecoverPassword extends Component {
                       type="email"
                       label="Email"
                     />
-                    <Button waves='light' onClick={this.make_recover}>Send</Button>
+                    <Button waves='light' onClick={this.recover_password}>Send</Button>
                 </Col>
             </Row>
         );}
