@@ -26,8 +26,11 @@ class Nav extends Component {
         </React.Fragment>
       )
     }
-    else return (<React.Fragment><LogIn update={this.update} /><Button
-        waves="light"><NavLink to='registration'>Registration</NavLink></Button></React.Fragment>)
+    else return (<React.Fragment><LogIn update={this.update} />
+                  <Button waves="light">
+                      <NavLink to='registration'>Registration</NavLink>
+                  </Button>
+                 </React.Fragment>)
   }
 
   render() {

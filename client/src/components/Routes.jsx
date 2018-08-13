@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from './Home';
 import Registration from './Nav/Registration';
-import ConfirmEmail from './Nav/ConfirmEmail';
+import ConfirmEmail from './ConfirmEmail';
 
 function Routes() {
   return (

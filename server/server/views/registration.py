@@ -15,6 +15,7 @@ from server.models.user import User
 from server.models.user_status import UserStatus
 from server.models.role import Role
 
+
 class RegistrateUser(object):
     """Factory for adding ACL to the Service"""
 
@@ -47,23 +48,23 @@ def registration_view(request):
     user_query = User.get_one(request, email=request.json_body['email'])
     if user_query is None:
         url_token_confirmation = generate_secret()
-        User.add_user(request, email=request.json['email'],
-                      password=pbkdf2_sha256.hash(request.json['password']),
-                      url_token=url_token_confirmation,
-                      status_id=UserStatus.get_user_by_status(
-                          request,
-                          status="Non_active"
-                          ).id,
-                      create_date=datetime.now())
-        mailer = request.mailer
-        message = Message(subject="confirm email",
-                          sender="asstelite@gmail.com",
-                          recipients=[json['email']],
-                          body='http://localhost:3000/#/email_confirm/{}'.format(url_token_confirmation)
-                          )
-        mailer.send_immediately(message, fail_silently=False)
+        if json['repeat_password'] == json['password']:
+            User.add_user(request, email=request.json['email'],
+                          password=pbkdf2_sha256.hash(request.json['password']),
+                          url_token=url_token_confirmation,
+                          status_id=UserStatus.get_user_by_status(request, status="Non_active").id,
+                          create_date=datetime.now())
+            mailer = request.mailer
+            message = Message(subject="confirm email",
+                              sender="asstelite@gmail.com",
+                              recipients=[json['email']],
+                              body='http://localhost:3000/#/email_confirm/{}'.format(url_token_confirmation)
+                              )
+            mailer.send_immediately(message, fail_silently=False)
 
-        return {"msg": "We sent token to your email address"}
+            return {"msg": "We sent token to your email address"}
+        else:
+            return {"msg": "Invalid password, please try again"}
     else:
         return {"msg": "Your email address is already registered"}
 

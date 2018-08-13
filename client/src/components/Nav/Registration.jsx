@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, Row } from 'react-materialize'
+import { Input, Button, Row } from 'react-materialize'
 import {emailValidation, request} from '../../utils';
 import {Home} from "../Home";
 
@@ -7,6 +7,7 @@ class Registration extends Component {
     state = {
         email: '',
         password: '',
+        repeat_password: '',
         msg: ''
     };
 
@@ -18,9 +19,10 @@ class Registration extends Component {
     register = (e) => {
         let register_data = {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            repeat_password: this.state.repeat_password
         }
-        if (!emailValidation(this.state.email) || !this.state.password.length) {
+        if (!emailValidation(this.state.email) || !this.state.password.length || this.state.password !== this.state.repeat_password){
             window.Materialize.toast("Invalid input", 3000)
             return null
         }
@@ -43,16 +45,24 @@ class Registration extends Component {
             onChange={this.onChangeHandler}
             placeholder="Email"
             type="email"
-            label="email"
-            m={6}/>
+            label="Email"
+            m={12}/>
           <Input
             id="password"
             value={this.state.password}
             onChange={this.onChangeHandler}
             placeholder="Password"
             type="password"
-            label="password"
-            m={6}/>
+            label="Password"
+            m={12}/>
+          <Input
+            id="repeat_password"
+            value={this.state.repeat_password}
+            onChange={this.onChangeHandler}
+            placeholder="Repeat password"
+            type="password"
+            label="Repeat password"
+            m={12}/>
             <Button waves="light" onClick={this.register}>SignUp</Button>
         </Row>
 
