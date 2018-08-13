@@ -1,13 +1,7 @@
 import json
-import transaction
 
 from cornice.resource import resource, view
-from cornice import Service
 from passlib.hash import pbkdf2_sha256
-from pyramid.config import Configurator
-from pyramid.response import Response
-from pyramid.view import view_config
-from cornice.resource import resource
 from pyramid.security import Allow, Everyone, Authenticated, ALL_PERMISSIONS
 
 from server.models import model_to_dict
@@ -18,13 +12,14 @@ from server.models.user import User
           renderer='json', cors_origins=('http://localhost:3000',))
 class UserProfile(object):
 
-    def __init__(self, request, context=None,):
+    def __init__(self, request, context=None):
         self.request = request
         self.context = context
+        self.owner_id = int(request.matchdict['profile_id'])
 
     def __acl__(self):
         return [(Allow, Everyone, ALL_PERMISSIONS),
-                (Allow, Authenticated, 'edit')]
+                (Allow, self.owner_id, 'edit')]
 
     @view(permission=ALL_PERMISSIONS)
     def get(self):

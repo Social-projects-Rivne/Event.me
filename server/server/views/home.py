@@ -1,8 +1,8 @@
 from cornice.resource import resource, view
-from pyramid.security import Allow, Everyone
+from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
-@resource(path='/', renderer='json', cors_origins=('*',))
+@resource(path='/', renderer='json', cors_origins=('http://localhost:3000',))
 class Home(object):
 
     def __init__(self, request, context=None):
@@ -10,9 +10,9 @@ class Home(object):
         self.context = context
 
     def __acl__(self):
-        return [(Allow, Everyone, 'everything')]
+        return [(Allow, Everyone, ALL_PERMISSIONS)]
 
-    @view(permission='everything')
+    @view(permission=ALL_PERMISSIONS)
     def get(self):
         return {
             "msg": "Get home page",

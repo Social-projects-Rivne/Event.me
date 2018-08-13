@@ -83,8 +83,7 @@ class User(Base):
     @staticmethod
     def update_user(request, json_data):
         """ Method to update user in database """
-        if request.dbsession.query(User)\
-            .get(request.matchdict['profile_id']):
+        if request.dbsession.query(User).get(request.matchdict['profile_id']):
             request.dbsession.query(User)\
                 .filter(User.id == request.matchdict['profile_id']).\
                 update(json_data)

@@ -25,7 +25,6 @@ class LogIn extends Component {
     }
     request('/log-in', 'POST', JSON.stringify(log_in_data))
     .then(data=>{
-      console.log(data)
       if (typeof (Storage) === "undefined") {
         this.setState({ msg: "Your sessionStorage is not active" })
       }
