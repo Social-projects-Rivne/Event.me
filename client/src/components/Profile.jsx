@@ -15,10 +15,9 @@ export default class Profile extends Component {
         .then(json => {
             this.setState({ user: json });
         })
-
     }
 
-    UpdateClick(eve) {
+    UpdateClick = (eve) => {
         eve.preventDefault()
         if (this.state.new_password !== null) {
           if (this.state.new_password === this.state.repeat_password) {
@@ -43,22 +42,23 @@ export default class Profile extends Component {
             window.Materialize.toast("Incorrect repeated password!", 2500);
           }
         }
-    }
+    };
 
     onChangeHandler = (e) => {
         let { id } = e.currentTarget
         this.setState({ [id]: e.currentTarget.value })
-    }
+    };
 
-    handleClick_Main() {
+    handleClick_Main = () => {
         this.setState({ edit: false });
 
-    }
-    handleClick_Edit() {
-        this.setState({ edit: true });
-    }
+    };
 
-    renderAvatarImage() {
+    handleClick_Edit = () => {
+        this.setState({ edit: true });
+    };
+
+    renderAvatarImage = () => {
        if (this.state.user.avatar == null) {
           return (
             <img src="http://dialpharma.com/media/img/default_profile.png" alt="Default icon" />
@@ -69,7 +69,7 @@ export default class Profile extends Component {
            <img src={this.state.user.avatar} alt="Avatar icon" />
          );
        }
-   }
+   };
 
 
   render() {
@@ -83,7 +83,7 @@ export default class Profile extends Component {
                 <Row>
                     <Col s={6}>
                         <Row>
-                            <renderAvatarImage />
+                            <this.renderAvatarImage />
                         </Row>
                     </Col>
                     <Col s={2}>
