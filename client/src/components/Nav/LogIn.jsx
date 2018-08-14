@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon } from 'react-materialize'
-import { request, emailValidation } from '../../utils'
+import { request, emailValidation, log_event } from '../../utils'
+
 
 class LogIn extends Component {
   state = {
@@ -21,7 +22,7 @@ class LogIn extends Component {
     }
     if (!emailValidation(this.state.email) || !this.state.password.length) {
       window.Materialize.toast("Invalid input", 3000)
-      return null
+      return 1
     }
     request('/log-in', 'POST', JSON.stringify(log_in_data))
     .then(data=>{
@@ -34,6 +35,7 @@ class LogIn extends Component {
           sessionStorage.setItem("User-nickname", data.user.nickname);
           sessionStorage.setItem("User-avatar", data.user.avatar);
           this.props.update()
+          window.dispatchEvent(log_event);
         }
         else {
           this.setState({ msg: data.msg })
