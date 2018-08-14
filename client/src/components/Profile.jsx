@@ -4,20 +4,10 @@ import { server_url } from '../config.json';
 
 
 export default class Profile extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            edit: false,
-            user: []
-        };
-
-        this.renderAvatarImage = this.renderAvatarImage.bind(this);
-        this.UpdateClick = this.UpdateClick.bind(this);
-        this.onChangeHandler = this.onChangeHandler.bind(this);
-        this.handleClick_Main = this.handleClick_Main.bind(this);
-        this.handleClick_Edit = this.handleClick_Edit.bind(this);
-    }
+    state = {
+        edit: false,
+        user: []
+    };
 
     componentDidMount() {
         fetch(server_url + '/profile/' + window.location.href.split("/").pop())
@@ -93,7 +83,7 @@ export default class Profile extends Component {
                 <Row>
                     <Col s={6}>
                         <Row>
-                            <this.renderAvatarImage />
+                            <renderAvatarImage />
                         </Row>
                     </Col>
                     <Col s={2}>
