@@ -60,5 +60,10 @@ def recover_change_password(request):
     if user is not None:
         user.password=pbkdf2_sha256.hash(json['password'])
         user.url_token = None
-        return {'success': True}
-    return {'success': False}
+        return {
+            'msg': "Password was change",
+            'success': True
+        }
+    return {
+        'msg': "User not existing can't change password",
+        'success': False}
