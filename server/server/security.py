@@ -51,6 +51,7 @@ class MyAuthenticationPolicy(CallbackAuthenticationPolicy):
 
 
 def get_token_from_header(request):
+    """Extract authorization token from header if it exist"""
     if 'Authorization' in request.headers:
         auth_header = request.headers['Authorization'].split(' ')
         if len(auth_header) == 2:

@@ -19,3 +19,8 @@ class EventHistory(Base):
 
     events = relationship("Event", foreign_keys=(event_id,))
     event_statuses = relationship("EventStatus", foreign_keys=(status_id,))
+
+    @classmethod
+    def create_new(cls, request, **kwargs):
+        request.dbsession.add(cls(**kwargs))
+        return True
