@@ -83,7 +83,7 @@ export default class Profile extends Component {
                 <Row>
                     <Col s={6}>
                         <Row>
-                            <this.renderAvatarImage />
+                            {this.renderAvatarImage()}
                         </Row>
                     </Col>
                     <Col s={2}>
