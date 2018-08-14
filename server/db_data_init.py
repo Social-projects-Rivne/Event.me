@@ -106,7 +106,8 @@ event_data = [
         "author_name": "what",
         "main_image": "vynnykposter",
         "author_id": 4,
-        "category_id": 2
+        "category_id": 2,
+        "status_id": 3
     },
     {
         "name": "Dark Elf Adventure",
@@ -118,7 +119,8 @@ event_data = [
         "author_name": "Drizzt",
         "main_image": "drizztcoolposter",
         "author_id": 3,
-        "category_id": 3
+        "category_id": 3,
+        "status_id": 3
     },
     {
         "name": "Independent day",
@@ -130,7 +132,8 @@ event_data = [
         "author_name": "Oleksandr",
         "main_image": "someposter",
         "author_id": 1,
-        "category_id": 1
+        "category_id": 1,
+        "status_id": 3
     }
 ]
 event_tag_data = [

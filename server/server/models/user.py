@@ -14,6 +14,7 @@ from .user_status import UserStatus
 
 class User(Base):
     """SQLAlchemy model for table users"""
+
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
