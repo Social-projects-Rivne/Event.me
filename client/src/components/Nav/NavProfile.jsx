@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavItem } from 'react-materialize'
-import {isLogged} from '../../utils'
-import {Link} from 'react-router-dom'
+import { isLogged } from '../../utils'
+import { Link } from 'react-router-dom'
 
 
 class NavProfile extends Component {

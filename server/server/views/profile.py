@@ -19,7 +19,6 @@ class UserProfile(object):
         return [(Allow, Everyone, ALL_PERMISSIONS),
                 (Allow, self.owner_id, 'edit')]
 
-    @view(permission=ALL_PERMISSIONS)
     def get(self):
         request = self.request
         user = User.get_one(request, id=request.matchdict['profile_id'])

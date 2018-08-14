@@ -12,7 +12,7 @@ export default class Profile extends Component {
             user: []
         };
 
-        this.Avatar_image = this.Avatar_image.bind(this);
+        this.renderAvatarImage = this.renderAvatarImage.bind(this);
         this.UpdateClick = this.UpdateClick.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.handleClick_Main = this.handleClick_Main.bind(this);
@@ -33,7 +33,7 @@ export default class Profile extends Component {
         if (this.state.new_password !== null) {
           if (this.state.new_password === this.state.repeat_password) {
             const data = {
-                "email": this.state.email,
+                "email": this.state.email_profile,
                 "first_name": this.state.f_name,
                 "last_name": this.state.l_name,
                 "nickname": this.state.nickname,
@@ -68,7 +68,7 @@ export default class Profile extends Component {
         this.setState({ edit: true });
     }
 
-    Avatar_image() {
+    renderAvatarImage() {
        if (this.state.user.avatar == null) {
           return (
             <img src="http://dialpharma.com/media/img/default_profile.png" alt="Default icon" />
@@ -93,7 +93,7 @@ export default class Profile extends Component {
                 <Row>
                     <Col s={6}>
                         <Row>
-                            <this.Avatar_image />
+                            <this.renderAvatarImage />
                         </Row>
                     </Col>
                     <Col s={2}>
@@ -124,7 +124,7 @@ export default class Profile extends Component {
                 <h1>Profile</h1>
               </div>
                 <Row>
-                    <Input s={12} id="email" label="Email" placeholder={this.state.user.email} onChange={this.onChangeHandler} />
+                    <Input s={12} id="email_profile" label="Email" placeholder={this.state.user.email} onChange={this.onChangeHandler} />
                     <Input s={6} id="f_name" label="First Name" placeholder={this.state.user.first_name} onChange={this.onChangeHandler} />
                     <Input s={6} id="l_name" label="Last Name" placeholder={this.state.user.last_name} onChange={this.onChangeHandler} />
                     <Input s={12} id="nickname" label="Nickname" placeholder={this.state.user.nickname} onChange={this.onChangeHandler} />
