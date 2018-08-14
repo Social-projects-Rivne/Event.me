@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Input, Button } from 'react-materialize';
-import { server_url } from '../config.json';
+import { request } from '../utils'
 
 
 export default class Profile extends Component {
@@ -10,11 +10,10 @@ export default class Profile extends Component {
     };
 
     componentDidMount() {
-        fetch(server_url + '/profile/' + window.location.href.split("/").pop())
-        .then(response => response.json())
-        .then(json => {
-            this.setState({ user: json });
-        })
+          request('/profile/' + this.props.match.params.profile_id, "GET")
+          .then(json => {
+              this.setState({ user: json });
+          })
     }
 
     UpdateClick = (eve) => {
@@ -30,12 +29,7 @@ export default class Profile extends Component {
                 "password": this.state.new_password,
                 "id": this.state.user.id
             }
-            fetch(server_url + '/profile/' + window.location.href.split("/").pop(), {
-                method: 'PUT',
-                headers: {'Content-Type':'application/json',
-                'Access-Control-Allow-Origin':'http://localhost:3000'},
-                body: JSON.stringify(data)
-            })
+            request('/profile/' + this.props.match.params.profile_id, "PUT", JSON.stringify(data))
             window.Materialize.toast("Profile Updated", 2500);
           }
           else {
@@ -59,7 +53,7 @@ export default class Profile extends Component {
     };
 
     renderAvatarImage = () => {
-       if (this.state.user.avatar == null) {
+       if (this.state.user.avatar === null) {
           return (
             <img src="http://dialpharma.com/media/img/default_profile.png" alt="Default icon" />
           );
