@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { request } from '../utils';
-import { Home } from "./Home";
 
 class ConfirmEmail extends Component{
     state = {

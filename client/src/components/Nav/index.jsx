@@ -3,8 +3,8 @@ import { Navbar, Button } from 'react-materialize';
 import LogIn from './LogIn';
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
-import {isLogged} from '../../utils'
-import {NavLink} from 'react-router-dom'
+import { isLogged } from '../../utils'
+import { NavLink } from 'react-router-dom'
 
 
 class Nav extends Component {

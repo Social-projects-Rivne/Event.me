@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Button, Row } from 'react-materialize'
 import {emailValidation, request} from '../../utils';
-import {Home} from "../Home";
 
 class Registration extends Component {
     state = {

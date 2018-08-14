@@ -34,6 +34,7 @@ class LogIn extends Component {
           sessionStorage.setItem("Authorization-token", data.token);
           sessionStorage.setItem("User-nickname", data.user.nickname);
           sessionStorage.setItem("User-avatar", data.user.avatar);
+          sessionStorage.setItem("User-id", data.user.user_id);
           this.props.update()
           window.dispatchEvent(log_event);
         }
