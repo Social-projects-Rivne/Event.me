@@ -1,17 +1,19 @@
-import moment from 'moment'
-import React, { Component } from 'react'
-import { Row, Col, Input, Button, Autocomplete } from 'react-materialize'
-import { request } from '../utils'
+import moment from 'moment';
+import React, { Component } from 'react';
+import { Row, Col, Input, Button, Autocomplete } from 'react-materialize';
+import { request } from '../utils';
 
 
 class AddEvent extends Component {
   state = {
-    categories: {},
+    categories: [],
+    tags_autocomplete: {},
     name: '',
     long: '',
     lat: '',
     description: '',
     category: '',
+    tags: '',
     start_date: '',
     start_time: '',
     end_time: '',
@@ -21,18 +23,20 @@ class AddEvent extends Component {
   componentDidMount() {
     window.addEventListener('user-log', (e) => this.props.history.push('/'), {once: true});
     request('/category').then(data => {
+      this.setState({ categories: data.categories });
+    });
+
+    request('/tag').then(data => {
       let autocomplete = {};
-      for (const obj in data.categories) {
-        if (data.categories.hasOwnProperty(obj)) {
-          autocomplete[data.categories[obj].category] = null
-        };
+      for (let i = 0; i < data.tags.length; i++) {
+        autocomplete[data.tags[i]] = null;
       };
 
-      this.setState({ categories: autocomplete });
+      this.setState({ tags_autocomplete: autocomplete });
     });
   }
 
-  add_event = (e) => {
+  addEvent = (e) => {
     if (!this.state.name
      || !this.state.description
      || !this.state.long
@@ -42,14 +46,14 @@ class AddEvent extends Component {
      || !this.state.start_time) {
       window.Materialize.toast('Invalid input', 3000);
       return 1;
-    }
+    };
 
     if (!this.state.end_date !== !this.state.end_time) {
       window.Materialize.toast('Invalid input', 3000);
       return 1;
-    }
+    };
 
-    let event_data = {
+    let eventData = {
       name: this.state.name,
       lat: this.state.lat,
       long: this.state.long,
@@ -58,31 +62,31 @@ class AddEvent extends Component {
       start_date: moment(
         [this.state.start_date, this.state.start_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      )._d.toJSON(),
+        )._d.toJSON(),
     };
     if (this.state.end_date && this.state.end_time) {
-      event_data.end_date = moment(
+      eventData.end_date = moment(
         [this.state.end_date, this.state.end_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      )._d.toJSON();
+        )._d.toJSON();
 
-      if (event_data.end_date < event_data.start_date){
+      if (eventData.end_date < eventData.start_date){
         window.Materialize.toast('End date must be later than start', 3000);
         return 1;
-      }
+      };
     };
 
-    request('/event', 'POST', JSON.stringify(event_data))
+    request('/event', 'POST', JSON.stringify(eventData))
     .then(data => {
       if ('errors' in data) {
         for (let i = 0; i < data['errors'].length; i++) {
           window.Materialize.toast(`${data.errors[i].name}: ${data.errors[i].description}`, 5000);
         };
         return 1;
-      }
+      };
 
       this.props.history.push(`/event/${data.new_event_id}`);
-    })
+    });
   }
 
   onChangeHandler = (e) => {
@@ -105,6 +109,18 @@ class AddEvent extends Component {
   onChangeHandlerValue = (e, value) => {
     let { id } = e.currentTarget;
     this.setState({ [id]: value });
+  }
+
+  renderCategoryOptions() {
+    return (
+      <React.Fragment>
+        {
+          this.state.categories.map((category, id) => {
+            return <option key={id} value={category}>{category}</option>
+          })
+        }
+      </React.Fragment>
+    );
   }
 
   render() {
@@ -190,18 +206,24 @@ class AddEvent extends Component {
             />
           </Row>
           <Row>
+            <Input s={12} type='select' label="Category" defaultValue="1">
+              <option value="1" disabled>Choose your category</option>
+              {this.renderCategoryOptions()}
+            </Input>
+          </Row>
+          <Row>
             <Autocomplete
               s={12}
-              id="category"
-              title="Category"
+              id="tags"
+              title="Tags"
               onChange={this.onChangeHandlerValue}
-              data={this.state.categories}
+              data={this.state.tags_autocomplete}
             />
           </Row>
-          <Button waves="light" onClick={this.add_event}>Add Event</Button>
+          <Button waves="light" onClick={this.addEvent}>Add Event</Button>
         </Col>
       </Row>
-    )
+    );
   }
 }
 

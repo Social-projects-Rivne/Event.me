@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Input, Button, Row, Col } from 'react-materialize'
-import { request } from '../utils.js'
-import { Route } from "react-router-dom";
+import { Input, Button, Row, Col } from 'react-materialize';
+import { request } from '../utils.js';
+
 
 export class ChangePassword extends Component {
     state = {
         new_password: '',
         check_new_password: '',
-
     };
 
     onChangeHandler = (e) => {

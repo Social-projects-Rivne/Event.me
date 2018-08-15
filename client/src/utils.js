@@ -14,7 +14,7 @@ export async function request(path="", method="GET", data=null) {
       method: method,
       headers: myHeaders,
       mode: 'cors',
-      body: data
+      body: data,
     });
     const result = await response.json();
     return result;

@@ -14,3 +14,18 @@ class Tag(Base):
     tag = Column(String, nullable=False, unique=True)
 
     event_tag = relationship("EventTag")
+
+    @classmethod
+    def get_all(cls, request):
+        return request.dbsession.query(cls).all()
+
+    @classmethod
+    def get_by_name(cls, request, tag_str):
+        return request.dbsession.query(cls)\
+            .filter_by(category=tag_str).one_or_none()
+
+    @classmethod
+    def add_new(cls, request, tag_str):
+        """Create new tag and return it's id"""
+        request.dbsession.add(cls(tag=tag_str))
+        return cls.get_by_name(request, tag_str=tag_str).id
