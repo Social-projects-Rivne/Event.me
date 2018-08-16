@@ -5,16 +5,18 @@ import Registration from './Nav/Registration';
 import ConfirmEmail from './ConfirmEmail';
 import AddEvent from './AddEvent'
 import Profile from './Profile';
+import ProfileEdit from './ProfileEdit'
 
 
 function Routes() {
   return (
-    <div className="content">
+    <div className="container">
       <Route path="/" component={Home} exact />
       <Route path="/registration" component={Registration} exact />
       <Route path="/email_confirm/:token" component={ConfirmEmail} />
       <Route path="/add-event" component={AddEvent} />
-      <Route path="/profile/:profile_id" component={Profile}/>
+      <Route path="/profile/:profile_id" component={Profile} />
+      <Route path="/profile-edit/:profile_id" component={ProfileEdit} />
     </div>
   )
 }
