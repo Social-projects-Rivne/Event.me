@@ -1,39 +1,31 @@
 import moment from 'moment';
 import React, { Component } from 'react';
-import { Row, Col, Input, Button, Autocomplete } from 'react-materialize';
+import { Row, Col, Input, Button } from 'react-materialize';
+import SelectCategory from './SelectCategory';
+import TagAutocomplete from './TagAutocomplete';
 import { request } from '../utils';
 
 
 class AddEvent extends Component {
-  state = {
-    categories: [],
-    tags_autocomplete: {},
-    name: '',
-    long: '',
-    lat: '',
-    description: '',
-    category: '',
-    tags: '',
-    start_date: '',
-    start_time: '',
-    end_time: '',
-    end_date: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      long: '',
+      lat: '',
+      description: '',
+      category: '',
+      tags: '',
+      start_date: '',
+      start_time: '',
+      end_time: '',
+      end_date: '',
+    };
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+  }
 
   componentDidMount() {
     window.addEventListener('user-log', (e) => this.props.history.push('/'), {once: true});
-    request('/category').then(data => {
-      this.setState({ categories: data.categories });
-    });
-
-    request('/tag').then(data => {
-      let autocomplete = {};
-      for (let i = 0; i < data.tags.length; i++) {
-        autocomplete[data.tags[i]] = null;
-      };
-
-      this.setState({ tags_autocomplete: autocomplete });
-    });
   }
 
   addEvent = (e) => {
@@ -64,6 +56,7 @@ class AddEvent extends Component {
         'D MMMM, YYYY h:mmA'
         )._d.toJSON(),
     };
+
     if (this.state.end_date && this.state.end_time) {
       eventData.end_date = moment(
         [this.state.end_date, this.state.end_time].join(' '),
@@ -82,6 +75,7 @@ class AddEvent extends Component {
         for (let i = 0; i < data['errors'].length; i++) {
           window.Materialize.toast(`${data.errors[i].name}: ${data.errors[i].description}`, 5000);
         };
+
         return 1;
       };
 
@@ -92,6 +86,7 @@ class AddEvent extends Component {
   onChangeHandler = (e) => {
     const { id } = e.currentTarget;
     this.setState({ [id]: e.currentTarget.value });
+
     if (id === 'start_date') {
       document.getElementById('start_time').click();
     };
@@ -104,23 +99,6 @@ class AddEvent extends Component {
   onChangeHandlerFloat = (e) => {
     const { id } = e.currentTarget;
     this.setState({ [id]: e.target.value.replace(/[^0-9.-]/,'') });
-  }
-
-  onChangeHandlerValue = (e, value) => {
-    let { id } = e.currentTarget;
-    this.setState({ [id]: value });
-  }
-
-  renderCategoryOptions() {
-    return (
-      <React.Fragment>
-        {
-          this.state.categories.map((category, id) => {
-            return <option key={id} value={category}>{category}</option>
-          })
-        }
-      </React.Fragment>
-    );
   }
 
   render() {
@@ -182,7 +160,7 @@ class AddEvent extends Component {
               s={6}
               id="start_time"
               type="time"
-              onChange={this.onChangeHandlerValue}
+              onChange={this.onChangeHandler}
               label="Pick start time"
             />
           </Row>
@@ -201,24 +179,15 @@ class AddEvent extends Component {
               s={6}
               id="end_time"
               type="time"
-              onChange={this.onChangeHandlerValue}
+              onChange={this.onChangeHandler}
               label="Pick end time"
             />
           </Row>
           <Row>
-            <Input s={12} type='select' label="Category" defaultValue="1">
-              <option value="1" disabled>Choose your category</option>
-              {this.renderCategoryOptions()}
-            </Input>
+            <SelectCategory onChangeHandler={this.onChangeHandler} />
           </Row>
           <Row>
-            <Autocomplete
-              s={12}
-              id="tags"
-              title="Tags"
-              onChange={this.onChangeHandlerValue}
-              data={this.state.tags_autocomplete}
-            />
+            <TagAutocomplete onChangeHandler={this.onChangeHandler}/>
           </Row>
           <Button waves="light" onClick={this.addEvent}>Add Event</Button>
         </Col>
