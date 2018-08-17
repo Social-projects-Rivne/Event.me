@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Autocomplete } from 'react-materialize';
-import { request } from '../utils';
+import { Col } from 'react-materialize';
+import { request } from '../../utils';
+
 
 class TagAutocomplete extends Component {
   state = {
@@ -15,18 +16,20 @@ class TagAutocomplete extends Component {
       };
 
       this.setState({ tags_autocomplete: autocomplete });
+      window.$('#chips-tags').material_chip({
+        autocompleteOptions: {
+          data: autocomplete,
+          limit: Infinity,
+          minLength: 2,
+        },
+        placeholder: 'Enter a tag',
+      });
     });
   }
 
   render(){
     return (
-      <Autocomplete
-        s={12}
-        id="tags"
-        title="Tags"
-        onChange={this.onChangeHandler}
-        data={this.state.tags_autocomplete}
-      />
+      <Col s={12}><div id="chips-tags" className="chips chips-autocomplete"></div></Col>
     );
   }
 }

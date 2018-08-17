@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Input } from 'react-materialize';
-import { request } from '../utils';
+import { request } from '../../utils';
+
 
 class SelectCategory extends Component {
   state = {
@@ -27,7 +28,7 @@ class SelectCategory extends Component {
 
   render(){
     return (
-      <Input id="category" defaultValue="1" label="Category"
+      <Input id="category" defaultValue="1" label="Category" error={this.props.error}
       onChange={this.props.onChangeHandler} type="select" s={12} >
         <option value="1" disabled>Choose your category</option>
         {this.renderCategoryOptions()}

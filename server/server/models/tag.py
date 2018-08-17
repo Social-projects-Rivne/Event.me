@@ -22,7 +22,7 @@ class Tag(Base):
     @classmethod
     def get_by_name(cls, request, tag_str):
         return request.dbsession.query(cls)\
-            .filter_by(category=tag_str).one_or_none()
+            .filter_by(tag=tag_str).one_or_none()
 
     @classmethod
     def add_new(cls, request, tag_str):
