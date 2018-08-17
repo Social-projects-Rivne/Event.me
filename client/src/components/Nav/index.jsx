@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Navbar, Button } from 'react-materialize';
+import { Navbar, Button, NavItem, Row } from 'react-materialize';
 import LogIn from './LogIn';
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
 import { isLogged } from '../../utils'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
+
 
 
 class Nav extends Component {
@@ -33,10 +34,27 @@ class Nav extends Component {
                  </React.Fragment>)
   }
 
+  renderNavRecover() {
+    return (
+      <React.Fragment>
+        {
+        <NavItem><Link to={"/recover"}>forgot password?</Link>
+        </NavItem>
+        }
+      </React.Fragment>
+    );
+  }
+
+
   render() {
     return (
-      <Navbar brand="Event.me" right>
+      <Navbar brand="Event.me " className=""  right>
+      <Row>
         {this.renderAuthFileds()}
+        </Row>
+        <Row>
+        {this.renderNavRecover()}
+        </Row>
       </Navbar>
     );
   }
