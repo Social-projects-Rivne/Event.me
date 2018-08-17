@@ -5,31 +5,42 @@ import { request } from '../utils';
 
 
 class Profile extends Component {
-    state = {
-        user: {}
-    };
+  state = {
+      user: {},
+      page_id: ""
+  };
 
-    componentDidMount() {
-        request('/profile/' + this.props.match.params.profile_id, "GET")
-        .then(json => {
-            this.setState({ user: json });
-            console.log(json);
-        })
+  componentDidMount() {
+      this.setState({ page_id: this.props.match.params.profile_id });
+      request('/profile/' + this.props.match.params.profile_id, "GET")
+      .then(json => {
+          this.setState({ user: json });
+          console.log(json);
+      })
+  }
+
+  renderAvatarImage = () => {
+    if (this.state.user.avatar === null) {
+      return (
+        <img src="http://dialpharma.com/media/img/default_profile.png" alt="Default icon" />
+      );
     }
-
-    renderAvatarImage = () => {
-       if (this.state.user.avatar === null) {
-          return (
-            <img src="http://dialpharma.com/media/img/default_profile.png" alt="Default icon" />
-          );
-      }
-      else {
-         return (
-           <img src={this.state.user.avatar} alt="Avatar icon" />
-         );
-       }
+    else {
+       return (
+         <img src={this.state.user.avatar} alt="Avatar icon" />
+       );
+    }
    };
 
+  checkID = () => {
+      if (this.props.match.params.profile_id === sessionStorage['User-id']) {
+        return (
+          <Link className="waves-effect waves-light btn" to={"/profile-edit/" + sessionStorage['User-id']}>
+            Edit
+          </Link>
+        );
+      }
+  };
 
   render() {
     return (
@@ -56,9 +67,7 @@ class Profile extends Component {
                   <Row s={2}><h4>{this.state.user.last_name}</h4></Row>
                   <Row s={2}><h4>{this.state.user.location}</h4></Row>
                   <Row s={2}>
-                    <Link className="waves-effect waves-light btn" to={"/profile-edit/" + sessionStorage['User-id']}>
-                      Edit
-                    </Link>
+                      {this.checkID()}
                   </Row>
               </Col>
           </Row>

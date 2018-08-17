@@ -3,10 +3,13 @@ import { Row, Col, Input, Button } from 'react-materialize'
 import { request } from '../utils'
 import { Link } from 'react-router-dom'
 
+
 class ProfileEdit extends Component {
 
 	state = {
-		  user_edit: {}
+		  user_edit: {},
+      error_nick: "",
+      error_repeated: ""
 	}
 
 	componentDidMount() {
@@ -28,7 +31,10 @@ class ProfileEdit extends Component {
 
 	UpdateClick = (eve) => {
 		eve.preventDefault()
-		if (this.state.new_password !== null) {
+
+    let nick_error = ""
+    let repeated_error = ""
+
 			if (this.state.new_password === this.state.repeat_password) {
 				const data = {
 					"first_name": this.state.f_name,
@@ -39,14 +45,19 @@ class ProfileEdit extends Component {
 					"id": this.state.user_edit.id
 				}
 				request('/profile/' + this.props.match.params.profile_id, "PUT", JSON.stringify(data))
-        .then(data => {        
-          this.props.history.push('/profile/' + this.props.match.params.profile_id);
-          window.Materialize.toast("Profile Updated", 2500);
+        .then(data => {
+          if (data.msg !== "") {
+            this.setState({ error_nick: data.msg })
+          }
+          else {
+            this.props.history.push('/profile/' + this.props.match.params.profile_id);
+            window.Materialize.toast("Profile Updated", 2500);
+          }
         })
 			} else {
-				window.Materialize.toast("Incorrect repeated password!", 2500);
+        repeated_error = "Incorrect repeated password"
 			}
-		}
+      this.setState({ error_repeated: repeated_error })
 	};
 
   onChangeHandler = (e) => {
@@ -61,12 +72,12 @@ class ProfileEdit extends Component {
   				<h1>Profile</h1>
   			</div>
   			<Row>
-  				<Input s={6} id="f_name" label="First Name" value={this.state.user_edit.first_name} onChange={this.onChangeHandler} placeholder=" " />
-  				<Input s={6} id="l_name" label="Last Name" validate value={this.state.user_edit.last_name} onChange={this.onChangeHandler} placeholder=" " />
-  				<Input s={12} id="nickname" label="Nickname" validate value={this.state.user_edit.nickname} onChange={this.onChangeHandler} placeholder=" " />
-  				<Input s={12} id="location" label="Location" validate value={this.state.user_edit.location} onChange={this.onChangeHandler} placeholder=" " />
-  				<Input s={6} id="new_password" label="New password" type="password" onChange={this.onChangeHandler} />
-  				<Input s={6} id="repeat_password" label="Repeat password" type="password" onChange={this.onChangeHandler} />
+  				<Input s={6} error="" id="f_name" label="First Name" value={this.state.user_edit.first_name} onChange={this.onChangeHandler} placeholder=" " />
+  				<Input s={6} error="" id="l_name" label="Last Name" validate value={this.state.user_edit.last_name} onChange={this.onChangeHandler} placeholder=" " />
+  				<Input s={12} error={this.state.error_nick} id="nickname" label="Nickname" validate value={this.state.user_edit.nickname} onChange={this.onChangeHandler} placeholder=" " />
+  				<Input s={12} error="" id="location" label="Location" validate value={this.state.user_edit.location} onChange={this.onChangeHandler} placeholder=" " />
+  				<Input s={6} error="" id="new_password" label="New password" type="password" onChange={this.onChangeHandler} />
+  				<Input s={6} error={this.state.error_repeated} id="repeat_password" label="Repeat password" type="password" onChange={this.onChangeHandler} />
   				<Input id="image" type='file' />
   			</Row>
         <Row>
