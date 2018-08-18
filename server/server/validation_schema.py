@@ -31,17 +31,17 @@ class EventSchema(colander.MappingSchema):
 class ProfileSchema(colander.MappingSchema):
     """Schema for profile edit validation"""
     first_name = colander.SchemaNode(colander.String(),
-                                 validator=colander.Length(max=255),
-                                 missing=colander.drop)
+                                     validator=colander.Length(max=255),
+                                     missing=colander.drop)
     last_name = colander.SchemaNode(colander.String(),
-                                 validator=colander.Length(max=255),
-                                 missing=colander.drop)
+                                    validator=colander.Length(max=255),
+                                    missing=colander.drop)
     nickname = colander.SchemaNode(colander.String(),
-                               validator=colander.Length(max=255),
-                               missing=colander.drop)
+                                   validator=colander.Length(max=255),
+                                   missing=colander.drop)
     location = colander.SchemaNode(colander.String(),
-                              validator=colander.Length(max=255),
-                              missing=colander.drop)
+                                   validator=colander.Length(max=255),
+                                   missing=colander.drop)
     password = colander.SchemaNode(colander.String(),
                                    validator=colander.Length(max=255),
                                    missing=colander.drop)
