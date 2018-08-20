@@ -70,14 +70,13 @@ class EventView(object):
                                                name=request.validated['name']
                                                ).id
 
-            if 'tags' in request.validated:
-                for tag in request.validated['tags']:
-                    tag_obj = Tag.get_by_name(request, tag.lower())
-                    if tag is not None:
-                        tag_id = tag_obj.id
-                    else:
-                        tag_id = Tag.add_new(request, tag.lower())
-                    EventTag.add_new(request, tag_id, new_event_id)
+            for tag in request.validated.get('tags', []):
+                tag_obj = Tag.get_by_name(request, tag.lower())
+                if tag is not None:
+                    tag_id = tag_obj.id
+                else:
+                    tag_id = Tag.add_new(request, tag.lower())
+                EventTag.add_new(request, tag_id, new_event_id)
 
             response['success'] = EventHistory.create_new(
                 request,
