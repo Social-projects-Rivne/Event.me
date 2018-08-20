@@ -34,8 +34,12 @@ class EventView(object):
         response = {
             'success': False,
             'new_event_id': None,
-            'msg': 'Event already exist'
+            'errors': [{
+                'name': 'name',
+                'description': 'Event name already exist'
+            }],
         }
+
         if Event.get_event_obj(request,
                                name=request.validated['name']) is None:
             new_event = Event(name=request.validated['name'],
@@ -46,12 +50,20 @@ class EventView(object):
                               author_name=request.user.nickname,
                               author_id=request.user.id
                               )
+
+            category_obj = Category\
+                .get_by_name(request, request.validated['category'].lower())
+            if category_obj is None:
+                response['errors']['name'] = 'category'
+                response['errors']['description'] = "Category is not exist"
+                return response
+            new_event.category_id = category_obj.id
+
             if 'main_image' in request.validated:
                 new_event.main_image = request.validated['main_image']
+
             if 'end_date' in request.validated:
                 new_event.end_date = request.validated['end_date']
-            new_event.category_id = Category\
-                .get_by_name(request, request.validated['category'].lower()).id
 
             Event.add_event(request, obj=new_event)
             new_event_id = Event.get_event_obj(request,
@@ -76,5 +88,5 @@ class EventView(object):
                     Please wait for review by moderator."
                 )
             response['new_event_id'] = new_event_id
-            response['msg'] = ''
+            del response['errors']
         return response

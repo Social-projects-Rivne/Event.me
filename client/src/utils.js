@@ -23,6 +23,9 @@ export async function request(path="", method="GET", data=null) {
       mode: 'cors',
       body: data,
     });
+    if (response.status < 200 || response.status >= 300) {
+      window.Materialize.toast(`Something goes wrong (Error #${response.status})`);
+    }
     const result = await response.json();
     return result;
 }

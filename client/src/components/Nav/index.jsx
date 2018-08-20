@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Navbar, Button } from 'react-materialize';
+import { NavLink } from 'react-router-dom'
 import LogIn from './LogIn';
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
 import { isLogged } from '../../utils'
-import { NavLink } from 'react-router-dom'
 
 
 class Nav extends Component {

@@ -54,7 +54,7 @@ class EventForm extends Component {
     this.setState({error: errorMessages});
 
     for(const id in this.state.error) {
-      if(id === 'end_date') {
+      if (id === 'end_date') {
         if (this.state.end_date && !this.state.end_time) {
           errorMessages.end_time = "Required, if end date set";
           isErrors = true;
@@ -62,7 +62,7 @@ class EventForm extends Component {
           errorMessages.end_date = "Required, if end time set";
           isErrors = true;
         }
-      } else if(id !== 'end_time' && !this.state[id]) {
+      } else if (id !== 'end_time' && !this.state[id]) {
         errorMessages[id] = "Required";
         isErrors = true;
       }
@@ -107,7 +107,7 @@ class EventForm extends Component {
     };
 
     const tag_arr = window.$('#chips-tags').material_chip('data');
-    if(tag_arr.length) {
+    if (tag_arr.length) {
       eventData.tags = tag_arr.map(obj => obj.tag);
     };
 

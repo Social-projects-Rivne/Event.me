@@ -12,17 +12,6 @@ class LogInSchema(colander.MappingSchema):
     password = colander.SchemaNode(colander.String())
 
 
-class CategoryList(colander.SchemaNode):
-    schema_type = colander.String
-    title = 'Event Category'
-
-    def category_validator(self, node, cstruct):
-        request = self.bindings['request']
-        categories = [obj.category for obj in Category.get_all(request)]
-        if cstruct not in categories:
-            raise colander.Invalid(node, 'Category is not exist')
-
-
 class Tags(colander.SequenceSchema):
     tag = colander.SchemaNode(colander.String(),
                               validator=colander.Length(max=255))
@@ -42,5 +31,5 @@ class EventSchema(colander.MappingSchema):
     end_date = colander.SchemaNode(colander.DateTime(),
                                    missing=colander.drop)
     main_image = colander.SchemaNode(colander.String(), missing=colander.drop)
-    category = CategoryList()
-    tags = Tags()
+    category = colander.SchemaNode(colander.String())
+    tags = Tags(missing=colander.drop)
