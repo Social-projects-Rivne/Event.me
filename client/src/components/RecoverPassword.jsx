@@ -37,17 +37,15 @@ export class RecoverPassword extends Component {
                     <Input
                       id="email_recover"
                       value={ this.state.email_recover }
-                      size={40}
                       onChange={ this.onChangeHandler }
+                      s={12}
                       placeholder="Email"
                       type="email"
                       label="Email"
                     />
                 </Col>
                 <Col className="center-align" offset="s7" s={4}>
-            <Button waves='light'
-            onClick={ this.sendMailRecoverPassword } >
-            Reset password</Button>
+                    <Button waves='light' onClick={ this.sendMailRecoverPassword } > Reset password </Button>
                 </Col>
             </Row>
           </div>

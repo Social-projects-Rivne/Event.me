@@ -42,8 +42,8 @@ export class ChangePassword extends Component {
                     <Input
                       id="new_password"
                       value={ this.state.new_password }
-                      size={40}
                       onChange={ this.onChangeHandler }
+                      s={8}
                       placeholder="Password"
                       type="password"
                       label="new password"
@@ -51,11 +51,11 @@ export class ChangePassword extends Component {
                     <Input
                       id="check_new_password"
                       value={ this.state.check_new_password}
-                      size={40}
                       onChange={ this.onChangeHandler }
+                      s={8}
                       placeholder="Confirm Password"
                       type="password"
-                      label="confirm Password"
+                      label="Confirm Password"
                     />
                     </Col>
                 <Col className="center-align" offset="s7" s={4}>

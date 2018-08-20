@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Button, NavItem, Row } from 'react-materialize';
+import { Navbar, Button, Row } from 'react-materialize';
 import LogIn from './LogIn';
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
@@ -38,8 +38,8 @@ class Nav extends Component {
     return (
       <React.Fragment>
         {
-        <NavItem><Link to={"/recover"}>forgot password?</Link>
-        </NavItem>
+        <li><Link to={"/recover"}>forgot password?</Link>
+        </li>
         }
       </React.Fragment>
     );
@@ -48,7 +48,7 @@ class Nav extends Component {
 
   render() {
     return (
-      <Navbar brand="Event.me " className=""  right>
+      <Navbar brand="Event.me " right>
       <Row>
         {this.renderNavRecover()}
         {this.renderAuthFileds()}
