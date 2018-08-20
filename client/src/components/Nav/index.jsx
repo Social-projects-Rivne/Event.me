@@ -50,10 +50,8 @@ class Nav extends Component {
     return (
       <Navbar brand="Event.me " className=""  right>
       <Row>
-        {this.renderAuthFileds()}
-        </Row>
-        <Row>
         {this.renderNavRecover()}
+        {this.renderAuthFileds()}
         </Row>
       </Navbar>
     );
