@@ -5,6 +5,7 @@ import {emailValidation, request} from '../../utils';
 class Registration extends Component {
     state = {
         email: '',
+        nickname: '',
         password: '',
         repeat_password: '',
         msg: ''
@@ -18,6 +19,7 @@ class Registration extends Component {
     register = (e) => {
         let register_data = {
             email: this.state.email,
+            nickname: this.state.nickname,
             password: this.state.password,
             repeat_password: this.state.repeat_password
         }
@@ -42,6 +44,7 @@ class Registration extends Component {
       return (
         <Row>
           <h3>Registration form</h3>
+            <Row>
           <Input
             id="email"
             value={this.state.email}
@@ -49,7 +52,18 @@ class Registration extends Component {
             placeholder="Email"
             type="email"
             label="Email"
-            m={12}/>
+            m={6}/>
+            </Row>
+            <Row>
+                <Input
+                    id="nickname"
+                    value={this.state.nickname}
+                    onChange={this.onChangeHandler}
+                    placeholder="Nickname"
+                    label="Nickname"
+                    m={6}/>
+            </Row>
+            <Row>
           <Input
             id="password"
             value={this.state.password}
@@ -57,7 +71,9 @@ class Registration extends Component {
             placeholder="Password"
             type="password"
             label="Password"
-            m={12}/>
+            m={6}/>
+            </Row>
+            <Row>
           <Input
             id="repeat_password"
             value={this.state.repeat_password}
@@ -65,7 +81,8 @@ class Registration extends Component {
             placeholder="Repeat password"
             type="password"
             label="Repeat password"
-            m={12}/>
+            m={6}/>
+           </Row>
             <Button waves="light" onClick={this.register}>SignUp</Button>
         </Row>
 

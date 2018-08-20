@@ -9,7 +9,7 @@ import Profile from './Profile';
 
 function Routes() {
   return (
-    <div className="content">
+    <div className="container">
       <Route path="/" component={Home} exact />
       <Route path="/registration" component={Registration} exact />
       <Route path="/email_confirm/:token" component={ConfirmEmail} />

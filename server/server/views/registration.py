@@ -46,6 +46,7 @@ def registration_view(request):
     """
     json = request.json_body
     user_query = User.get_one(request, email=request.json_body['email'])
+    nickname_query = User.get_one(request, nickname=request.json_body['nickname'])
     if user_query is None:
         url_token_confirmation = generate_secret()
         if json['repeat_password'] == json['password']:
@@ -62,9 +63,26 @@ def registration_view(request):
                               )
             mailer.send_immediately(message, fail_silently=False)
 
-            return {"msg": "We sent token to your email address"}
         else:
-            return {"msg": "Invalid password, please try again"}
+            if json['repeat_password'] == json['password']:
+                User.add_user(request, email=request.json['email'],
+                              nickname=request.json['nickname'],
+                              password=pbkdf2_sha256.hash(request.json['password']),
+                              url_token=url_token_confirmation,
+                              status_id=UserStatus.get_user_by_status(request, status="Non_active").id,
+                              create_date=datetime.now())
+                mailer = request.mailer
+                message = Message(subject="confirm email",
+                                  sender="asstelite@gmail.com",
+                                  recipients=[json['email']],
+                                  body='http://localhost:3000/#/email_confirm/{}'.format(url_token_confirmation)
+                                  )
+                mailer.send_immediately(message, fail_silently=False)
+
+                return {"msg": "We sent token to your email address"}
+            else:
+                return {"msg": "Invalid password, please try again"}
+
     else:
         return {"msg": "Your email address is already registered"}
 

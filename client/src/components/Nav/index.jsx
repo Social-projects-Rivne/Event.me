@@ -13,6 +13,12 @@ class Nav extends Component {
     this.update = this.update.bind(this);
   }
 
+  routeChange(){
+
+      window.location.hash = "/registration";
+
+  }
+
   update() {
     this.forceUpdate();
   };
@@ -27,8 +33,8 @@ class Nav extends Component {
       )
     }
     else return (<React.Fragment><LogIn update={this.update} />
-                  <Button waves="light">
-                      <NavLink to='registration'>Registration</NavLink>
+                  <Button onClick={this.routeChange = this.routeChange.bind(this)} waves="light">
+                      Registration
                   </Button>
                  </React.Fragment>)
   }
