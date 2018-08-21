@@ -38,7 +38,8 @@ class Nav extends Component {
     return (
       <React.Fragment>
         {
-        <li><Link to={"/recover"}>forgot password?</Link>
+        <li>
+          <Link to={"/recover"}>forgot password?</Link>
         </li>
         }
       </React.Fragment>
@@ -48,7 +49,7 @@ class Nav extends Component {
 
   render() {
     return (
-      <Navbar brand="Event.me " right>
+      <Navbar brand="Event.me" right>
       <Row>
         {this.renderNavRecover()}
         {this.renderAuthFileds()}
