@@ -46,7 +46,7 @@ export class ChangePassword extends Component {
                       s={8}
                       placeholder="Password"
                       type="password"
-                      label="new password"
+                      label="New Password"
                     />
                     <Input
                       id="check_new_password"
