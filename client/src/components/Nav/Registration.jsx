@@ -65,13 +65,13 @@ class Registration extends Component {
             m={6}/>
             </Row>
             <Row>
-                <Input
-                    id="nickname"
-                    value={this.state.nickname}
-                    onChange={this.onChangeHandler}
-                    placeholder="Nickname"
-                    label="Nickname"
-                    m={6}/>
+          <Input
+            id="nickname"
+            value={this.state.nickname}
+            onChange={this.onChangeHandler}
+            placeholder="Nickname"
+            label="Nickname"
+            m={6}/>
             </Row>
             <Row>
           <Input
@@ -96,7 +96,6 @@ class Registration extends Component {
             <Button waves="light" onClick={this.register}>SignUp</Button>
             <Button waves="light" node='a' href='/'>Home</Button>
         </Row>
-
         );
       }
     }

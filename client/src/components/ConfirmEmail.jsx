@@ -20,8 +20,7 @@ class ConfirmEmail extends Component{
             <h5>Your email address is confirmed, please press the Home button and Log in</h5>
             <Button waves="light" node='a' href='/'>Home</Button>
             </div>
-                )
-
+        )
     }
 }
 
