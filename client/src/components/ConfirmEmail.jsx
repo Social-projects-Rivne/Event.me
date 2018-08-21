@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { request } from '../utils';
+import {Button} from "react-materialize";
 
 class ConfirmEmail extends Component{
     state = {
@@ -14,7 +15,13 @@ class ConfirmEmail extends Component{
             })
     }
     render() {
-        return <div></div>
+        return (
+            <div>
+            <h5>Your email address is confirmed, please press the Home button and Log in</h5>
+            <Button waves="light" node='a' href='/'>Home</Button>
+            </div>
+                )
+
     }
 }
 

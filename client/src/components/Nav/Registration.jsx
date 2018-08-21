@@ -34,9 +34,19 @@ class Registration extends Component {
         request('/registration',"POST", JSON.stringify(register_data))
             .then(data=>{
              this.setState({msg: data.msg})
-             window.Materialize.toast(this.state.msg, 3000)
-             setTimeout(this.props.history.push('/'), 3000)
+             if(
+                 this.state.msg !== "We sent token to your email address"
+             ) {
+                 window.Materialize.toast(this.state.msg, 3000)
+                 setTimeout(this.props.history.push('/registration'), 3000)
+                 return null
+             }else{
+                 window.Materialize.toast(this.state.msg, 3000)
+                 setTimeout(this.props.history.push('/'), 3000)
+                 return null
+             }
             })
+
     }
 
 
@@ -84,6 +94,7 @@ class Registration extends Component {
             m={6}/>
            </Row>
             <Button waves="light" onClick={this.register}>SignUp</Button>
+            <Button waves="light" node='a' href='/'>Home</Button>
         </Row>
 
         );
