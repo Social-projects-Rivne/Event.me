@@ -9,7 +9,12 @@ class ProfileEdit extends Component {
     state = {
         user_edit: {},
         error_nick: "",
-        error_repeated: ""
+        error_repeated: "",
+        error_first: "",
+        error_last: "",
+        error_trigger_nick: false,
+        error_trigger_first: false,
+        error_trigger_last: false
     }
 
     componentDidMount() {
@@ -33,6 +38,10 @@ class ProfileEdit extends Component {
 
         let msg_rep = ""
 
+        this.setState({ error_trigger_nick: false })
+        this.setState({ error_trigger_first: false })
+        this.setState({ error_trigger_last: false })
+
         this.setState({ error_repeated: ""})
 
         if (this.state.new_password === this.state.repeat_password) {
@@ -46,11 +55,39 @@ class ProfileEdit extends Component {
             }
             request('/profile/' + this.props.match.params.profile_id, "PUT", JSON.stringify(data))
             .then(data => {
-                if (data.msg !== "") {
-                    this.setState({ error_nick: data.msg })
+                if (data.check_nick === true) {
+                    this.setState({ error_trigger_nick: false })
+                    this.setState({ error_nick: "Nickname already taken" })
                 }
                 else {
+                    this.setState({ error_trigger_nick: true })
                     this.setState({ error_nick: "" })
+                }
+                if (data.check_first === false) {
+                    this.setState({ error_trigger_first: false })
+                    this.setState({ error_first: "First name must not contain \
+                                                  numbers" })
+                }
+                else {
+                    this.setState({ error_trigger_first: true })
+                    this.setState({ error_first: "" })
+                }
+                if (data.check_last === false) {
+                    this.setState({ error_trigger_last: false })
+                    this.setState({ error_last: "Last name must not contain \
+                                                 numbers" })
+                }
+                else {
+                    this.setState({ error_trigger_last: true })
+                    this.setState({ error_last: "" })
+                }
+                if (this.state.error_trigger_nick === true &&
+                    this.state.error_trigger_first === true &&
+                    this.state.error_trigger_last === true) {
+                    this.setState({ error_nick: "" })
+                    this.setState({ error_repeated: ""})
+                    this.setState({ error_first: ""})
+                    this.setState({ error_last: ""})
                     this.props.history.push('/profile/' + this.props.match.params.profile_id);
                     window.Materialize.toast("Profile Updated", 2500);
                 }
@@ -71,21 +108,21 @@ class ProfileEdit extends Component {
       return (
         <div>
           <div>
-             <h1>Profile</h1>
+             <h1 >Profile</h1>
           </div>
           <Row>
             <Input
               s={6}
-              error=""
+              error={this.state.error_first}
               id="f_name"
               label="First Name"
-              value={this.state.user_edit.first_name}
+              validate value={this.state.user_edit.first_name}
               onChange={this.onChangeHandler}
               placeholder=" "
             />
             <Input
               s={6}
-              error=""
+              error={this.state.error_last}
               id="l_name"
               label="Last Name"
               validate value={this.state.user_edit.last_name}
@@ -103,7 +140,6 @@ class ProfileEdit extends Component {
             />
             <Input
               s={12}
-              error=""
               id="location"
               label="Location"
               validate value={this.state.user_edit.location}
@@ -112,7 +148,6 @@ class ProfileEdit extends Component {
             />
             <Input
               s={6}
-              error=""
               id="new_password"
               label="New password"
               type="password"
@@ -124,15 +159,16 @@ class ProfileEdit extends Component {
               id="repeat_password"
               label="Repeat password"
               type="password"
+              validate
               onChange={this.onChangeHandler}
             />
             <Input id="image" type='file' />
           </Row>
           <Row>
-            <Col s={11}>
+            <Col s={6}>
               <Button waves='light' onClick={this.UpdateClick}>Save</Button>
             </Col>
-            <Col s={1}>
+            <Col className="right-align" s={6}>
               <Link
                 className="waves-effect waves-light btn"
                 to={"/profile/" + sessionStorage['User-id']}>

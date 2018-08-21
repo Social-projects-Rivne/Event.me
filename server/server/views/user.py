@@ -31,10 +31,40 @@ class UserView(object):
           permission='edit')
     def put(self):
         request = self.request
-        data = request.json_body
-        message = ""
-        if User.get_one(request, nickname=data.get('nickname')):
-            message = "Nickname already exists"
+        data = request.validated
+
+        response = {
+            'check_nick': False,
+            'check_password': False,
+            'check_first': False,
+            'check_last': False
+        }
+
+        data_first = data.get('first_name')
+        data_last = data.get('last_name')
+
+        response['check_first'] = False
+
         if data.get('password'):
             data['password'] = pbkdf2_sha256.hash(data['password'])
-        return User.update_user(request, data, message)
+
+        if User.get_one(request, nickname=data.get('nickname')):
+            response['check_nick'] = True
+
+        if data_first is not None:
+            if all(x.isalpha() or x.isspace() for x in data_first):
+                response['check_first'] = True
+            else:
+                response['check_first'] = False
+        else:
+            response['check_first'] = True
+
+        if data_last is not None:
+            if all(x.isalpha() or x.isspace() for x in data_last):
+                response['check_last'] = True
+            else:
+                response['check_last'] = False
+        else:
+            response['check_last'] = True
+
+        return User.update_user(request, data, response)

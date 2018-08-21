@@ -73,6 +73,10 @@ class User(Base):
         return False
 
     @classmethod
+    def get_all(cls, request):
+        return request.dbsession.query(cls).all()
+
+    @classmethod
     def add_user(cls, request, **kwargs):
         """Add user into db"""
         request.dbsession.add(cls(**kwargs))
@@ -82,11 +86,8 @@ class User(Base):
         return self.roles.role
 
     @staticmethod
-    def update_user(request, json_data, message):
+    def update_user(request, json_data, response):
         """ Method to update user in database """
-        response = {
-            'msg': message
-        }
         if request.dbsession.query(User).get(request.matchdict['profile_id']):
             try:
                 request.dbsession.query(User)\
