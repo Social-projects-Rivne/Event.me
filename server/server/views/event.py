@@ -4,6 +4,7 @@ from datetime import datetime
 from cornice.resource import resource, view
 from cornice.validators import colander_body_validator
 from pyramid.security import Allow, Authenticated
+from pyramid.httpexceptions import HTTPNotFound
 
 from ..models import model_to_dict
 from ..models.category import Category
@@ -85,7 +86,22 @@ class EventView(object):
                 date=datetime.now(),
                 comment="New event created. \
                     Please wait for review by moderator."
-                )
+            )
             response['new_event_id'] = new_event_id
             del response['errors']
+        return response
+
+    def get(self):
+        request = self.request
+        response = {
+            'event': {},
+        }
+        event_obj = Event.get_event_obj(request,
+                                        id=request.matchdict['event_id'])
+        if event_obj is None:
+            return HTTPNotFound()
+        response = {
+            'event': model_to_dict(event_obj),
+            'category': event_obj.category.category,
+        }
         return response
