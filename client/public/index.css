@@ -34,3 +34,13 @@
     border-bottom: 1px solid #F44336;
     box-shadow: 0 1px 0 0 #F44336;
 }
+
+.mapWrapper {
+    height: 500px;
+    height: calc(100vh - 100px);
+}
+
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+}

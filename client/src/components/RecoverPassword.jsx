@@ -19,31 +19,36 @@ export class RecoverPassword extends Component {
             email: this.state.email_recover
         }
         if (!emailValidation(this.state.email_recover)) {
-            window.Materialize.toast("Invalid input", 3000)
-            return null
+            window.Materialize.toast("Invalid input", 3000);
+            return null;
         }
     request('/recover-password', "POST", JSON.stringify(recoverData))
          .then(data => {
-         this.setState({ msg: data.msg })
-         window.Materialize.toast(this.state.msg, 3000)
+         this.setState({ msg: data.msg });
+         window.Materialize.toast(this.state.msg, 3000);
      })
    }
      render(){
         return (
+        <div>
             <Row>
-                <Col offset="s4" s={5}>
-                    <h3> RecoverPassword </h3>
+                <Col className="center-align" offset="s7" s={4}>
+                    <h4> Reset Password </h4>
                     <Input
                       id="email_recover"
                       value={ this.state.email_recover }
                       onChange={ this.onChangeHandler }
+                      s={12}
                       placeholder="Email"
                       type="email"
                       label="Email"
                     />
-                    <Button waves='light' onClick={ this.sendMailRecoverPassword }>Send</Button>
+                </Col>
+                <Col className="center-align" offset="s7" s={4}>
+                    <Button waves='light' onClick={ this.sendMailRecoverPassword } > Reset password </Button>
                 </Col>
             </Row>
+          </div>
         );}
 }
 
