@@ -5,19 +5,19 @@ import Registration from './Nav/Registration';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverPassword from './RecoverPassword';
 import ChangePassword from './ChangePassword';
-import AddEvent from './AddEvent'
+import EventForm from './EventForm'
 import Profile from './Profile';
 
 
 function Routes() {
   return (
-    <div className="content">
+    <div className="container">
       <Route path="/" component={Home} exact />
       <Route path="/registration" component={Registration} exact />
       <Route path="/email_confirm/:token" component={ConfirmEmail} />
       <Route path="/recover" component={RecoverPassword} exact />
       <Route path="/change-password/:token" component={ChangePassword} />
-      <Route path="/add-event" component={AddEvent} />
+      <Route path="/add-event" component={EventForm} />
       <Route path="/profile/:profile_id" component={Profile}/>
     </div>
   )

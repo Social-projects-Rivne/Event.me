@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, Row, Col } from 'react-materialize';
+import { Input, Button, Row, Col } from 'react-materialize';
 import { emailValidation, request } from '../utils.js';
-import { Route } from "react-router-dom";
+
 
 export class RecoverPassword extends Component {
     state = {
         email_recover: '',
-        msg: ''
+        msg: '',
     }
 
     onChangeHandler = (e) => {

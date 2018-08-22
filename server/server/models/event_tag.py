@@ -16,3 +16,8 @@ class EventTag(Base):
 
     event = relationship("Event", foreign_keys=(event_id,))
     tag = relationship("Tag", foreign_keys=(tag_id,))
+
+    @classmethod
+    def add_new(cls, request, tag_id, event_id):
+        request.dbsession.add(cls(event_id=event_id, tag_id=tag_id))
+        return True
