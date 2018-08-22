@@ -8,6 +8,7 @@ import RecoverPassword from './RecoverPassword';
 import ChangePassword from './ChangePassword';
 import Profile from './Profile';
 import ProfileEdit from './ProfileEdit'
+import EventForm from './EventForm/index'
 
 
 function Routes() {
