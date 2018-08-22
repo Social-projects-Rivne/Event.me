@@ -2,6 +2,7 @@
 from datetime import datetime
 
 import colander
+import re
 from pyramid import threadlocal
 
 from .models.category import Category
@@ -52,10 +53,14 @@ class Nickname_Unique(colander.SchemaNode):
 class ProfileSchema(colander.MappingSchema):
     """Schema for profile edit validation"""
     first_name = colander.SchemaNode(colander.String(),
-                                     validator=colander.Regex("^[a-zA-Z][ A-Za-z_-]*$"),
+                                     validator=colander.Regex(
+                                        "^[a-zA-Z][ A-Za-z_-]*$",
+                                        "First name must not contain numbers"),
                                      missing=colander.drop)
     last_name = colander.SchemaNode(colander.String(),
-                                    validator=colander.Regex("^[a-zA-Z][ A-Za-z_-]*$"),
+                                    validator=colander.Regex(
+                                        "^[a-zA-Z][ A-Za-z_-]*$",
+                                        "Last name must not contain numbers"),
                                     missing=colander.drop)
     nickname = Nickname_Unique(missing=colander.drop)
     location = colander.SchemaNode(colander.String(),
