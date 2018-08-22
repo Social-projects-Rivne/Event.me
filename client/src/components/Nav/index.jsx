@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Navbar, Button } from 'react-materialize';
-import { NavLink } from 'react-router-dom'
+import { Navbar, Button, Row } from 'react-materialize';
+import { NavLink, Link } from 'react-router-dom'
 import LogIn from './LogIn';
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
@@ -13,38 +13,53 @@ class Nav extends Component {
         this.update = this.update.bind(this);
     }
 
-    update() {
-        this.forceUpdate();
-    }
+  update() {
+    this.forceUpdate();
+  }
 
-    renderAuthFileds() {
-      if (isLogged()) {
-        return (
-          <React.Fragment>
-            <NavProfile isLogged={isLogged} />
-               <LogOut update={this.update} />
-            </React.Fragment>
-            );
-      }
-        else {
-          return (
-            <React.Fragment>
-               <LogIn update={this.update} />
-               <Button waves="light" node='a' href='registration'>
-                  <NavLink to='registration'>Registration</NavLink>
-               </Button>
-            </React.Fragment>
-            );
-        }
-    }
-
-    render() {
+  renderAuthFileds() {
+    if (isLogged()) {
       return (
-        <Navbar brand="Event.me" right>
-           {this.renderAuthFileds()}
-        </Navbar>
-        );
+        <React.Fragment>
+          <NavProfile isLogged={isLogged} />
+          <LogOut update={this.update} />
+        </React.Fragment>
+      );
     }
+    else {
+      return (
+        <React.Fragment>
+          <LogIn update={this.update} />
+          <Button waves="light" node='a' href='registration'>
+            <NavLink to='registration'>Registration</NavLink>
+          </Button>
+        </React.Fragment>
+      );
+    }
+  }
+
+  renderNavRecover() {
+    return (
+      <React.Fragment>
+        {
+        <li>
+          <Link to={"/recover"}>forgot password?</Link>
+        </li>
+        }
+      </React.Fragment>
+    );
+  }
+
+  render() {
+    return (
+      <Navbar brand="Event.me" right>
+      <Row>
+        {this.renderNavRecover()}
+        {this.renderAuthFileds()}
+        </Row>
+      </Navbar>
+    );
+  }
 }
 
 export default Nav;

@@ -15,35 +15,34 @@ class LogIn extends Component {
     this.setState({ [id]: e.currentTarget.value })
   }
 
-  log_in = (e) => {
-    let log_in_data = {
-      email: this.state.email,
-      password: this.state.password
-    }
+  logIn = (e) => {
     if (!emailValidation(this.state.email) || !this.state.password.length) {
-      window.Materialize.toast("Invalid input", 3000)
-      return 1
-    }
-    request('/log-in', 'POST', JSON.stringify(log_in_data))
+      window.Materialize.toast("Invalid input", 3000);
+      return 1;
+    };
+    const logInData = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    request('/log-in', 'POST', JSON.stringify(logInData))
     .then(data=>{
       if (typeof (Storage) === "undefined") {
-        this.setState({ msg: "Your sessionStorage is not active" })
-      }
-      else {
+        this.setState({ msg: "Your sessionStorage is not active" });
+      } else {
         if (data.success) {
           sessionStorage.setItem("Authorization-token", data.token);
           sessionStorage.setItem("User-nickname", data.user.nickname);
           sessionStorage.setItem("User-avatar", data.user.avatar);
           sessionStorage.setItem("User-id", data.user.user_id);
-          this.props.update()
+          this.props.update();
           window.dispatchEvent(log_event);
-        }
-        else {
-          this.setState({ msg: data.msg })
-          window.Materialize.toast(this.state.msg, 3000)
+        } else {
+          this.setState({ msg: data.msg });
+          window.Materialize.toast(this.state.msg, 3000);
         }
       }
-    })
+    });
   }
 
   render() {
@@ -71,7 +70,7 @@ class LogIn extends Component {
           />
         </li>
         <li>
-          <Button waves="light" onClick={this.log_in}>Log In</Button>
+          <Button waves="light" onClick={this.logIn}>Log In</Button>
         </li>
       </React.Fragment>
     );
