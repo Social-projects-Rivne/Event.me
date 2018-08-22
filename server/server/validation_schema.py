@@ -2,8 +2,10 @@
 from datetime import datetime
 
 import colander
+from pyramid import threadlocal
 
 from .models.category import Category
+from .models.user import User
 
 
 class LogInSchema(colander.MappingSchema):
@@ -36,17 +38,26 @@ class EventSchema(colander.MappingSchema):
     tags = Tags(missing=colander.drop)
 
 
+class Nickname_Unique(colander.SchemaNode):
+    schema_type = colander.String
+    title = 'Check Nickname'
+
+    def validator(self, node, cstruct):
+        request = threadlocal.get_current_request()
+        check_unique_nickname = False
+        if User.get_one(request, nickname=cstruct):
+            raise colander.Invalid(node, 'Nickname already taken')
+
+
 class ProfileSchema(colander.MappingSchema):
     """Schema for profile edit validation"""
     first_name = colander.SchemaNode(colander.String(),
-                                     validator=colander.Length(max=255),
+                                     validator=colander.Regex("^[a-zA-Z][ A-Za-z_-]*$"),
                                      missing=colander.drop)
     last_name = colander.SchemaNode(colander.String(),
-                                    validator=colander.Length(max=255),
+                                    validator=colander.Regex("^[a-zA-Z][ A-Za-z_-]*$"),
                                     missing=colander.drop)
-    nickname = colander.SchemaNode(colander.String(),
-                                   validator=colander.Length(max=255),
-                                   missing=colander.drop)
+    nickname = Nickname_Unique(missing=colander.drop)
     location = colander.SchemaNode(colander.String(),
                                    validator=colander.Length(max=255),
                                    missing=colander.drop)

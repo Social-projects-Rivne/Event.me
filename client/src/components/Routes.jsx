@@ -5,7 +5,6 @@ import Registration from './Nav/Registration';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverPassword from './RecoverPassword';
 import ChangePassword from './ChangePassword';
-import EventForm from './EventForm'
 import Profile from './Profile';
 import ProfileEdit from './ProfileEdit'
 
@@ -18,7 +17,6 @@ function Routes() {
       <Route path="/email_confirm/:token" component={ConfirmEmail} />
       <Route path="/recover" component={RecoverPassword} exact />
       <Route path="/change-password/:token" component={ChangePassword} />
-      <Route path="/add-event" component={AddEvent} />
       <Route path="/profile/:profile_id" component={Profile} />
       <Route path="/profile-edit/:profile_id" component={ProfileEdit} />
     </div>

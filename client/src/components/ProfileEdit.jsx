@@ -38,10 +38,9 @@ class ProfileEdit extends Component {
 
         let msg_for_repeated = ""
 
-        this.setState({ error_trigger_nick: false })
-        this.setState({ error_trigger_first: false })
-        this.setState({ error_trigger_last: false })
-
+        this.setState({ error_nick: "" })
+        this.setState({ error_first: "" })
+        this.setState({ error_last: "" })
         this.setState({ error_repeated: ""})
 
         if (this.state.new_password === this.state.repeat_password) {
@@ -55,41 +54,40 @@ class ProfileEdit extends Component {
             }
             request('/profile/' + this.props.match.params.profile_id, "PUT", JSON.stringify(data))
             .then(data => {
-                if (data.check_nick === true) {
-                    this.setState({ error_trigger_nick: false })
-                    this.setState({ error_nick: "Nickname already taken" })
+                try {
+                    if ('errors' in data) {
+                        for (let i = 0; i < data['errors'].length; i++) {
+                            if (data.errors[i].name === "first_name") {
+                                this.setState({ error_first: "First name must not \
+                                                              contain numbers" })
+                            }
+                            if (data.errors[i].name === "last_name") {
+                                this.setState({ error_last: "Last name must not \
+                                                              contain numbers" })
+                            }
+                            if (data.errors[i].name === "nickname") {
+                                this.setState({ error_nick: "Nickname already taken"
+                                })
+                            }
+                        };
+                    }
+                    else {
+                        this.setState({ error_nick: "" })
+                        this.setState({ error_repeated: ""})
+                        this.setState({ error_first: ""})
+                        this.setState({ error_last: ""})
+                        this.props.history.push('/profile/' + this.props.match.params.profile_id);
+                        window.Materialize.toast("Profile Updated", 2500);
+                    }
                 }
-                else {
-                    this.setState({ error_trigger_nick: true })
-                    this.setState({ error_nick: "" })
-                }
-                if (data.check_first === false) {
-                    this.setState({ error_trigger_first: false })
-                    this.setState({ error_first: "First name must not contain \
-                                                  numbers" })
-                }
-                else {
-                    this.setState({ error_trigger_first: true })
-                    this.setState({ error_first: "" })
-                }
-                if (data.check_last === false) {
-                    this.setState({ error_trigger_last: false })
-                    this.setState({ error_last: "Last name must not contain \
-                                                 numbers" })
-                }
-                else {
-                    this.setState({ error_trigger_last: true })
-                    this.setState({ error_last: "" })
-                }
-                if (this.state.error_trigger_nick === true &&
-                    this.state.error_trigger_first === true &&
-                    this.state.error_trigger_last === true) {
+                catch (err) {
                     this.setState({ error_nick: "" })
                     this.setState({ error_repeated: ""})
                     this.setState({ error_first: ""})
                     this.setState({ error_last: ""})
                     this.props.history.push('/profile/' + this.props.match.params.profile_id);
                     window.Materialize.toast("Profile Updated", 2500);
+                    window.Materialize.toast(err, 2500);
                 }
             })
         }
