@@ -12,9 +12,6 @@ class ProfileEdit extends Component {
         error_repeated: "",
         error_first: "",
         error_last: "",
-        error_trigger_nick: false,
-        error_trigger_first: false,
-        error_trigger_last: false
     }
 
     componentDidMount() {

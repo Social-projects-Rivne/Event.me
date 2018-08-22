@@ -23,7 +23,7 @@ class Profile extends Component {
         if (this.state.user.avatar === null) {
             return (
                 <img
-                  src="http://dialpharma.com/media/img/default_profile.png"
+                  src="/default_profile.png"
                   alt="Default icon"
                 />
             );
