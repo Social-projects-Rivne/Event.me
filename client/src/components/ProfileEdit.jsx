@@ -55,15 +55,18 @@ class ProfileEdit extends Component {
                     if ('errors' in data) {
                         for (let i = 0; i < data['errors'].length; i++) {
                             if (data.errors[i].name === "first_name") {
-                                this.setState({ error_first: "First name must not \
-                                                              contain numbers" })
+                                this.setState({
+                                    error_first: data.errors[i].description
+                                })
                             }
                             if (data.errors[i].name === "last_name") {
-                                this.setState({ error_last: "Last name must not \
-                                                              contain numbers" })
+                                this.setState({
+                                    error_last: data.errors[i].description
+                                })
                             }
                             if (data.errors[i].name === "nickname") {
-                                this.setState({ error_nick: "Nickname already taken"
+                                this.setState({
+                                    error_nick: data.errors[i].description
                                 })
                             }
                         };
