@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from './Home';
+import MapLayout from './MapLayout';
 import Registration from './Nav/Registration';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverPassword from './RecoverPassword';
@@ -13,6 +14,7 @@ import EventPage from './EventPage';
 function Routes() {
   return (
     <React.Fragment>
+      <Route path="/map" component={MapLayout} exact />
       <div className="container">
         <Route path="/" component={Home} exact />
         <Route path="/registration" component={Registration} exact />

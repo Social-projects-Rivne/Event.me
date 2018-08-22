@@ -10,7 +10,7 @@ class EventForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      title: '',
       long: '',
       lat: '',
       description: '',
@@ -20,7 +20,7 @@ class EventForm extends Component {
       end_time: '',
       end_date: '',
       error: {
-        name: '',
+        title: '',
         long: '',
         lat: '',
         description: '',
@@ -41,7 +41,7 @@ class EventForm extends Component {
   addEvent = (e) => {
     let isErrors = false;
     let errorMessages = {
-      name: '',
+      title: '',
       long: '',
       lat: '',
       description: '',
@@ -78,7 +78,7 @@ class EventForm extends Component {
     };
 
     let eventData = {
-      name: this.state.name,
+      name: this.state.title,
       lat: this.state.lat,
       long: this.state.long,
       description: this.state.description,
@@ -155,11 +155,11 @@ class EventForm extends Component {
           <Row>
             <Input
               s={12}
-              id="name"
+              id="title"
               type="text"
-              label="Event Name"
-              error={this.state.error.name}
-              value={this.state.name}
+              label="Event Title"
+              error={this.state.error.title}
+              value={this.state.title}
               onChange={this.onChangeHandler}
             />
           </Row>

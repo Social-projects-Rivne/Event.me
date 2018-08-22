@@ -39,3 +39,13 @@
     width: 100%;
     height: 50vh;
 }
+
+.mapWrapper {
+    height: 500px;
+    height: calc(100vh - 100px);
+}
+
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+}
