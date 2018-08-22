@@ -2,6 +2,7 @@ from cornice import Service
 from passlib.hash import pbkdf2_sha256
 from passlib.totp import generate_secret
 from pyramid_mailer.message import Message
+from sqlalchemy import func
 
 from ..models.user import User
 
@@ -23,7 +24,7 @@ def recover_send_mail(request):
     generate and send url-token to user email.
     """
     json = request.json_body
-    user = request.dbsession.query(User).filter_by(email=json['email']).one_or_none()
+    user = request.dbsession.query(User).filter(func.lower(User.email)==func.lower(json['email'])).one_or_none()
     if (user is not None) and user.is_active(request):
         url_token_confirmation = generate_secret()
         user.url_token = url_token_confirmation

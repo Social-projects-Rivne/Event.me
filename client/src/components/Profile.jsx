@@ -1,127 +1,89 @@
 import React, { Component } from 'react';
-import { Row, Col, Input, Button } from 'react-materialize';
-import { request } from '../utils'
+import { Link } from 'react-router-dom';
+import { Row, Col } from 'react-materialize';
+import { request } from '../utils';
 
 
-export default class Profile extends Component {
+class Profile extends Component {
+
     state = {
-        edit: false,
-        user: []
+        user: {},
+        page_id: ""
     };
 
     componentDidMount() {
-          request('/profile/' + this.props.match.params.profile_id, "GET")
-          .then(json => {
-              this.setState({ user: json });
-          })
+        this.setState({ page_id: this.props.match.params.profile_id });
+        request('/profile/' + this.props.match.params.profile_id)
+        .then(json => {
+            this.setState({ user: json });
+        })
     }
 
-    UpdateClick = (eve) => {
-        eve.preventDefault()
-        if (this.state.new_password !== null) {
-          if (this.state.new_password === this.state.repeat_password) {
-            const data = {
-                "email": this.state.email_profile,
-                "first_name": this.state.f_name,
-                "last_name": this.state.l_name,
-                "nickname": this.state.nickname,
-                "location": this.state.location,
-                "password": this.state.new_password,
-                "id": this.state.user.id
-            }
-            request('/profile/' + this.props.match.params.profile_id, "PUT", JSON.stringify(data))
-            window.Materialize.toast("Profile Updated", 2500);
-          }
-          else {
-            window.Materialize.toast("Incorrect repeated password!", 2500);
-          }
+    renderAvatarImage = () => {
+        if (this.state.user.avatar === null) {
+            return (
+                <img
+                  src="/default_profile.png"
+                  alt="Default icon"
+                />
+            );
+        }
+        else {
+            return (
+                <img
+                  src={this.state.user.avatar}
+                  alt="Avatar icon"
+                />
+            );
         }
     };
 
-    onChangeHandler = (e) => {
-        let { id } = e.currentTarget
-        this.setState({ [id]: e.currentTarget.value })
+    renderEditButton = () => {
+        if (this.props.match.params.profile_id === sessionStorage['User-id']) {
+            return (
+                <Link
+                  className="waves-effect waves-light btn"
+                  to={"/profile-edit/" + sessionStorage['User-id']}>
+                    Edit
+                </Link>
+            );
+        }
     };
 
-    handleClick_Main = () => {
-        this.setState({ edit: false });
-
-    };
-
-    handleClick_Edit = () => {
-        this.setState({ edit: true });
-    };
-
-    renderAvatarImage = () => {
-       if (this.state.user.avatar === null) {
-          return (
-            <img src="http://dialpharma.com/media/img/default_profile.png" alt="Default icon" />
-          );
-      }
-      else {
-         return (
-           <img src={this.state.user.avatar} alt="Avatar icon" />
-         );
-       }
-   };
-
-
-  render() {
-      if (this.state.edit === false) {
-          return (
-            <div>
-              <div>
-                <h1>Profile</h1>
-              </div>
-                <div id="main">
+    render() {
+      return (
+        <div>
+          <div>
+            <h1>Profile</h1>
+          </div>
+          <div id="main">
+            <Row>
+              <Col s={6}>
                 <Row>
-                    <Col s={6}>
-                        <Row>
-                            {this.renderAvatarImage()}
-                        </Row>
-                    </Col>
-                    <Col s={2}>
-                        <Row s={1}><h4>Nickname:</h4></Row>
-                        <Row s={1}><h4>Email:</h4></Row>
-                        <Row s={1}><h4>First Name: </h4></Row>
-                        <Row s={1}><h4>Last Name: </h4></Row>
-                        <Row s={1}><h4>Location: </h4></Row>
-                    </Col>
-                    <Col s={3}>
-                        <Row s={1}><h4>{this.state.user.nickname}</h4></Row>
-                        <Row s={1}><h4>{this.state.user.email}</h4></Row>
-                        <Row s={1}><h4>{this.state.user.first_name}</h4></Row>
-                        <Row s={1}><h4>{this.state.user.last_name}</h4></Row>
-                        <Row s={1}><h4>{this.state.user.location}</h4></Row>
-                        <Row s={1}><Button waves='light' onClick={this.handleClick_Edit}>Edit</Button></Row>
-                    </Col>
+                  {this.renderAvatarImage()}
                 </Row>
-                <br />
-              </div>
-            </div>
-        );
-      }
-      else {
-          return (
-            <div>
-              <div>
-                <h1>Profile</h1>
-              </div>
-                <Row>
-                    <Input s={12} id="email_profile" label="Email" placeholder={this.state.user.email} onChange={this.onChangeHandler} />
-                    <Input s={6} id="f_name" label="First Name" placeholder={this.state.user.first_name} onChange={this.onChangeHandler} />
-                    <Input s={6} id="l_name" label="Last Name" placeholder={this.state.user.last_name} onChange={this.onChangeHandler} />
-                    <Input s={12} id="nickname" label="Nickname" placeholder={this.state.user.nickname} onChange={this.onChangeHandler} />
-                    <Input s={12} id="location" label="Location" placeholder={this.state.user.location} onChange={this.onChangeHandler} />
-                    <Input s={6} id="new_password" label="New password" type="password" onChange={this.onChangeHandler} />
-                    <Input s={6} id="repeat_password" label="Repeat password" type="password" onChange={this.onChangeHandler} />
-                    <Input id="image" type='file' />
-                    <br />
-                    <Button waves='light' onClick={this.UpdateClick}>Save</Button>
-                    <Button waves='light' onClick={this.handleClick_Main}>Back</Button>
-              </Row>
-            </div>
+              </Col>
+              <Col s={3}>
+                <Row s={2}><h4>Nickname:</h4></Row>
+                <Row s={2}><h4>First Name: </h4></Row>
+                <Row s={2}><h4>Last Name: </h4></Row>
+                <Row s={2}><h4>Location: </h4></Row>
+              </Col>
+              <Col s={3}>
+                <Row s={2}><h4>{this.state.user.nickname}</h4></Row>
+                <Row s={2}><h4>{this.state.user.first_name}</h4></Row>
+                <Row s={2}><h4>{this.state.user.last_name}</h4></Row>
+                <Row s={2}><h4>{this.state.user.location}</h4></Row>
+                <Row s={2}>
+                  {this.renderEditButton()}
+                </Row>
+              </Col>
+            </Row>
+            <br />
+          </div>
+        </div>
       );
-      }
-  }
+   }
 }
+
+export default Profile;
