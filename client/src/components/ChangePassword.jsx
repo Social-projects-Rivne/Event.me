@@ -7,7 +7,6 @@ export class ChangePassword extends Component {
     state = {
         new_password: '',
         check_new_password: '',
-
     };
 
     onChangeHandler = (e) => {

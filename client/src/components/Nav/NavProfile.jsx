@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavItem } from 'react-materialize'
 import { isLogged } from '../../utils'
 import { Link } from 'react-router-dom'
 
@@ -17,18 +16,18 @@ class NavProfile extends Component {
       <React.Fragment>
         {
           isLogged() ? (
-            <NavItem>
-              <li><Link to={"/profile/" + sessionStorage['User-id']}>
-              <img
-                alt="user pictogram"
-                className="user-pictogram"
-                src={this.get_pictogram_url()}
-              />
-              &nbsp;
+            <li>
+              <Link to={"/profile/" + sessionStorage['User-id']}>
+                <img
+                  alt="user pictogram"
+                  className="user-pictogram"
+                  width="32"
+                  src={this.get_pictogram_url()}
+                />
+                &nbsp;
               {sessionStorage['User-nickname']}
-            </Link>
+              </Link>
             </li>
-            </NavItem>
           ) : null
         }
       </React.Fragment>

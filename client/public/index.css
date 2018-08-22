@@ -1,14 +1,46 @@
 .nav-wrapper {
     padding: 0 15px;
 }
+
 .nav-wrapper .input-field label{
     color: white;
 }
+
 .nav-wrapper .input-field input[type=email]:focus,
 .nav-wrapper .input-field input[type=password]:focus {
     border-bottom: none;
     box-shadow: none;
 }
+
 .nav-wrapper .user-pictogram {
     vertical-align: middle;
+}
+
+.chips .input {
+    color: black;
+}
+
+.chips-autocomplete input::-moz-placeholder,
+.chips-autocomplete input:-moz-placeholder {
+    opacity: 1;
+    color: rgba(0,0,0,.5);
+}
+
+.textarea-wrapper label::after{
+    transform: translateY(36px);
+}
+
+.category-select-wrapper .invalid input {
+    border-bottom: 1px solid #F44336;
+    box-shadow: 0 1px 0 0 #F44336;
+}
+
+.mapWrapper {
+    height: 500px;
+    height: calc(100vh - 100px);
+}
+
+.leaflet-container {
+    height: 100%;
+    width: 100%;
 }

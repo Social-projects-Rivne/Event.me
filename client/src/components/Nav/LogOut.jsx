@@ -5,10 +5,10 @@ import { request, log_event } from '../../utils'
 
 class LogOut extends Component {
   state = {
-    msg: ''
+    msg: '',
   }
 
-  log_out = (e) => {
+  logOut = (e) => {
     e.preventDefault();
     request('/log-out', 'POST')
       .then(data => {
@@ -27,7 +27,7 @@ class LogOut extends Component {
   }
 
   render() {
-    return <NavItem onClick={this.log_out}>Log Out</NavItem>
+    return <NavItem onClick={this.logOut}>Log Out</NavItem>
   }
 }
 

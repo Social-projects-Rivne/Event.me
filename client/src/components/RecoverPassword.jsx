@@ -6,7 +6,7 @@ import { emailValidation, request } from '../utils.js';
 export class RecoverPassword extends Component {
     state = {
         email_recover: '',
-        msg: ''
+        msg: '',
     }
 
     onChangeHandler = (e) => {

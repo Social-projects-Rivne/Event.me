@@ -7,7 +7,6 @@ import LogOut from './LogOut';
 import { isLogged } from '../../utils'
 
 
-
 class Nav extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +15,7 @@ class Nav extends Component {
 
   update() {
     this.forceUpdate();
-  };
+  }
 
   renderAuthFileds() {
     if (isLogged()) {
@@ -25,13 +24,18 @@ class Nav extends Component {
           <NavProfile isLogged={isLogged} />
           <LogOut update={this.update} />
         </React.Fragment>
-      )
+      );
     }
-    else return (<React.Fragment><LogIn update={this.update} />
-                  <Button waves="light">
-                      <NavLink to='registration'>Registration</NavLink>
-                  </Button>
-                 </React.Fragment>)
+    else {
+      return (
+        <React.Fragment>
+          <LogIn update={this.update} />
+          <Button waves="light">
+            <NavLink to='registration'>Registration</NavLink>
+          </Button>
+        </React.Fragment>
+      );
+    }
   }
 
   renderNavRecover() {
