@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Parallax, Row, Col } from 'react-materialize';
+import EventMap from '../EventMap';
 import { request } from '../../utils';
 
 
@@ -29,8 +30,22 @@ class EventPage extends Component {
         }
         this.setState({ category: data.category });
       }
-      console.log(this.state)
     })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      request(`/event/${this.props.match.params.id}`).then(data => {
+        if ('event' in data) {
+          for (const key in data.event) {
+            if (this.state.hasOwnProperty(key)) {
+              this.setState({ [key]: data.event[key] });
+            }
+          }
+          this.setState({ category: data.category });
+        }
+      })
+    }
   }
 
   render() {
@@ -54,13 +69,25 @@ class EventPage extends Component {
                 Start: {moment(this.state.start_date).format('D MMMM, YYYY h:mmA')}
                 <br />
                 {this.state.end_date ?
-                "End: " + moment(this.state.end_date).format('D MMMM, YYYY h:mmA')
-                : ''}
+                  "End: " + moment(this.state.end_date).format('D MMMM, YYYY h:mmA')
+                  : ''}
               </h6>
             </Col>
           </Row>
           <Row>
-            <p class="flow-text">{this.state.description}</p>
+            <p className="flow-text">{this.state.description}</p>
+          </Row>
+          <Row className="map-single-container">
+            <EventMap events={
+              [
+                {
+                  id: this.props.match.params.id,
+                  long: this.state.long,
+                  lat: this.state.lat,
+                  name: this.state.name,
+                }
+              ]
+            } />
           </Row>
         </div>
       </React.Fragment>

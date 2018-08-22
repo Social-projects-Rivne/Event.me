@@ -40,9 +40,14 @@
     height: 50vh;
 }
 
-.mapWrapper {
+.map-page-container .mapWrapper {
     height: 500px;
     height: calc(100vh - 100px);
+}
+
+.map-single-container .mapWrapper {
+    height: 300px;
+    height: calc(80vh - 100px);
 }
 
 .leaflet-container {
