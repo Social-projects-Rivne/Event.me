@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Icon } from 'react-materialize'
-import { Link } from 'react-router-dom'
-import { isLogged } from '../utils'
+import { Row, Col, Icon } from 'react-materialize';
+import { Link } from 'react-router-dom';
+import { isLogged } from '../utils';
+
 
 class Home extends Component {
   componentDidMount() {
