@@ -94,9 +94,9 @@ class ProfileEdit extends Component {
             })
         }
         else {
-            msg_rep = "Incorrect repeated password"
+            msg_for_repeated = "Incorrect repeated password"
         }
-        this.setState({ error_repeated: msg_rep })
+        this.setState({ error_repeated: msg_for_repeated })
     };
 
     onChangeHandler = (e) => {
