@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Navbar, Button } from 'react-materialize';
+import { NavLink } from 'react-router-dom'
 import LogIn from './LogIn';
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
 import { isLogged } from '../../utils'
-import { NavLink } from 'react-router-dom'
 
 
 class Nav extends Component {
@@ -15,7 +15,7 @@ class Nav extends Component {
 
   update() {
     this.forceUpdate();
-  };
+  }
 
   renderAuthFileds() {
     if (isLogged()) {
@@ -24,13 +24,18 @@ class Nav extends Component {
           <NavProfile isLogged={isLogged} />
           <LogOut update={this.update} />
         </React.Fragment>
-      )
+      );
     }
-    else return (<React.Fragment><LogIn update={this.update} />
-                  <Button waves="light">
-                      <NavLink to='registration'>Registration</NavLink>
-                  </Button>
-                 </React.Fragment>)
+    else {
+      return (
+        <React.Fragment>
+          <LogIn update={this.update} />
+          <Button waves="light">
+            <NavLink to='registration'>Registration</NavLink>
+          </Button>
+        </React.Fragment>
+      );
+    }
   }
 
   render() {

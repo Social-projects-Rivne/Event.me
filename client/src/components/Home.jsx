@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'react-materialize'
-import { Link } from 'react-router-dom'
-import { isLogged } from '../utils'
+import { Row, Col, Icon } from 'react-materialize';
+import { Link } from 'react-router-dom';
+import { isLogged } from '../utils';
+
 
 class Home extends Component {
-  componentDidMount(){
+  componentDidMount() {
     window.addEventListener('user-log', (e) => this.forceUpdate());
   }
 
-  render(){
+  renderAddEventButton() {
+    if (isLogged()) {
+      return (
+        <div className="fixed-action-btn horizontal">
+          <Link className="btn-floating btn-large red" to="/add-event">
+            <Icon>add</Icon>
+          </Link>
+        </div>
+      )
+    }
+  }
+
+  render() {
     return (
       <React.Fragment>
         <Row>
-          <Col s={4} offset="s2"><h1>This is Home</h1></Col>
+          <Col s={6} offset="s2"><h1>This is Home</h1></Col>
         </Row>
-        {
-          isLogged() ?
-            <Link to="/add-event">
-              <Button floating fab='vertical' icon='add' className='red' large style={{bottom: '45px', right: '24px'}}>
-              </Button>
-            </Link>
-            : null
-        }
+        {this.renderAddEventButton()}
       </React.Fragment>
     );
   }

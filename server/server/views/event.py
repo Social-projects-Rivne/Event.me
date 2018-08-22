@@ -6,10 +6,12 @@ from cornice.validators import colander_body_validator
 from pyramid.security import Allow, Authenticated
 
 from ..models import model_to_dict
-from ..models.event import Event
 from ..models.category import Category
-from ..models.event_status import EventStatus
+from ..models.event import Event
 from ..models.event_history import EventHistory
+from ..models.event_status import EventStatus
+from ..models.event_tag import EventTag
+from ..models.tag import Tag
 from ..validation_schema import EventSchema
 
 
@@ -32,8 +34,12 @@ class EventView(object):
         response = {
             'success': False,
             'new_event_id': None,
-            'msg': 'Event already exist'
+            'errors': [{
+                'name': 'name',
+                'description': 'Event name already exist'
+            }],
         }
+
         if Event.get_event_obj(request,
                                name=request.validated['name']) is None:
             new_event = Event(name=request.validated['name'],
@@ -44,22 +50,34 @@ class EventView(object):
                               author_name=request.user.nickname,
                               author_id=request.user.id
                               )
+
+            category_obj = Category\
+                .get_by_name(request, request.validated['category'].lower())
+            if category_obj is None:
+                response['errors']['name'] = 'category'
+                response['errors']['description'] = "Category is not exist"
+                return response
+            new_event.category_id = category_obj.id
+
             if 'main_image' in request.validated:
                 new_event.main_image = request.validated['main_image']
+
             if 'end_date' in request.validated:
                 new_event.end_date = request.validated['end_date']
-            category = Category.get_by_name(request,
-                                            request.validated['category'].
-                                            lower())
-            if category is not None:
-                new_event.category_id = category.id
-            else:
-                new_event.category_id = Category\
-                    .new_get_id(request, request.validated['category'].lower())
+
             Event.add_event(request, obj=new_event)
             new_event_id = Event.get_event_obj(request,
                                                name=request.validated['name']
                                                ).id
+
+            for tag in request.validated.get('tags', []):
+                tag_obj = Tag.get_by_name(request, tag.lower())
+                if tag is not None:
+                    tag_id = tag_obj.id
+                else:
+                    tag_id = Tag.add_new(request, tag.lower())
+                EventTag.add_new(request, tag_id, new_event_id)
+
             response['success'] = EventHistory.create_new(
                 request,
                 event_id=new_event_id,
@@ -69,5 +87,5 @@ class EventView(object):
                     Please wait for review by moderator."
                 )
             response['new_event_id'] = new_event_id
-            response['msg'] = ''
+            del response['errors']
         return response

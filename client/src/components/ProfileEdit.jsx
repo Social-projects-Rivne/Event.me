@@ -36,7 +36,7 @@ class ProfileEdit extends Component {
     UpdateClick = (eve) => {
         eve.preventDefault()
 
-        let msg_rep = ""
+        let msg_for_repeated = ""
 
         this.setState({ error_trigger_nick: false })
         this.setState({ error_trigger_first: false })

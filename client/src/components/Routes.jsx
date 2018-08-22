@@ -5,7 +5,7 @@ import Registration from './Nav/Registration';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverPassword from './RecoverPassword';
 import ChangePassword from './ChangePassword';
-import AddEvent from './AddEvent'
+import EventForm from './EventForm'
 import Profile from './Profile';
 import ProfileEdit from './ProfileEdit'
 
