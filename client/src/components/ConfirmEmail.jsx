@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { request } from '../utils';
-import {Button, Col} from "react-materialize";
+import {Button, Col, Row} from "react-materialize";
 
 class ConfirmEmail extends Component{
     state = {
@@ -27,12 +27,15 @@ class ConfirmEmail extends Component{
     }
     render() {
         return (
-           <Col s={6} offset="s3">
-              <h5 className="center-align">{this.state.message_to_user}</h5>
-              <Col s={6} className="center-align">
-                 <Button waves="light" node='a' href='/'>Home</Button>
-              </Col>
-            </Col>
+          <Row>
+           <Col s={6} offset="s3" className="center-align">
+              <h5>{this.state.message_to_user}</h5>
+           </Col>
+           <Col s={6} offset="s3" className="center-align">
+               <Button waves="light" node='a' href='/'>Home</Button>
+           </Col>
+          </Row>
+
         )
     }
 }
