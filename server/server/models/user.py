@@ -73,6 +73,10 @@ class User(Base):
         return False
 
     @classmethod
+    def get_all(cls, request):
+        return request.dbsession.query(cls).all()
+
+    @classmethod
     def add_user(cls, request, **kwargs):
         """Add user into db"""
         request.dbsession.add(cls(**kwargs))
@@ -86,8 +90,7 @@ class User(Base):
         """ Method to update user in database """
         if request.dbsession.query(User).get(request.matchdict['profile_id']):
             request.dbsession.query(User)\
-                .filter(User.id == request.matchdict['profile_id']).\
-                update(json_data)
+            .filter(User.id == request.matchdict['profile_id']).\
+            update(json_data)
         else:
             raise httpexceptions.exception_response(404)
-        return {'status': 'Success!'}

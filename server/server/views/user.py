@@ -1,6 +1,8 @@
 from cornice.resource import resource, view
+from cornice.validators import colander_body_validator
 from passlib.hash import pbkdf2_sha256
-from pyramid.security import Allow, Everyone, Authenticated, ALL_PERMISSIONS
+from pyramid.security import Deny, Allow, Everyone, Authenticated, ALL_PERMISSIONS
+from ..validation_schema import ProfileSchema
 
 from server.models import model_to_dict
 from server.models.user import User
@@ -8,16 +10,15 @@ from server.models.user import User
 
 @resource(collection_path='/profile', path='/profile/{profile_id}',
           renderer='json', cors_origins=('http://localhost:3000',))
-class UserProfile(object):
+class UserView(object):
 
     def __init__(self, request, context=None):
         self.request = request
         self.context = context
-        self.owner_id = int(request.matchdict['profile_id'])
+        self.owner_id = request.matchdict['profile_id']
 
     def __acl__(self):
-        return [(Allow, Everyone, ALL_PERMISSIONS),
-                (Allow, self.owner_id, 'edit')]
+        return [(Allow, self.owner_id, 'edit')]
 
     def get(self):
         request = self.request
@@ -26,10 +27,13 @@ class UserProfile(object):
         user_dict['password'] = None
         return user_dict
 
-    @view(permission='edit')
+    @view(schema=ProfileSchema(), validators=(colander_body_validator,),
+          permission='edit')
     def put(self):
         request = self.request
-        data = request.json_body
+        data = request.validated
+        
         if data.get('password'):
-            data['password'] = pbkdf2_sha256.hash(data['password']),
+            data['password'] = pbkdf2_sha256.hash(data['password'])
+
         return User.update_user(request, data)
