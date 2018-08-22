@@ -30,7 +30,7 @@ export class ChangePassword extends Component {
          .then(data => {
          this.setState({ msg: data.msg });
          window.Materialize.toast(this.state.msg, 3000);
-         setTimeout(this.props.history.push('/change-password/confirm-new-password'), 3000);
+         setTimeout(this.props.history.push('/confirm-new-password'), 3000);
      })
    }
      render(){
