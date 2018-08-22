@@ -58,13 +58,14 @@ def registration_view(request):
                               nickname=request.json['nickname'],
                               password=pbkdf2_sha256.hash(request.json['password']),
                               url_token=url_token_confirmation,
-                              status_id=UserStatus.get_user_by_status(request, status="Non_active").id,                                 create_date=datetime.now())
+                              status_id=UserStatus.get_user_by_status(request, status="Non_active").id,
+                              create_date=datetime.now())
                 mailer = request.mailer
                 message = Message(subject="confirm email",
-                                 sender="asstelite@gmail.com",
-                                 recipients=[json['email']],
-                                 body='http://localhost:3000/#/email_confirm/{}'.format(url_token_confirmation)
-                                 )
+                                  sender="asstelite@gmail.com",
+                                  recipients=[json['email']],
+                                  body='http://localhost:3000/#/email_confirm/{}'.format(url_token_confirmation)
+                                  )
                 mailer.send_immediately(message, fail_silently=False)
 
                 return {"msg": "We sent token to your email address"}
