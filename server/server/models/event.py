@@ -1,4 +1,6 @@
 """SQLAlchemy model for table events"""
+from datetime import datetime, timedelta
+
 from sqlalchemy import Column, DateTime, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
@@ -44,3 +46,13 @@ class Event(Base):
     def get_event_obj(cls, request, **kwargs):
         """Return one instance of Event from db"""
         return request.dbsession.query(cls).filter_by(**kwargs).one_or_none()
+
+    @classmethod
+    def get_events_short_info(cls, request, period):
+        """ """
+        datetime_now = datetime.now()
+        return request.dbsession\
+            .query(cls).with_entities(cls.id, cls.long, cls.lat, cls.name)\
+            .filter(cls.start_date > datetime_now,
+                    cls.start_date < datetime_now +
+                    timedelta(days=period)).all()
