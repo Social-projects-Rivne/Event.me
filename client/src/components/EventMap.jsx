@@ -1,34 +1,20 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Link } from 'react-router-dom';
-import { request } from '../../utils';
 
 
 class MapLayout extends Component {
   state = {
-    events: [],
     lat: 50.619900,
     lng: 26.251617,
     zoom: 13,
-  }
-
-  componentDidMount() {
-    request('/events-short-info').then(data => {
-      if ('info' in data) {
-        data.info.forEach(element => {
-          let eventShortInfo = this.state.events;
-          eventShortInfo.push(element);
-          this.setState({ events: eventShortInfo });
-        });
-      }
-    });
   }
 
   renderEventMarkers() {
     return (
       <React.Fragment>
         {
-          this.state.events.map(eventShortInfo => {
+          this.props.events.map(eventShortInfo => {
             return (
               <Marker key={eventShortInfo.id} position={[eventShortInfo.long, eventShortInfo.lat]}>
                 <Popup onOpen={this.onPopupOpen}>

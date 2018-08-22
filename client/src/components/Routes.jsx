@@ -6,8 +6,9 @@ import Registration from './Nav/Registration';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverPassword from './RecoverPassword';
 import ChangePassword from './ChangePassword';
-import EventForm from './EventForm'
+import EventForm from './EventForm';
 import Profile from './Profile';
+import EventPage from './EventPage';
 
 
 function Routes() {
@@ -22,6 +23,7 @@ function Routes() {
         <Route path="/change-password/:token" component={ChangePassword} />
         <Route path="/add-event" component={EventForm} />
         <Route path="/profile/:profile_id" component={Profile} />
+        <Route path="/event/:id" component={EventPage} />
       </div>
     </React.Fragment>
   )

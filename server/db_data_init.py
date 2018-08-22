@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy import create_engine
 from sqlalchemy.sql.expression import insert
@@ -28,7 +29,8 @@ tag_data = [
 category_data = [
     {"category": "holiday"},
     {"category": "concert"},
-    {"category": "movie"}
+    {"category": "movie"},
+    {"category": "Voluntary"},
 ]
 user_status_data = [
     {"status": "Active"},
@@ -98,21 +100,30 @@ user_data = [
 event_data = [
     {
         "name": "Oleh Vynnyk Rivne Show",
-        "long": 26.251617,
-        "lat": 50.619900,
-        "description": "Some show blah",
-        "start_date": "2017-12-21",
-        "end_date": "2017-12-21",
-        "author_name": "what",
-        "main_image": "vynnykposter",
+        "long": 50.619900,
+        "lat": 26.251617,
+        "description": "Oleh Vynnyk performed live on stage at 1,684 shows and\
+        concerts during his career. Beginning with his first Memphis show in\
+        1954 to the last concert in Indianapolis on June 26, 1977, it is\
+        estimated that over 12 million people have seen Oleh Vynnyk’s\
+        performances live. According to all known written accounts and records\
+        kept, Oleh Vynnyk performed in 243 different communities, towns and\
+        cities in North America during his lifetime. Officially he recorded\
+        700 songs for Sun Records, RCA, movies and television shows. If the\
+        rehearsals, private sessions, live shows and alternate takes are\
+        included the total adds up to at least 990 songs.",
+        "start_date": "2017-12-21 20:00:00",
+        "end_date": "2017-12-21 23:00:00",
+        "author_name": "Concerts Rivne",
+        "main_image": "https://img.tsn.ua/cached/1533907428/tsn-5c161a41b1f154cd63aedacab6e94568/thumbs/1340x530/58/25/e98d5f0ecaec8c751b385b67df022558.jpeg",
         "author_id": 4,
         "category_id": 2,
         "status_id": 3
     },
     {
         "name": "Dark Elf Adventure",
-        "long": 27.251617,
-        "lat": 51.619900,
+        "long": 51.619900,
+        "lat": 27.251617,
         "description": "Drizzt long adventure",
         "start_date": "2019-11-01",
         "end_date": "2019-11-05",
@@ -133,6 +144,19 @@ event_data = [
         "main_image": "someposter",
         "author_id": 1,
         "category_id": 1,
+        "status_id": 3
+    },
+    {
+        "name": "Dig potatoes",
+        "long": 50.60122,
+        "lat": 26.299617,
+        "description": "If you want more potatoes, please help me and cats.",
+        "start_date": "2018-08-30 17:30:00",
+        "end_date": "2018-08-30 20:00:00",
+        "author_name": "Oleksandr",
+        "main_image": "https://r.hswstatic.com/w_907/gif/tesla-cat.jpg",
+        "author_id": 1,
+        "category_id": 4,
         "status_id": 3
     }
 ]
