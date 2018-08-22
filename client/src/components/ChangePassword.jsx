@@ -21,7 +21,7 @@ export class ChangePassword extends Component {
         }
         const changePasswordData = {
           password: this.state.new_password,
-        }
+        };
         if (!this.state.new_password.length) {
             window.Materialize.toast("Invalid input", 3000);
             return null;
@@ -36,24 +36,28 @@ export class ChangePassword extends Component {
      render(){
         return (
             <Row>
-                <Col offset="s4" s={5}>
-                    <h3> Change password </h3>
+                <Col className="center-align" offset="s7" s={4}>
+                    <h4> New password </h4>
                     <Input
                       id="new_password"
                       value={ this.state.new_password }
                       onChange={ this.onChangeHandler }
+                      s={8}
                       placeholder="Password"
                       type="password"
-                      label="new password"
+                      label="New Password"
                     />
                     <Input
                       id="check_new_password"
                       value={ this.state.check_new_password}
                       onChange={ this.onChangeHandler }
+                      s={8}
                       placeholder="Confirm Password"
                       type="password"
-                      label="confirm Password"
+                      label="Confirm Password"
                     />
+                    </Col>
+                <Col className="center-align" offset="s7" s={4}>
                     <Button waves='light' onClick={ this.changeOldPassword }>Confirm</Button>
                 </Col>
             </Row>
