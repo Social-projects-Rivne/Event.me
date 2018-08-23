@@ -1,4 +1,4 @@
-import { server_url } from './config.json'
+import { server_url } from './config.json';
 
 
 export const log_event = new CustomEvent('user-log');
@@ -23,8 +23,8 @@ export async function request(path="", method="GET", data=null) {
       mode: 'cors',
       body: data,
     });
-    if (response.status < 200 || response.status >= 300) {
-      window.Materialize.toast(`Something goes wrong (Error #${response.status})`);
+    if ((response.status < 200 || response.status >= 300) && response.status !== 400) {
+      window.Materialize.toast(`Something goes wrong (Error #${response.status})`, 5000);
     }
     const result = await response.json();
     return result;
