@@ -14,7 +14,6 @@ class Profile extends Component {
         request('/profile/' + this.props.match.params.profile_id)
         .then(data => {
             this.setState({ user: data });
-            console.log(this.state.user.nickname)
             sessionStorage.setItem("User-nickname", this.state.user.nickname);
         })
     }

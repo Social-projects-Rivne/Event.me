@@ -8,10 +8,10 @@ import { isLogged } from '../../utils'
 
 
 class Nav extends Component {
-  constructor(props) {
-    super(props);
-    this.update = this.update.bind(this);
-  }
+    constructor(props) {
+        super(props);
+        this.update = this.update.bind(this);
+    }
 
   update() {
     this.forceUpdate();
@@ -30,7 +30,7 @@ class Nav extends Component {
       return (
         <React.Fragment>
           <LogIn update={this.update} />
-          <Button waves="light">
+          <Button waves="light" node='a' href='registration'>
             <NavLink to='registration'>Registration</NavLink>
           </Button>
         </React.Fragment>
@@ -49,7 +49,6 @@ class Nav extends Component {
       </React.Fragment>
     );
   }
-
 
   render() {
     return (
