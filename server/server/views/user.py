@@ -33,6 +33,7 @@ class UserView(object):
         request = self.request
         data = request.validated
         data_success = False
+        update_success = False
 
         check_dict = {
             "first_name",
@@ -41,12 +42,18 @@ class UserView(object):
             "location"
         }
 
+        response = {'success': False}
+
         if not any(data.get(key) for key in check_dict):
             data_success = True
 
         if data.get('password'):
             data['password'] = pbkdf2_sha256.hash(data['password'])
+
         if not data_success:
-            return User.update_user(request, data)
+            update_success = User.update_user(request, data)
+            response['success'] = update_success
+            return response
         else:
-            return User.update_user(data_success)
+            response['success'] = False
+            return response

@@ -14,7 +14,10 @@ class Profile extends Component {
         request('/profile/' + this.props.match.params.profile_id)
         .then(data => {
             this.setState({ user: data });
-            sessionStorage.setItem("User-nickname", this.state.user.nickname);
+            if (sessionStorage['User-nickname'] === this.state.user.nickname) {
+                sessionStorage.setItem("User-nickname",
+                                        this.state.user.nickname);
+            }
         })
     }
 
@@ -24,7 +27,6 @@ class Profile extends Component {
             request('/profile/' + this.props.match.params.profile_id)
             .then(data => {
                 this.setState({ user: data });
-                sessionStorage.setItem("User-nickname", this.state.user.nickname);
             })
         }
     }
