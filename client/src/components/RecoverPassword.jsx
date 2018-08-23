@@ -7,6 +7,8 @@ export class RecoverPassword extends Component {
     state = {
         email_recover: '',
         msg: '',
+        check_email: '',
+        success: false,
     }
 
     onChangeHandler = (e) => {
@@ -19,15 +21,20 @@ export class RecoverPassword extends Component {
             email: this.state.email_recover
         }
         if (!emailValidation(this.state.email_recover)) {
+            this.setState({check_email: 'invalid email'});
             window.Materialize.toast("Invalid input", 3000);
             return null;
         }
     request('/recover-password', "POST", JSON.stringify(recoverData))
          .then(data => {
          this.setState({ msg: data.msg });
+         this.setState({ success: data.success });
          window.Materialize.toast(this.state.msg, 3000);
-     })
-   }
+         if (this.state.success) {
+             setTimeout(this.props.history.push('/recover-info'), 3000);
+         }
+    })
+    }
      render(){
         return (
         <div>
@@ -36,7 +43,8 @@ export class RecoverPassword extends Component {
                     <h4> Reset Password </h4>
                     <Input
                       id="email_recover"
-                      value={ this.state.email_recover }
+                      error={this.state.check_email}
+                      validate value={ this.state.email_recover }
                       onChange={ this.onChangeHandler }
                       s={12}
                       placeholder="Email"
