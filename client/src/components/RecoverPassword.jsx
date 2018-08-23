@@ -8,6 +8,7 @@ export class RecoverPassword extends Component {
         email_recover: '',
         msg: '',
         check_email: '',
+        success: false,
     }
 
     onChangeHandler = (e) => {
@@ -27,10 +28,13 @@ export class RecoverPassword extends Component {
     request('/recover-password', "POST", JSON.stringify(recoverData))
          .then(data => {
          this.setState({ msg: data.msg });
+         this.setState({ success: data.success });
          window.Materialize.toast(this.state.msg, 3000);
-         setTimeout(this.props.history.push('/recover-info'), 3000);
-     })
-   }
+         if (this.state.success) {
+             setTimeout(this.props.history.push('/recover-info'), 3000);
+         }
+    })
+    }
      render(){
         return (
         <div>
