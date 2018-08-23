@@ -67,6 +67,14 @@ class Registration extends Component {
             <Col s={6} offset="s3">
             <h3 className="center-align">Registration form</h3>
           <Input
+            id="nickname"
+            error={this.state.check_nickname}
+            validate value={this.state.nickname}
+            onChange={this.onChangeHandler}
+            placeholder="Nickname"
+            label="Nickname"
+            m={12}/>
+          <Input
             id="email"
             error={this.state.check_email}
             validate value={this.state.email}
@@ -74,14 +82,6 @@ class Registration extends Component {
             placeholder="Email"
             type="email"
             label="Email"
-            m={12}/>
-          <Input
-            id="nickname"
-            error={this.state.check_nickname}
-            validate value={this.state.nickname}
-            onChange={this.onChangeHandler}
-            placeholder="Nickname"
-            label="Nickname"
             m={12}/>
           <Input
             id="password"
