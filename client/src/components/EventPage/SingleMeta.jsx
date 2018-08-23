@@ -8,11 +8,7 @@ const EventMeta = (props) => {
       <Col className="valign-wrapper">
         {props.icon ? <Icon>{props.icon}</Icon> : ''}
         &nbsp;
-        {
-          props.link ?
-            <Link to={props.link}>{props.children}</Link>
-            : props.children
-        }
+        {props.link ? <Link to={props.link}>{props.children}</Link> : props.children}
       </Col>
     );
 }

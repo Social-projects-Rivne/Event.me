@@ -22,49 +22,65 @@ class EventPage extends Component {
     tags: {},
   }
 
-  componentDidMount() {
+  componentDidMount = () => this.getEventData();
+
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.getEventData();
+    }
+  }
+
+  getEventData() {
     request(`/event/${this.props.match.params.id}`).then(data => {
+
       if ('event' in data) {
         for (const key in data.event) {
           if (this.state.hasOwnProperty(key)) {
             this.setState({ [key]: data.event[key] });
           }
         }
+
         this.setState({ category: data.category });
         this.setState({ tags: data.tags });
       }
     })
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.id !== prevProps.match.params.id) {
-      request(`/event/${this.props.match.params.id}`).then(data => {
-        if ('event' in data) {
-          for (const key in data.event) {
-            if (this.state.hasOwnProperty(key)) {
-              this.setState({ [key]: data.event[key] });
-            }
-          }
-          this.setState({ category: data.category });
-          this.setState({ tags: data.tags });
-        }
-      })
-    }
-  }
-
   renderTimeString() {
     const start_day = moment(this.state.start_date).format('MMMM D, YYYY');
     if (!this.state.end_date) {
-      return <p className="flow-text"><Icon>date_range</Icon>{start_day}<Icon>access_time</Icon>{moment(this.state.start_date).format('hh:mm')}</p>
+      return (
+        <p className="flow-text">
+          <Icon>date_range</Icon>
+          {start_day}
+          <Icon>access_time</Icon>
+          {moment(this.state.start_date).format('hh:mm')}
+        </p>
+      )
     }
 
     if (start_day === moment(this.state.end_date).format('MMMM D, YYYY')) {
-      return <p className="flow-text"><Icon>date_range</Icon>{start_day}<Icon>access_time</Icon>{moment(this.state.start_date).format('hh:mm') + " - " +
-        moment(this.state.end_date).format('hh:mm')}</p>
+      return (
+        <p className="flow-text">
+          <Icon>date_range</Icon>
+          {start_day}
+          <Icon>access_time</Icon>
+          {`${moment(this.state.start_date).format('hh:mm')} - ${moment(this.state.end_date).format('hh:mm')}`}
+        </p>
+      )
     }
 
-    return <p className="flow-text"><Icon>date_range</Icon>{[moment(this.state.start_date).format('MMMM D, YYYY hh:mm'),
-    moment(this.state.end_date).format('MMMM D, YYYY hh:mm')].join(' - ')}</p>
+    return (
+      <p className="flow-text">
+        <Icon>date_range</Icon>
+        {
+          [
+            moment(this.state.start_date).format('MMMM D, YYYY hh:mm'),
+            moment(this.state.end_date).format('MMMM D, YYYY hh:mm')
+          ].join(' - ')
+        }
+      </p>
+    )
   }
 
   render() {
@@ -73,7 +89,9 @@ class EventPage extends Component {
         {this.state.main_image ? <Parallax imageSrc={this.state.main_image} /> : ''}
         <CardPanel className="black-text">
           <Row>
-            <Col s={12} className="left-align"><h3>{this.state.name}</h3></Col>
+            <Col s={12} className="left-align">
+              <h3>{this.state.name}</h3>
+            </Col>
           </Row>
           <Row>
             <Col s={12} className="left-align valign-wrapper">
