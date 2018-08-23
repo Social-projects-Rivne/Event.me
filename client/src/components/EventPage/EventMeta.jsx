@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Icon, Col } from 'react-materialize';
 import SingleMeta from './SingleMeta';
 import { isEmpty } from '../../utils';
+import { Link } from 'react-router-dom';
+
 
 class EventMeta extends Component {
   renderTags() {
@@ -15,7 +17,7 @@ class EventMeta extends Component {
         <Col className="valign-wrapper">
           <Icon>local_offer</Icon>
           &nbsp;
-          {tags_arr.map((element, id)=> <span key={id}>{element}&nbsp;</span>)}
+          {tags_arr.map((element, id)=> <Link to={`/tag/${element}`} key={id}>{element}&nbsp;</Link>)}
         </Col>
       );
     }

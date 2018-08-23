@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Parallax, Row, Col, CardPanel } from 'react-materialize';
+import { Parallax, Row, Col, CardPanel, Icon } from 'react-materialize';
 import moment from 'moment';
 import EventMap from '../EventMap';
 import EventMeta from './EventMeta';
@@ -55,16 +55,16 @@ class EventPage extends Component {
   renderTimeString() {
     const start_day = moment(this.state.start_date).format('MMMM D, YYYY');
     if (!this.state.end_date) {
-      return start_day + moment(this.state.start_date).format('hh:mm');
+      return <p className="flow-text"><Icon>date_range</Icon>{start_day}<Icon>access_time</Icon>{moment(this.state.start_date).format('hh:mm')}</p>
     }
 
     if (start_day === moment(this.state.end_date).format('MMMM D, YYYY')) {
-      return start_day + " " + moment(this.state.start_date).format('hh:mm') + " - " +
-        moment(this.state.end_date).format('hh:mm');
+      return <p className="flow-text"><Icon>date_range</Icon>{start_day}<Icon>access_time</Icon>{moment(this.state.start_date).format('hh:mm') + " - " +
+        moment(this.state.end_date).format('hh:mm')}</p>
     }
 
-    return [moment(this.state.start_date).format('MMMM D, YYYY hh:mm'),
-    moment(this.state.end_date).format('MMMM D, YYYY hh:mm')].join(' - ');
+    return <p className="flow-text"><Icon>date_range</Icon>{[moment(this.state.start_date).format('MMMM D, YYYY hh:mm'),
+    moment(this.state.end_date).format('MMMM D, YYYY hh:mm')].join(' - ')}</p>
   }
 
   render() {
@@ -76,8 +76,8 @@ class EventPage extends Component {
             <Col s={12} className="left-align"><h3>{this.state.name}</h3></Col>
           </Row>
           <Row>
-            <Col s={12} className="left-align">
-              <blockquote><p className="flow-text">{this.renderTimeString()}</p></blockquote>
+            <Col s={12} className="left-align valign-wrapper">
+              <blockquote>{this.renderTimeString()}</blockquote>
             </Col>
           </Row>
           <Row>
