@@ -32,8 +32,15 @@ class UserView(object):
     def put(self):
         request = self.request
         data = request.validated
-        
+        data_check_if_null = False
+
+        if data.get('first_name') is None and \
+           data.get('last_name') is None and \
+           data.get('nickname') is None and \
+           data.get('location') is None:
+            data_check_if_null = True
+
         if data.get('password'):
             data['password'] = pbkdf2_sha256.hash(data['password'])
 
-        return User.update_user(request, data)
+        return User.update_user(request, data, data_check_if_null)
