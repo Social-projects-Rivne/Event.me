@@ -100,8 +100,10 @@ class EventView(object):
                                         id=request.matchdict['event_id'])
         if event_obj is None:
             return HTTPNotFound()
+        tags = EventTag.get_event_tags(request, event_obj.id)
         response = {
             'event': model_to_dict(event_obj),
             'category': event_obj.category.category,
+            'tags': tags,
         }
         return response

@@ -33,3 +33,13 @@ export async function request(path="", method="GET", data=null) {
 export const emailValidation = email => /.+@{1}.+/.test(email);
 
 export const isLogged = () => (typeof(sessionStorage['Authorization-token']) !== 'undefined');
+
+/*
+ * Get object like parametr and check is object empty, return (True/False)
+ */
+export const isEmpty = obj => {
+  for (const key in obj) {
+    return false;
+  }
+  return true;
+}
