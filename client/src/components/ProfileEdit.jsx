@@ -9,11 +9,11 @@ class ProfileEdit extends Component {
     state = {
         user: {},
         errors_edit: {
-            nickname: '',
-            password: '',
-            first_name: '',
-            last_name: ''
-        },
+            // nickname: '',
+            // password: '',
+            // first_name: '',
+            // last_name: ''
+        }
     }
 
     componentDidMount() {
@@ -34,6 +34,8 @@ class ProfileEdit extends Component {
     UpdateClick = (eve) => {
         eve.preventDefault()
 
+        this.setState({ errors_edit: {} })
+
         if (this.state.new_password_input ===
             this.state.repeat_password_input) {
             const data = {
@@ -47,38 +49,27 @@ class ProfileEdit extends Component {
             request('/profile/' + this.props.match.params.profile_id,
                     "PUT", JSON.stringify(data))
             .then(data => {
-                sessionStorage.setItem("User-nickname",
-                                        this.state.nickname_input);
-                try {
-                    if ('errors' in data) {
-                        for (let i = 0; i < data['errors'].length; i++) {
-                            for (var key in this.state.errors_edit) {
-                                if (data.errors[i].name === key ) {
-                                    this.setState({
-                                        errors_edit: {
-                                            ...this.state.errors_edit,
-                                            [key]:
-                                            String([data.errors[i].description])
-                                        }
-                                    });
-                                }
-                            }
-                        };
-                    }
-                    else {
+                if ('errors' in data) {
+                    for (let i = 0; i < data['errors'].length; i++) {
                         this.setState({
                             errors_edit: {
-                                nickname: "",
-                                first_name: "",
-                                last_name: "",
-                                password: ""
+                                ...this.state.errors_edit,
+                                [data.errors[i].name]:
+                                String([data.errors[i].description])
                             }
                         });
-                        this.props.history.push('/profile/' + this.props.match.params.profile_id);
-                        window.Materialize.toast("Profile Updated", 2500);
-                    }
+                    };
                 }
-                catch (err) {
+                else if (!data.success) {
+                    this.setState({
+                        errors_edit: {}
+                    });
+                    this.props.history.push('/profile/' + this.props.match.params.profile_id);
+                    window.Materialize.toast("Profile Updated", 2500);
+                }
+                else {
+                    sessionStorage.setItem("User-nickname",
+                                            this.state.nickname_input);
                     this.setState({
                         errors_edit: {
                             nickname: "",

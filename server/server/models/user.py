@@ -86,12 +86,18 @@ class User(Base):
         return self.roles.role
 
     @staticmethod
-    def update_user(request, json_data, data_check):
+    def update_user(request=None, json_data=None, data_success=True):
         """ Method to update user in database """
-        if request.dbsession.query(User).get(request.matchdict['profile_id']):
-            if data_check == False:
+        response = {'success': False}
+        if request is not None and json_data is not None:
+            if request.dbsession.query(User).get(request.matchdict['profile_id']):
                 request.dbsession.query(User)\
                 .filter(User.id == request.matchdict['profile_id']).\
                 update(json_data)
+                response['success'] = True
+                return response
+            else:
+                raise httpexceptions.exception_response(404)
+                return response
         else:
-            raise httpexceptions.exception_response(404)
+            return response
