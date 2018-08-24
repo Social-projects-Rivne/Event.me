@@ -37,7 +37,7 @@ class ProfileEdit extends Component {
                 this.setState({
                     errors_edit: {
                         ...this.state.errors_edit,
-                        nickname: "You cant save empty nickname"
+                        nickname: "You can't save empty nickname"
                     }
                 });
             }
@@ -55,14 +55,12 @@ class ProfileEdit extends Component {
                 .then(data => {
                     if(!data.success) {
                         if ('errors' in data) {
-                            for (let i = 0; i < data['errors'].length; i++) {
-                                let errors = data['errors'].reduce(
-                                    (accumulator, item) =>
-                                    { accumulator[item.name] =
-                                      item.description;
-                                      return accumulator; }, {});
-                                this.setState({ errors_edit: errors });
-                            };
+                            let errors = data['errors'].reduce(
+                                (accumulator, item) =>
+                                { accumulator[item.name] =
+                                  item.description;
+                                  return accumulator; }, {});
+                            this.setState({ errors_edit: errors });
                         }
                         else {
                             this.setState({
@@ -85,7 +83,6 @@ class ProfileEdit extends Component {
                             errors_edit: {}
                         });
                         this.props.history.push('/profile/' + this.props.match.params.profile_id);
-                        window.Materialize.toast("Profile Updated", 2500);
                     }
                 })
             }

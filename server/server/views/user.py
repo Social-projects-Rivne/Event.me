@@ -55,5 +55,4 @@ class UserView(object):
             response['success'] = update_success
             return response
         else:
-            response['success'] = False
             return response
