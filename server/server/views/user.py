@@ -32,8 +32,8 @@ class UserView(object):
     def put(self):
         request = self.request
         data = request.validated
-        data_success = False
-        update_success = False
+        data_is_updated = True
+        update_status = False
 
         check_dict = {
             "first_name",
@@ -45,14 +45,14 @@ class UserView(object):
         response = {'success': False}
 
         if not any(data.get(key) for key in check_dict):
-            data_success = True
+            data_is_updated = False
 
         if data.get('password'):
             data['password'] = pbkdf2_sha256.hash(data['password'])
 
-        if not data_success:
-            update_success = User.update_user(request, data)
-            response['success'] = update_success
+        if data_is_updated:
+            update_status = User.update_user(request, data)
+            response['success'] = update_status
             return response
         else:
             return response
