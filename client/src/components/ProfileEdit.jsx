@@ -53,7 +53,18 @@ class ProfileEdit extends Component {
                 request('/profile/' + this.props.match.params.profile_id,
                         "PUT", JSON.stringify(data))
                 .then(data => {
-                    if(!data.success) {
+                    if(data.is_updated) {
+                        if (this.state.nickname_input !== undefined) {
+                            sessionStorage.setItem("User-nickname",
+                                                    this.state.nickname_input);
+                        }
+                        this.setState({
+                            errors_edit: {}
+                        });
+                        this.props.history.push('/profile/' + this.props.match.params.profile_id);
+                        window.Materialize.toast("Profile Updated", 2500);
+                    }
+                    else {
                         if ('errors' in data) {
                             let errors = data['errors'].reduce(
                                 (accumulator, item) =>
@@ -63,26 +74,15 @@ class ProfileEdit extends Component {
                             this.setState({ errors_edit: errors });
                         }
                         else {
+                            if (this.state.nickname_input !== undefined) {
+                                sessionStorage.setItem(
+                                    "User-nickname", this.state.nickname_input);
+                            }
                             this.setState({
                                 errors_edit: {}
                             });
                             this.props.history.push('/profile/' + this.props.match.params.profile_id);
-                            window.Materialize.toast("Profile Updated", 2500);
                         }
-                    }
-                    else {
-                        if (this.state.nickname_input === null) {
-                            sessionStorage.setItem("User-nickname",
-                                                    this.state.user.nickname);
-                        }
-                        else {
-                            sessionStorage.setItem("User-nickname",
-                                                    this.state.nickname_input);
-                        }
-                        this.setState({
-                            errors_edit: {}
-                        });
-                        this.props.history.push('/profile/' + this.props.match.params.profile_id);
                     }
                 })
             }
