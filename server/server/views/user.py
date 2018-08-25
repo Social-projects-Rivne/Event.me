@@ -33,12 +33,25 @@ class UserView(object):
         request = self.request
         data = request.validated
         update_status = False
+        is_data_not_null = False
 
-        response = {'is_updated': False}
+        response = {'success': False}
+
+        check_dict = {
+            "first_name",
+            "last_name",
+            "nickname",
+            "location"
+        }
+
+        if any(data.get(key) for key in check_dict):
+            is_data_not_null = True
 
         if data.get('password'):
             data['password'] = pbkdf2_sha256.hash(data['password'])
 
-        update_status = User.update_user(request, data)
-        response['is_updated'] = update_status
+        if is_data_not_null:
+            update_status = User.update_user(request, data)
+            response['success'] = update_status
+            return response
         return response

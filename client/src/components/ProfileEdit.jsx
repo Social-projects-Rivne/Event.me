@@ -53,14 +53,12 @@ class ProfileEdit extends Component {
                 request('/profile/' + this.props.match.params.profile_id,
                         "PUT", JSON.stringify(data))
                 .then(data => {
-                    if(data.is_updated) {
+                    if(data.success) {
                         if (this.state.nickname_input !== undefined) {
                             sessionStorage.setItem("User-nickname",
                                                     this.state.nickname_input);
                         }
-                        this.setState({
-                            errors_edit: {}
-                        });
+                        this.setState({ errors_edit: {} });
                         this.props.history.push('/profile/' + this.props.match.params.profile_id);
                         window.Materialize.toast("Profile Updated", 2500);
                     }
@@ -74,14 +72,9 @@ class ProfileEdit extends Component {
                             this.setState({ errors_edit: errors });
                         }
                         else {
-                            if (this.state.nickname_input !== undefined) {
-                                sessionStorage.setItem(
-                                    "User-nickname", this.state.nickname_input);
-                            }
-                            this.setState({
-                                errors_edit: {}
-                            });
+                            this.setState({ errors_edit: {} });
                             this.props.history.push('/profile/' + this.props.match.params.profile_id);
+                            window.Materialize.toast("Profile Unchanged", 2500);
                         }
                     }
                 })
@@ -106,7 +99,7 @@ class ProfileEdit extends Component {
       return (
         <div>
           <div>
-             <h1 >Profile</h1>
+             <h1>Profile</h1>
           </div>
           <Row>
             <Input
