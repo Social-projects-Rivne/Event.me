@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Home from './Home';
+import Home from './HomePage/index';
 import MapLayout from './MapLayout';
-import Registration from './Nav/Registration';
+import Registration from './HomePage/Registration';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverInfo from './RecoverInfo';
 import ChangePasswordConfirm from './ChangePasswordConfirm';
@@ -16,10 +16,9 @@ import EventForm from './EventForm/index';
 function Routes() {
   return (
     <React.Fragment>
-      <Route path="/map" component={MapLayout} exact />
-      <div className="container">
+        <Route path="/map" component={MapLayout} exact />
         <Route path="/" component={Home} exact />
-        <Route path="/registration" component={Registration} exact />
+      <div className="container">
         <Route path="/email_confirm/:token" component={ConfirmEmail} />
         <Route path="/recover" component={RecoverPassword} exact />
         <Route path="/recover-info" component={RecoverInfo} />

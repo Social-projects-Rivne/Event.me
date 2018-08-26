@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon } from 'react-materialize'
+import { Input, Button, Icon, Row } from 'react-materialize'
+import { Link } from 'react-router-dom'
 import { request, emailValidation, log_event } from '../../utils'
 
 
@@ -48,30 +49,32 @@ class LogIn extends Component {
   render() {
     return (
       <React.Fragment>
-        <li>
-          <Icon>person</Icon>
-        </li>
-        <li>
+      <Row className="white">
+        <Row>
           <Input
             id="email"
             value={this.state.email}
             onChange={this.onChangeHandler}
             type="email"
             label="Email"
+            m={12}
           />
-        </li>
-        <li>
+        </Row>
+        <Row>
           <Input
             id="password"
             value={this.state.password}
             onChange={this.onChangeHandler}
             type="password"
             label="Password"
+            m={12}
           />
-        </li>
-        <li>
-          <Button waves="light" onClick={this.logIn}>Log In</Button>
-        </li>
+          </Row>
+        <Row>
+        <Link id="recover_link" to={"/recover"}>forgot password?</Link>
+        </Row>
+          <Button id="login_button" waves="light" waves="light" onClick={this.logIn}>Log In</Button>
+        </Row>
       </React.Fragment>
     );
   }

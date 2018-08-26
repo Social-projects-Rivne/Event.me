@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Button, Row } from 'react-materialize';
-import { NavLink, Link } from 'react-router-dom'
-import LogIn from './LogIn';
+import { NavLink, Link, Redirect } from 'react-router-dom'
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
 import { isLogged } from '../../utils'
@@ -28,33 +27,17 @@ class Nav extends Component {
     }
     else {
       return (
-        <React.Fragment>
-          <LogIn update={this.update} />
-          <Button waves="light" node='a' href='registration'>
-            <NavLink to='registration'>Registration</NavLink>
-          </Button>
-        </React.Fragment>
+      <React.Fragment>
+            <Redirect push to="/" />
+              </React.Fragment>
       );
     }
-  }
-
-  renderNavRecover() {
-    return (
-      <React.Fragment>
-        {
-        <li>
-          <Link to={"/recover"}>forgot password?</Link>
-        </li>
-        }
-      </React.Fragment>
-    );
   }
 
   render() {
     return (
       <Navbar brand="Event.me" right>
       <Row>
-        {this.renderNavRecover()}
         {this.renderAuthFileds()}
         </Row>
       </Navbar>
