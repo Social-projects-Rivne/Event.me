@@ -1,0 +1,42 @@
+version: '3'
+services:
+    pyramid:
+        build: .
+        container_name: pyramid
+        command: bash -c "pip install -e /app/server/ && pserve /app/server/development.ini --reload"
+        volumes:
+            - .:/app
+        depends_on:
+            - db
+        ports:
+            - "6543:6543"
+    db:
+        image: postgres:9.6
+        restart: always
+        container_name: eventme_postgres
+        environment:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: 1
+          POSTGRES_DB: eventme
+        volumes:
+          - ~/.eventme-postgres:/var/lib/postgresql/data
+        ports:
+          - 5555:5432
+    adminer:
+        image: adminer
+        restart: always
+        depends_on:
+            - db
+        ports:
+          - 9000:8080
+    client:
+        image: node:10
+        container_name: react
+        command: bash -c "npm install && npm start"
+        working_dir: /app/client
+        volumes:
+            - ./client:/app/client
+        depends_on:
+            - pyramid
+        ports:
+            - "3000:3000"
