@@ -1,7 +1,7 @@
 from cornice.resource import resource, view
 from cornice.validators import colander_body_validator
 from passlib.hash import pbkdf2_sha256
-from pyramid.security import Deny, Allow, Everyone, Authenticated, ALL_PERMISSIONS
+from pyramid.security import Allow
 from ..validation_schema import ProfileSchema
 
 from server.models import model_to_dict
