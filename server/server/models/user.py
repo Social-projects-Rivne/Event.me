@@ -93,5 +93,6 @@ class User(Base):
             request.dbsession.query(User)\
                 .filter(User.id == request.matchdict['profile_id']).\
                 update(json_data)
+            return True
         else:
-            raise httpexceptions.exception_response(404)
+            return False
