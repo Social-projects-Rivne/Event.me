@@ -36,9 +36,5 @@ class HotEventView(object):
         hot_events = Event.get_events_by_ids(request, id_array)
         hot_array = [model_to_dict(obj) for obj in hot_events]
         response['hot_events'] = hot_array
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 829daf7fc9299adf43a3bd5efa509b886b890b2e
         return response
