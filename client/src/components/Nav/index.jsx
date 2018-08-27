@@ -10,6 +10,7 @@ class Nav extends Component {
     constructor(props) {
         super(props);
         this.update = this.update.bind(this);
+        window.addEventListener('user-log', (e) => this.update());
     }
 
   update() {
@@ -23,13 +24,6 @@ class Nav extends Component {
           <NavProfile isLogged={isLogged} />
           <LogOut update={this.update} />
         </React.Fragment>
-      );
-    }
-    else {
-      return (
-      <React.Fragment>
-            <Redirect push to="/" />
-              </React.Fragment>
       );
     }
   }

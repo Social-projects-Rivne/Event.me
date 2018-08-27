@@ -12,6 +12,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.update = this.update.bind(this);
+        window.addEventListener('user-log', (e) => this.update());
     }
 
   update() {
@@ -30,6 +31,23 @@ class Home extends Component {
     );
   }
 
+
+
+
+  renderNotLogined() {
+    if (!isLogged()) {
+      return (
+      <React.Fragment>
+      <Col className="left-align"  s={9}>
+      <Tabs className="tabs tabs-fixed-width tab-demo z-depth-1">
+      <Tab title="Sign In" active><LogIn update={this.update} /></Tab>
+      <Tab title="Sign Up"><Registration /></Tab>
+      </Tabs></Col>
+      </React.Fragment>
+      );
+    }
+  }
+
   render() {
     return (
     <React.Fragment>
@@ -38,15 +56,11 @@ class Home extends Component {
         <Row>
         </Row>
         <div id="parent">
-            <div className="grey lighten-1 left">
+            <div className="white left">
                 <h1>Oleh Vinnik Forever</h1>
             </div>
            <div className="right">
-               <Col className="left-align"  s={9}>
-               <Tabs className="tabs tabs-fixed-width tab-demo z-depth-1">
-               <Tab title="Log In" active><LogIn update={this.update} /></Tab>
-               <Tab title="Registration"><Registration /></Tab>
-               </Tabs></Col>
+               {this.renderNotLogined()}
            </div>
         </div>
 

@@ -103,9 +103,9 @@ class Registration extends Component {
             label="Repeat password"
             m={12}/>
             </Row>
-          <Row>
-              <Button id="registration_button" waves="light" onClick={this.register}>SignUp</Button>
-          </Row>
+
+              <Button id="registration_button" waves="light" onClick={this.register}>Sign Up</Button>
+        
         </Row>
         );
       }

@@ -73,7 +73,7 @@ class LogIn extends Component {
         <Row>
         <Link id="recover_link" to={"/recover"}>forgot password?</Link>
         </Row>
-          <Button id="login_button" waves="light" waves="light" onClick={this.logIn}>Log In</Button>
+          <Button id="login_button" waves="light" waves="light" onClick={this.logIn}>Sign In</Button>
         </Row>
       </React.Fragment>
     );
