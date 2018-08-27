@@ -16,6 +16,7 @@ class LogOut extends Component {
           sessionStorage.removeItem('Authorization-token');
           sessionStorage.removeItem('User-nickname');
           sessionStorage.removeItem('User-avatar');
+          sessionStorage.removeItem('User-id');
           this.props.update();
           window.dispatchEvent(log_event);
         } else {

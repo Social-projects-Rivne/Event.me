@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import SingleMeta from './SingleMeta';
 
 
-class EventMeta extends Component {
-
-
-  render() {
+const EventMeta = (props) => {
     return (
       <div className="valign-wrapper">
-        <SingleMeta icon="person" link={`/profile/${this.props.author_id}`}>
-          {this.props.author_name}
+        <SingleMeta icon="person" link={`/profile/${props.author_id}`}>
+          {props.author_name}
         </SingleMeta>
-        <SingleMeta icon="folder" link={`/category/${this.props.category_id}`}>
-          {this.props.category}
+        <SingleMeta icon="folder" link={`/category/${props.category_id}`}>
+          {props.category}
         </SingleMeta>
       </div>
     );
   }
-}
 
 export default EventMeta;

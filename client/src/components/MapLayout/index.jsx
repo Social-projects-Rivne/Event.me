@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-materialize'
-import MapFilters from './MapFilters';
+import { Row, Col } from 'react-materialize';
 import EventMap from '../EventMap';
 import { request } from '../../utils';
 
@@ -13,12 +12,8 @@ class MapLayout extends Component {
   componentDidMount() {
     request('/events-short-info').then(data => {
       if ('info' in data) {
-        data.info.forEach(element => {
-          let eventShortInfo = this.state.events;
-          eventShortInfo.push(element);
-          this.setState({ events: eventShortInfo });
-        });
-      }
+        this.setState({ events: data.info });
+      };
     });
   }
 
@@ -26,7 +21,9 @@ class MapLayout extends Component {
     return (
       <Row>
         <Col s={4}>
-          <MapFilters />
+          <div>
+            &nbsp;
+          </div>
         </Col>
         <Col s={8} className="map-page-container">
           <EventMap events={this.state.events} />

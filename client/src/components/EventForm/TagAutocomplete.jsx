@@ -29,10 +29,10 @@ class TagAutocomplete extends Component {
 
   componentDidUpdate() {
     if ('value' in this.props) {
-      let chip_data = []
+      let chip_data = [];
       for (const key in this.props.value) {
         chip_data.push({ tag: String([key]) });
-      }
+      };
 
       window.$('#chips-tags').material_chip({
         data: chip_data,

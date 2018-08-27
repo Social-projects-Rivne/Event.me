@@ -16,6 +16,7 @@ class Home extends Component {
           <Link className="btn-floating btn-large red" to="/add-event">
             <Icon>add</Icon>
           </Link>
+          <p className="btn-floating mobile-fab-tip">Add Event</p>
         </div>
       )
     }

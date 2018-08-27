@@ -30,7 +30,7 @@ class SelectCategory extends Component {
     return (
       <Input
         s={12} type="select" id="category"
-        defaultValue={this.props.value !== " " ? this.props.value : 'default'}
+        value={this.props.value !== "" ? this.props.value : 'default'}
         label="Category"
         error={this.props.error}
         onChange={this.props.onChangeHandler}

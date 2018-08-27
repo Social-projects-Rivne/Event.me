@@ -74,6 +74,7 @@ class User(Base):
 
     @classmethod
     def get_all(cls, request):
+        """Get all users"""
         return request.dbsession.query(cls).all()
 
     @classmethod
@@ -90,7 +91,7 @@ class User(Base):
         """ Method to update user in database """
         if request.dbsession.query(User).get(request.matchdict['profile_id']):
             request.dbsession.query(User)\
-            .filter(User.id == request.matchdict['profile_id']).\
-            update(json_data)
+                .filter(User.id == request.matchdict['profile_id']).\
+                update(json_data)
         else:
             raise httpexceptions.exception_response(404)

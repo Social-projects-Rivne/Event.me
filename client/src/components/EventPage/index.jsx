@@ -23,55 +23,67 @@ class EventPage extends Component {
     tags: {},
   }
 
-  componentDidMount = () => this.getEventData();
+  componentDidMount = () => {
+    window.addEventListener('user-log', (e) => {
+      this.forceUpdate();
+      this.setState({ status: undefined });
+    });
+    this.getEventData();
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.match.params.id !== prevProps.match.params.id) {
-      this.setState({status: undefined});
       this.getEventData();
     }
   }
 
   getEventData() {
     request(`/event/${this.props.match.params.id}`).then(data => {
-      console.log(data)
       if ('event' in data) {
         for (const key in data.event) {
           if (this.state.hasOwnProperty(key)) {
             this.setState({ [key]: data.event[key] });
-          }
-        }
+          };
+        };
+
         if ('status' in data) {
           this.setState({ status: data.status });
         }
+
         this.setState({
           category: data.category,
-          tags: data.tags
+          tags: data.tags,
         });
-      }
-    })
+      };
+    });
   }
 
   renderEditButton() {
     if (Number(sessionStorage.getItem('User-id')) === this.state.author_id) {
       return (
         <div className="fixed-action-btn horizontal">
-          <Link className="btn-floating btn-large red" to={`/event/edit/${this.props.match.params.id}`}>
+          <Link
+            className="btn-floating btn-large red"
+            to={`/event/edit/${this.props.match.params.id}`}
+          >
             <i className="large material-icons">mode_edit</i>
           </Link>
+          <p className="btn-floating mobile-fab-tip">Edit Event</p>
         </div>
       )
-    }
+    };
   }
 
   renderStatusContent() {
     if (this.state.status) {
-      return <div className="flow-text white-text card-panel red darken-1">
+      return (
+      <div className="flow-text white-text card-panel red darken-1">
         {moment(this.state.status.date).format('MMMM D, YYYY hh:mm')}
         <br />
         {this.state.status.comment}
       </div>
-    }
+      )
+    };
   }
 
   renderTimeString() {
@@ -93,7 +105,8 @@ class EventPage extends Component {
           <Icon>date_range</Icon>
           {start_day}
           <Icon>access_time</Icon>
-          {`${moment(this.state.start_date).format('HH:mm')} - ${moment(this.state.end_date).format('HH:mm')}`}
+          {`${moment(this.state.start_date).format('HH:mm')} -
+            ${moment(this.state.end_date).format('HH:mm')}`}
         </p>
       )
     }

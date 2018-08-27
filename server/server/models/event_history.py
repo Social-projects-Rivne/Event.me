@@ -22,13 +22,13 @@ class EventHistory(Base):
 
     @classmethod
     def create_new(cls, request, **kwargs):
-        """ """
+        """Create new event history record in db"""
         request.dbsession.add(cls(**kwargs))
         return True
 
     @classmethod
     def get_current_event_status(cls, request, event_id):
-        """ """
+        """Get last event history object for some event by id"""
         max_date_query = request.dbsession.query(func.max(cls.date))\
             .filter_by(event_id=event_id)
         return request.dbsession.query(cls)\

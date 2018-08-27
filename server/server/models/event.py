@@ -55,12 +55,12 @@ class Event(Base):
 
     @classmethod
     def get_event_by_id(cls, request, id):
-        """ """
+        """Return one instance of Event from db by id"""
         return request.dbsession.query(cls).get(id)
 
     @classmethod
     def get_events_short_info(cls, request, period):
-        """ """
+        """Return location, title and id of event on some time period"""
         datetime_now = datetime.now()
         return request.dbsession\
             .query(cls).with_entities(cls.id, cls.long, cls.lat, cls.name)\

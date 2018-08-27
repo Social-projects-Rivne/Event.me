@@ -24,5 +24,5 @@ class EventStatus(Base):
 
     @classmethod
     def get_status_by_id(cls, request, id):
-        """ """
+        """Get status string by status id"""
         return request.dbsession.query(cls).get(id).status

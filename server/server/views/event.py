@@ -113,7 +113,7 @@ class EventView(object):
 
     @view(permission='get')
     def get(self):
-        """ """
+        """Return event data by id, also return event status for author"""
         request = self.request
 
         event_obj = Event.get_event_by_id(request, self.event_id)
@@ -126,7 +126,7 @@ class EventView(object):
             'category': event_obj.category.category,
             'tags': tags,
         }
-        if event_obj.author_id == request.user.id:
+        if request.user is not None and event_obj.author_id == request.user.id:
             response['status'] = model_to_dict(self.event_history)
 
         return response
@@ -191,4 +191,17 @@ class EventView(object):
                          "Please wait for review by moderator.")
             )
             del response['errors']
+        return response
+
+    @view(permission='update')
+    def delete(self):
+        """Make event closed"""
+        response = {'success': False}
+        response['success'] = EventHistory.create_new(
+            self.request,
+            event_id=self.event_id,
+            status_id=EventStatus.get_status(self.request, 'Close').id,
+            date=datetime.now(),
+            comment="This event closed by author."
+            )
         return response

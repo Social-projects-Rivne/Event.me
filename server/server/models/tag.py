@@ -17,10 +17,12 @@ class Tag(Base):
 
     @classmethod
     def get_all(cls, request):
+        """Get all tags (temporary)"""
         return request.dbsession.query(cls).all()
 
     @classmethod
     def get_by_name(cls, request, tag_str):
+        """Get tag object by tag name"""
         return request.dbsession.query(cls)\
             .filter_by(tag=tag_str).one_or_none()
 

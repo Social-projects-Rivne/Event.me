@@ -27,10 +27,11 @@ tag_data = [
     {"tag": "violence"}
 ]
 category_data = [
-    {"category": "holiday"},
-    {"category": "concert"},
-    {"category": "movie"},
+    {"category": "Holiday"},
+    {"category": "Concert"},
+    {"category": "Movie"},
     {"category": "Voluntary"},
+    {"category": "Other"}
 ]
 user_status_data = [
     {"status": "Active"},
@@ -64,7 +65,7 @@ user_data = [
         "first_name": "Frodo",
         "last_name": "Baggins",
         "status_id": 1,
-        "role_id": 3
+        "role_id": 2
     },
     {
         "email": "drizztemail@gmail.com",
@@ -74,6 +75,7 @@ user_data = [
         "first_name": "Drizzt",
         "last_name": "Do Urden",
         "status_id": 2,
+        "banned_to_date": "2018-09-01 00:00:00",
         "role_id": 2
     },
     {
@@ -100,51 +102,54 @@ user_data = [
 event_data = [
     {
         "name": "Oleh Vynnyk Rivne Show",
-        "long": 50.619900,
-        "lat": 26.251617,
-        "description": "Oleh Vynnyk performed live on stage at 1,684 shows and\
-        concerts during his career. Beginning with his first Memphis show in\
-        1954 to the last concert in Indianapolis on June 26, 1977, it is\
-        estimated that over 12 million people have seen Oleh Vynnyk’s\
-        performances live. According to all known written accounts and records\
-        kept, Oleh Vynnyk performed in 243 different communities, towns and\
-        cities in North America during his lifetime. Officially he recorded\
-        700 songs for Sun Records, RCA, movies and television shows. If the\
-        rehearsals, private sessions, live shows and alternate takes are\
-        included the total adds up to at least 990 songs.",
-        "start_date": "2017-12-21 20:00:00",
-        "end_date": "2017-12-21 23:00:00",
-        "author_name": "Concerts Rivne",
-        "main_image": "https://img.tsn.ua/cached/1533907428/tsn-5c161a41b1f154cd63aedacab6e94568/thumbs/1340x530/58/25/e98d5f0ecaec8c751b385b67df022558.jpeg",
-        "author_id": 4,
+        "long": 50.604884,
+        "lat": 26.277647,
+        "description": ("Oleh Vynnyk performed live on stage at 1,684 shows "
+                        "and concerts during his career. Beginning with his "
+                        "first Memphis show in 1954 to the last concert in "
+                        "Indianapolis on June 26, 1977, it is estimated that "
+                        "over 12 million people have seen Oleh Vynnyk’s "
+                        "performances live. According to all known written "
+                        "accounts and records kept, Oleh Vynnyk performed in "
+                        "243 different communities, towns and cities in North "
+                        "America during his lifetime. Officially he recorded "
+                        "700 songs for Sun Records, RCA, movies and "
+                        "television shows. If the rehearsals, private "
+                        "sessions, live shows and alternate takes are "
+                        "included the total adds up to at least 990 songs."),
+        "start_date": "2018-08-28 20:00:00",
+        "end_date": "2018-08-28 23:00:00",
+        "author_name": "oleksandttarar",
+        "main_image": ("https://img.tsn.ua/cached/1533907428/"
+                       "tsn-5c161a41b1f154cd63aedacab6e94568/thumbs/"
+                       "1340x530/58/25/"
+                       "e98d5f0ecaec8c751b385b67df022558.jpeg"),
+        "author_id": 1,
         "category_id": 2,
-        "status_id": 3
     },
     {
         "name": "Dark Elf Adventure",
         "long": 51.619900,
         "lat": 27.251617,
         "description": "Drizzt long adventure",
-        "start_date": "2019-11-01",
-        "end_date": "2019-11-05",
-        "author_name": "Drizzt",
-        "main_image": "drizztcoolposter",
+        "start_date": "2018-09-01 00:00:00",
+        "end_date": "2018-09-05 00:00:00",
+        "author_name": "Ranger",
         "author_id": 3,
+        "main_image": None,
         "category_id": 3,
-        "status_id": 3
     },
     {
         "name": "Independent day",
-        "long": 38.907192,
-        "lat": -77.036871,
+        "long": 50.619900,
+        "lat": 26.251617,
         "description": "Beer, burgers, rock n roll",
-        "start_date": "2018-07-04",
-        "end_date": "2018-07-05",
-        "author_name": "Oleksandr",
-        "main_image": "someposter",
+        "start_date": "2018-08-24 00:00:00",
+        "end_date": "2018-08-24 24:00:00",
+        "author_name": "oleksandttarar",
         "author_id": 1,
+        "main_image": None,
         "category_id": 1,
-        "status_id": 3
     },
     {
         "name": "Dig potatoes",
@@ -153,12 +158,62 @@ event_data = [
         "description": "If you want more potatoes, please help me and cats.",
         "start_date": "2018-08-30 17:30:00",
         "end_date": "2018-08-30 20:00:00",
-        "author_name": "Oleksandr",
+        "author_name": "RingDestroyer",
         "main_image": "https://r.hswstatic.com/w_907/gif/tesla-cat.jpg",
-        "author_id": 1,
+        "author_id": 2,
         "category_id": 4,
-        "status_id": 3
-    }
+    },
+    {
+        "name": "Alpha Film",
+        "long": 50.619972,
+        "lat": 26.250842,
+        "description": ("20 000 років тому Земля була холодним і незатишним "
+                        "місцем, в якому смерть підстерігала людину на кожному"
+                        " кроці, а життя залежало від того, чи вдалося "
+                        "загнати злобич чи ні. Молодий мисливець з племені, "
+                        "яке за рівнем життя і культури було одним з "
+                        "найрозвиненіших на планеті, виявляється один на один "
+                        "з ворожим світом, повним смертельних небезпек. Йому "
+                        "належить заглянути в обличчя своїм страхам і знайти "
+                        "дорогу додому. І можливо, від результату його "
+                        "подорожі залежить доля всього людства."),
+        "start_date": "2018-08-29 10:20:00",
+        "end_date": "2018-08-29 21:40:00",
+        "author_name": "oleksandttarar",
+        "main_image": ("http://www.thebluediamondgallery.com/"
+                       "handwriting/images/film.jpg"),
+        "author_id": 1,
+        "category_id": 3,
+    },
+    {
+        "name": "Rock MOZART LE CONCERT",
+        "long": 50.6179686,
+        "lat": 26.2544057,
+        "description": ("Світова прем’єра MOZART L'Opera Rock відбулась у "
+                        "вересні 2009 року у Парижі. Іронічна Франція миттю "
+                        "схилила голову перед революційною, практично "
+                        "скандальною постановкою, ідея якої спочатку взагалі "
+                        "здавалася авантюрою – розказати про життя Моцарта у "
+                        "стилі рок. Однак, неможливе виявилося не тільки "
+                        "можливим, а ще й успішним! MOZART L'Opera Rock "
+                        "відвідали мільйони глядачів, вона стала першим "
+                        "мюзиклом, знятим у форматі 3D, і отримала "
+                        "«діамантовий» статус за більш ніж 800 тисяч проданих "
+                        "копій альбому. Пориньте у чари прекрасної музики й "
+                        "першокласної сценічної гри вже 15 грудня о 19:00 у "
+                        "Міському будинку культури на Rock MOZART LE CONCERT!"
+                        "У цей вечір розповідь про життя Моцарта перетвориться"
+                        " на шалений рок-концерт із 24 рок-хітів про силу "
+                        "пристрасті і справжній талант. Не пропустіть цю "
+                        "яскраву можливість…"),
+        "start_date": "2018-12-15 19:00:00",
+        "end_date": None,
+        "author_name": "oleksandttarar",
+        "main_image": ("https://c1.staticflickr.com/3/2587"
+                       "/3951218552_e8bbab7d23_b.jpg"),
+        "author_id": 1,
+        "category_id": 2,
+    },
 ]
 event_tag_data = [
     {"event_id": 1, "tag_id": 1},
@@ -170,12 +225,29 @@ event_tag_data = [
     {"event_id": 2, "tag_id": 5}
 ]
 event_history_data = [
-    {"event_id": 1, "status_id": 2,
-     "date": "2017-12-21", "comment": "omg vynnyk best"},
+    {"event_id": 1, "status_id": 3,
+     "date": "2018-08-27", "comment": "Moderator approved your event"},
+    {"event_id": 1, "status_id": 5,
+     "date": "2018-08-27 00:01:00",
+     "comment": "Moderator add your event to hot events"},
+    {"event_id": 3, "status_id": 3,
+     "date": "2018-08-21", "comment": "Moderator approved your event"},
     {"event_id": 3, "status_id": 2,
-     "date": "2018-07-05", "comment": "wow was fun"},
+     "date": "2018-08-25", "comment": "Your event closed by time"},
     {"event_id": 2, "status_id": 3,
-     "date": "2019-11-01", "comment": "coming soon"}
+     "date": "2018-08-27", "comment": "Moderator approved your event"},
+    {"event_id": 4, "status_id": 3,
+     "date": "2018-08-27", "comment": "Moderator approved your event"},
+    {"event_id": 5, "status_id": 3,
+     "date": "2018-08-24", "comment": "Moderator approved your event"},
+    {"event_id": 6, "status_id": 3,
+     "date": "2018-08-24", "comment": "Moderator approved your event"},
+    {"event_id": 5, "status_id": 5,
+     "date": "2018-08-25",
+     "comment": "Moderator add your event to hot events"},
+    {"event_id": 6, "status_id": 5,
+     "date": "2018-08-25",
+     "comment": "Moderator add your event to hot events"},
 ]
 gallery_data = [
     {"img_url": "somevynnykurl", "event_id": 1},

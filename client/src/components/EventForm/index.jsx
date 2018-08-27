@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { Component } from 'react';
-import { Row, Col, Input, Button } from 'react-materialize';
+import { Row, Col, Input, Button, Modal } from 'react-materialize';
 import SelectCategory from './SelectCategory';
 import TagAutocomplete from './TagAutocomplete';
 import { request } from '../../utils';
@@ -129,14 +129,14 @@ class EventForm extends Component {
       start_date: moment(
         [this.state.start_date, this.state.start_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      )._d.toJSON(),
+      ).add(3, 'hours')._d.toJSON(),
     };
 
     if (this.state.end_date && this.state.end_time) {
       eventData.end_date = moment(
         [this.state.end_date, this.state.end_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      )._d.toJSON();
+      ).add(3, 'hours')._d.toJSON();
 
       if (eventData.end_date < eventData.start_date) {
         this.setState({
@@ -188,14 +188,14 @@ class EventForm extends Component {
       start_date: moment(
         [this.state.start_date, this.state.start_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      )._d.toJSON(),
+      ).add(3, 'hours')._d.toJSON(),
     };
 
     if (this.state.end_date && this.state.end_time) {
       eventData.end_date = moment(
         [this.state.end_date, this.state.end_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      )._d.toJSON();
+      ).add(3, 'hours')._d.toJSON();
 
       if (eventData.end_date < eventData.start_date) {
         this.setState({
@@ -252,10 +252,60 @@ class EventForm extends Component {
     this.setState({ [id]: e.target.value.replace(/[^0-9.-]/, '') });
   }
 
+  closeEventHandler = (e) => {
+    request(`/event/${this.props.match.params.id}`, 'DELETE').then(data => {
+      if ('success' in data && data.success) {
+        this.props.history.push(`/event/${this.props.match.params.id}`);
+        window.Materialize.toast('Your event successfully closed', 3000);
+      }
+    })
+  }
+
+  renderButtons() {
+    if ('id' in this.props.match.params) return (
+      <React.Fragment>
+        <Col className="left-align" s={6}>
+          <Button waves="light" onClick={this.updateEvent}>Update Event</Button>
+        </Col>
+        <Col className="right-align" s={6}>
+          <Button
+            className="red" waves="light" onClick={() => window.$('#eventClose').modal('open')}>
+            Close Event
+          </Button>
+        </Col>
+        <Modal
+          id='eventClose'
+          header='Modal Header'
+          actions={
+            <div>
+              <Button flat modal="close" waves="light" onClick={this.closeEventHandler}>
+                Yes
+              </Button>
+              <Button flat modal="close" waves="light">
+                No
+              </Button>
+            </div>
+          }>
+          Do you really want to close this event?
+        </Modal>
+      </React.Fragment>
+    )
+    else return (
+      <Col className="center-align">
+        <Button waves="light" onClick={this.addEvent}>Add Event</Button>
+      </Col>
+    )
+  }
+
   render() {
     return (
       <Row>
-        <Col s={6} offset="s3">
+        <Col s={8} offset="s2">
+          <Row>
+            <Col>
+              <h2>Edit Event Data</h2>
+            </Col>
+          </Row>
           <Row>
             <Input
               s={12} id="title" type="text"
@@ -341,11 +391,8 @@ class EventForm extends Component {
           <Row>
             <TagAutocomplete value={this.state.tags} />
           </Row>
-          <Row className="center-align">
-            {'id' in this.props.match.params ?
-              <Button waves="light" onClick={this.updateEvent}>Update Event</Button>
-              : <Button waves="light" onClick={this.addEvent}>Add Event</Button>
-            }
+          <Row>
+            {this.renderButtons()}
           </Row>
         </Col>
       </Row>

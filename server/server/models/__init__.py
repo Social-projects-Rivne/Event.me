@@ -75,7 +75,6 @@ def model_to_dict(sqlalchemy_object):
     for key in fields_arr:
         temp = getattr(sqlalchemy_object, key)
         if isinstance(temp, datetime.datetime):
-            temp = temp + datetime.timedelta(hours=3)
             _dict[key] = str(temp)
         else:
             _dict[key] = temp
