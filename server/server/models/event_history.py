@@ -24,3 +24,11 @@ class EventHistory(Base):
     def create_new(cls, request, **kwargs):
         request.dbsession.add(cls(**kwargs))
         return True
+
+    @classmethod
+    def get_all(cls, request):
+        return request.dbsession.query(cls).all()
+
+    @classmethod
+    def get_all_by(cls, request, **kwargs):
+        return request.dbsession.query(cls).filter_by(**kwargs).all()

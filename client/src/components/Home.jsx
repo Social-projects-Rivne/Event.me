@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Icon } from 'react-materialize';
+import { Row, Icon } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import { isLogged } from '../utils';
+import HotEvents from './HotEvents'
 
 
 class Home extends Component {
@@ -25,7 +26,9 @@ class Home extends Component {
     return (
       <React.Fragment>
         <Row>
-          <Col s={6} offset="s2"><h1>This is Home</h1></Col>
+        </Row>
+        <Row>
+          <HotEvents />
         </Row>
         {this.renderAddEventButton()}
       </React.Fragment>

@@ -48,6 +48,10 @@ class Event(Base):
         return request.dbsession.query(cls).filter_by(**kwargs).one_or_none()
 
     @classmethod
+    def get_events_by_ids(cls, request, id_arr):
+        return request.dbsession.query(cls).filter(Event.id.in_(id_arr)).all()
+
+    @classmethod
     def get_events_short_info(cls, request, period):
         """ """
         datetime_now = datetime.now()

@@ -1,16 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
 .event-description {
     font: 20px 'Helvetica';
 }
 
-<<<<<<< HEAD
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
-=======
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
 .nav-wrapper {
     padding: 0 15px;
 }
@@ -48,40 +39,21 @@
     box-shadow: 0 1px 0 0 #F44336;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-.mapWrapper {
-=======
-=======
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
 .parallax-container {
     width: 100%;
     height: 35vh;
 }
 
 .map-page-container .mapWrapper {
-<<<<<<< HEAD
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
-=======
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
     height: 500px;
     height: calc(100vh - 100px);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
 .map-single-container .mapWrapper {
     height: 300px;
     height: calc(80vh - 100px);
 }
 
-<<<<<<< HEAD
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
-=======
->>>>>>> f7650505fc208e4554101c1a065150eed0ece327
 .leaflet-container {
     height: 100%;
     width: 100%;
@@ -89,4 +61,24 @@
 
 .material-icons {
     padding: 0 0.2em 0 0.8em;
+}
+
+.hot-event-description {
+    display: block;
+    width: 20em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.custom-card-height {
+    height: 310px !important;
+}
+
+.hot-event-other-info {
+    font-size: 12px;
+}
+
+.hot-event-after-name {
+    margin-top: 0.7em;
 }
