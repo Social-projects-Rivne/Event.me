@@ -17,7 +17,12 @@ class EventStatus(Base):
 
     @classmethod
     def get_status(cls, request, status):
-        """Get role from db"""
+        """Get status object from db by status string"""
         event_status = request.dbsession.query(cls)\
             .filter_by(status=status).one()
         return event_status
+
+    @classmethod
+    def get_status_by_id(cls, request, id):
+        """ """
+        return request.dbsession.query(cls).get(id).status

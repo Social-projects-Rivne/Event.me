@@ -64,6 +64,24 @@ def init_tables(engine):
     Base.metadata.create_all(bind=engine)
 
 
+def model_to_dict(sqlalchemy_object):
+    """ Serializes sqlalchemy_object to dict
+    and converts datetime to string
+    """
+    fields_arr = [prop.key for prop in
+                  class_mapper(sqlalchemy_object.__class__).iterate_properties
+                  if isinstance(prop, ColumnProperty)]
+    _dict = {}
+    for key in fields_arr:
+        temp = getattr(sqlalchemy_object, key)
+        if isinstance(temp, datetime.datetime):
+            temp = temp + datetime.timedelta(hours=3)
+            _dict[key] = str(temp)
+        else:
+            _dict[key] = temp
+    return _dict
+
+
 def includeme(config):
     """ Add a transactions object to every request
 
@@ -89,20 +107,3 @@ def includeme(config):
         'dbsession',
         reify=True
     )
-
-
-def model_to_dict(sqlalchemy_object):
-    """ Serializes sqlalchemy_object to dict
-    and converts datetime to string
-    """
-    fields_arr = [prop.key for prop in
-                  class_mapper(sqlalchemy_object.__class__).iterate_properties
-                  if isinstance(prop, ColumnProperty)]
-    _dict = {}
-    for key in fields_arr:
-        temp = getattr(sqlalchemy_object, key)
-        if isinstance(temp, datetime.datetime):
-            _dict[key] = str(getattr(sqlalchemy_object, key))
-        else:
-            _dict[key] = getattr(sqlalchemy_object, key)
-    return _dict

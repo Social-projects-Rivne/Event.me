@@ -20,14 +20,22 @@ class EventTag(Base):
 
     @classmethod
     def add_new(cls, request, tag_id, event_id):
+        """ """
         request.dbsession.add(cls(event_id=event_id, tag_id=tag_id))
         return True
 
     @classmethod
     def get_event_tags(cls, request, event_id):
+        """ """
         event_tags = request.dbsession.query(cls)\
             .filter_by(event_id=event_id).all()
         tags = {}
         for obj in event_tags:
             tags.update({obj.tag.tag: obj.tag.id})
         return tags
+
+    @classmethod
+    def delete_tag(cls, request, tag_id, event_id):
+        """ """
+        request.dbsession.query(cls)\
+            .filter_by(event_id=event_id, tag_id=tag_id).delete()

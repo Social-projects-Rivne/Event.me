@@ -1,5 +1,5 @@
 """SQLAlchemy model for table event_histories"""
-from sqlalchemy import Column, Integer, Text, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, Text, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 
 from . import Base
@@ -22,5 +22,15 @@ class EventHistory(Base):
 
     @classmethod
     def create_new(cls, request, **kwargs):
+        """ """
         request.dbsession.add(cls(**kwargs))
         return True
+
+    @classmethod
+    def get_current_event_status(cls, request, event_id):
+        """ """
+        max_date_query = request.dbsession.query(func.max(cls.date))\
+            .filter_by(event_id=event_id)
+        return request.dbsession.query(cls)\
+            .filter(cls.event_id == event_id, cls.date == max_date_query)\
+            .first()

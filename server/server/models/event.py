@@ -42,10 +42,21 @@ class Event(Base):
         else:
             request.dbsession.add(cls(**kwargs))
 
+    def update_event(self, request, event_dict):
+        """ """
+        request.dbsession.query(self.__class__)\
+            .filter_by(id=self.id).update(event_dict)
+        return True
+
     @classmethod
     def get_event_obj(cls, request, **kwargs):
         """Return one instance of Event from db"""
         return request.dbsession.query(cls).filter_by(**kwargs).one_or_none()
+
+    @classmethod
+    def get_event_by_id(cls, request, id):
+        """ """
+        return request.dbsession.query(cls).get(id)
 
     @classmethod
     def get_events_short_info(cls, request, period):

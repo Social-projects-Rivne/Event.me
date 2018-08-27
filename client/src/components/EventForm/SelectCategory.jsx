@@ -26,11 +26,16 @@ class SelectCategory extends Component {
     );
   }
 
-  render(){
+  render() {
     return (
-      <Input id="category" defaultValue="1" label="Category" error={this.props.error}
-      onChange={this.props.onChangeHandler} type="select" s={12} >
-        <option value="1" disabled>Choose your category</option>
+      <Input
+        s={12} type="select" id="category"
+        defaultValue={this.props.value !== " " ? this.props.value : 'default'}
+        label="Category"
+        error={this.props.error}
+        onChange={this.props.onChangeHandler}
+      >
+        <option value="default" disabled>Choose your category</option>
         {this.renderCategoryOptions()}
       </Input>
     );
