@@ -27,12 +27,14 @@ class EventPage extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.setState({status: undefined});
       this.getEventData();
     }
   }
 
   getEventData() {
     request(`/event/${this.props.match.params.id}`).then(data => {
+      console.log(data)
       if ('event' in data) {
         for (const key in data.event) {
           if (this.state.hasOwnProperty(key)) {
@@ -42,8 +44,10 @@ class EventPage extends Component {
         if ('status' in data) {
           this.setState({ status: data.status });
         }
-        this.setState({ category: data.category });
-        this.setState({ tags: data.tags });
+        this.setState({
+          category: data.category,
+          tags: data.tags
+        });
       }
     })
   }
@@ -61,8 +65,8 @@ class EventPage extends Component {
   }
 
   renderStatusContent() {
-    if ('status' in this.state) {
-      return <div className="card-panel purple lighten-2">
+    if (this.state.status) {
+      return <div className="flow-text white-text card-panel red darken-1">
         {moment(this.state.status.date).format('MMMM D, YYYY hh:mm')}
         <br />
         {this.state.status.comment}
@@ -140,24 +144,16 @@ class EventPage extends Component {
           </Row>
           <Row>
             <Col s={12} className="left-align valign-wrapper">
-              <blockquote>{this.renderTimeString()}</blockquote>
-            </Col>
-          </Row>
-          <Row>
-            <Col s={12} className="right-align valign-wrapper">
               <blockquote>
-                <p className="flow-text">Where: Some Cool Place</p>
+                {this.renderTimeString()}
+                <p className="flow-text"><Icon>location_on</Icon>Where: Some Cool Place</p>
+                <EventMeta
+                  author_name={this.state.author_name}
+                  author_id={this.state.author_id}
+                  category={this.state.category}
+                  category_id={this.state.category_id}
+                />
               </blockquote>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <EventMeta
-                author_name={this.state.author_name}
-                author_id={this.state.author_id}
-                category={this.state.category}
-                category_id={this.state.category_id}
-              />
             </Col>
           </Row>
           <Row>

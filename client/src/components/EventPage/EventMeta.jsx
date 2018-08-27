@@ -7,7 +7,7 @@ class EventMeta extends Component {
 
   render() {
     return (
-      <div>
+      <div className="valign-wrapper">
         <SingleMeta icon="person" link={`/profile/${this.props.author_id}`}>
           {this.props.author_name}
         </SingleMeta>
