@@ -14,7 +14,6 @@ class HotEvents extends Component {
   componentDidMount() {
     request('/hot-event/')
     .then(data => {
-      console.log(data);
       this.setState({
         hot_events: data.hot_events,
         num_of_hot_events: data.num_of_hot_events
@@ -28,7 +27,6 @@ class HotEvents extends Component {
        else {
          this.setState({ display_method: 4 })
        }
-       console.log(this.state.num_of_hot_events)
     })
   }
 
