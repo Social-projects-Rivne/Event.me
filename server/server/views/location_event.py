@@ -1,5 +1,4 @@
 from cornice import Service
-from pyramid.response import Response
 from ..models.event import Event
 
 from datetime import datetime, timedelta
