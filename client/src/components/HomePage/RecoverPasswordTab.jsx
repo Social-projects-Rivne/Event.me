@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Input, Button, Row, Tabs, Tab } from 'react-materialize';
+import { Input, Button, Row, Col, Tabs, Tab } from 'react-materialize';
+import { Link } from 'react-router-dom';
 import { emailValidation, request } from '../../utils.js';
 
 
@@ -27,12 +28,12 @@ export class RecoverPasswordTab extends Component {
     }
     request('/recover-password', "POST", JSON.stringify(recoverData))
       .then(data => {
-        this.setState({ msg: data.msg });
-        this.setState({ success: data.success });
+        this.setState({
+          msg: data.msg,
+          success: data.success
+         });
         window.Materialize.toast(this.state.msg, 3000);
-        if (this.state.success) {
-          setTimeout(this.props.history.push('/recover-info'), 3000);
-        }
+        if (this.state.success) this.props.history.push('/recover-info');
       })
   }
   render() {
@@ -40,7 +41,7 @@ export class RecoverPasswordTab extends Component {
       <Tabs className="tabs tabs-fixed-width tab-demo z-depth-1">
         <Tab title="Recover Password" active>
           <div className="white">
-            <Row>
+            <Row className="recover-tab">
               <Input
                 id="email_recover"
                 error={this.state.check_email}
@@ -50,7 +51,12 @@ export class RecoverPasswordTab extends Component {
                 type="email"
                 label="Email"
               />
-              <Button waves='light' onClick={this.sendMailRecoverPassword}>Reset password</Button>
+              <Col s={6}>
+                <Link to="/" className="btn waves-effect waves-light btn-flat">Back</Link>
+              </Col>
+              <Col s={6}>
+                <Button flat waves='light' onClick={this.sendMailRecoverPassword}>Reset password</Button>
+              </Col>
             </Row>
           </div>
         </Tab>

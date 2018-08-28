@@ -6,10 +6,10 @@ const OurTeam = () => {
   return (
     <Row>
       <Col s={3}>
-        <Card className='medium'
+        <Card className='large'
           header={
             <CardTitle
-              image='https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg'>
+              image='/default-avatar-team.jpg'>
               Person Zero
                 </CardTitle>
           }>
@@ -18,10 +18,10 @@ const OurTeam = () => {
             </Card>
       </Col>
       <Col s={3}>
-        <Card className='medium'
+        <Card className='large'
           header={
             <CardTitle
-              image='https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg'>
+              image='/default-avatar-team.jpg'>
               Person One
             </CardTitle>
           }>
@@ -30,10 +30,10 @@ const OurTeam = () => {
             </Card>
       </Col>
       <Col s={3}>
-        <Card className='medium'
+        <Card className='large'
           header={
             <CardTitle
-              image='https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg'>
+              image='/default-avatar-team.jpg'>
               Person Two
             </CardTitle>
           }>
@@ -42,10 +42,10 @@ const OurTeam = () => {
             </Card>
       </Col>
       <Col s={3}>
-        <Card className='medium'
+        <Card className='large'
           header={
             <CardTitle
-              image='https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg'>
+              image='/default-avatar-team.jpg'>
               Person Three
             </CardTitle>
           }>

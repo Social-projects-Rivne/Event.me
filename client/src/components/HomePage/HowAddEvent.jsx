@@ -8,7 +8,7 @@ const HowAddEvent = () => {
       <Col s={4}>
         <Card horizontal header={
           <CardTitle
-            image="http://www.thebluediamondgallery.com/handwriting/images/register.jpg" />
+            image="/register.jpg" />
         }>
           <p>The first thing you need to do is register in our system.
                  You can do this at the top of this page.</p>
@@ -17,7 +17,7 @@ const HowAddEvent = () => {
       <Col s={4}>
         <Card horizontal header={
           <CardTitle
-            image="http://www.thebluediamondgallery.com/handwriting/images/form.jpg" />
+            image="/form.jpg" />
         }>
           <p>When you sign in, press the red button at the bottom of the window and fill the
                  form.</p>
@@ -26,7 +26,7 @@ const HowAddEvent = () => {
       <Col s={4}>
         <Card horizontal header={
           <CardTitle
-            image="http://www.thebluediamondgallery.com/handwriting/images/review.jpg" />
+            image="/review.jpg" />
         }>
           <p>That's all. Now you must wait some time for review by the moderator to approve
                 your event.</p>
