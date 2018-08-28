@@ -8,7 +8,7 @@ import HowAddEvent from './HowAddEvent';
 import { isLogged } from '../../utils';
 
 
-class Home extends Component {
+class HomePage extends Component {
   componentDidMount() {
     window.addEventListener('user-log', (e) => this.forceUpdate());
   }
@@ -66,4 +66,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default HomePage;
