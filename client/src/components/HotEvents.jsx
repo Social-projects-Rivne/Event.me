@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardTitle, Col, Row } from 'react-materialize'
 import { request } from '../utils'
 import { Link } from 'react-router-dom'
+import moment from 'moment';
 
 
 class HotEvents extends Component {
@@ -54,8 +55,8 @@ class HotEvents extends Component {
                       <p className="hot-event-other-info">Organizer: {element.author_name}</p>
                     </Col>
                     <Col className="right-align" s={6}>
-                      <p className="hot-event-other-info">Start: {element.start_date}</p>
-                      <p className="hot-event-other-info">End: {element.end_date}</p>
+                      <p className="hot-event-other-info">Start: {moment(element.start_date).format('LL')}</p>
+                      <p className="hot-event-other-info">End: {moment(element.end_date).format('LL')}</p>
                     </Col>
                 </Row>
               </Card>
