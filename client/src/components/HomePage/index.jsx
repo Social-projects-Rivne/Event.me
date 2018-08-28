@@ -1,72 +1,67 @@
 import React, { Component } from 'react';
-import { Navbar, Parallax, Row, Col, Icon, Tabs, Tab, Input, Button } from 'react-materialize';
-import { NavLink, Link } from 'react-router-dom';
-import LogIn from './LogIn';
-import Registration from './Registration';
-import NavProfile from '../Nav/NavProfile';
-import LogOut from '../Nav/LogOut';
+import { Row, Col } from 'react-materialize';
+import { Route } from 'react-router-dom';
+import SignInUpTabs from './SignInUpTabs';
+import RecoverPasswordTab from './RecoverPasswordTab';
+import OurTeam from './OurTeam';
+import HowAddEvent from './HowAddEvent';
 import { isLogged } from '../../utils';
 
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.update = this.update.bind(this);
-        window.addEventListener('user-log', (e) => this.update());
-    }
-
-  update() {
-    this.forceUpdate();
+  componentDidMount() {
+    window.addEventListener('user-log', (e) => this.forceUpdate());
   }
 
-  renderNavRecover() {
-    return (
-      <React.Fragment>
-        {
-        <li>
-          <Link to={"/recover"}>forgot password?</Link>
-        </li>
-        }
-      </React.Fragment>
-    );
-  }
-
-
-
-
-  renderNotLogined() {
+  renderHeader() {
     if (!isLogged()) {
       return (
-      <React.Fragment>
-      <Col className="left-align"  s={9}>
-      <Tabs className="tabs tabs-fixed-width tab-demo z-depth-1">
-      <Tab title="Sign In" active><LogIn update={this.update} /></Tab>
-      <Tab title="Sign Up"><Registration /></Tab>
-      </Tabs></Col>
-      </React.Fragment>
+        <Row className="img-container">
+          <Col s={6} offset="s1" >
+            <div className="header-text center-align">
+              <h1>Find out Rivne events with us</h1>
+              <p className="flow-text">
+                There's so much happening in Rivne all year round – Rivne's events calendar
+                is always busy! Have a look at our overview of events in London by week,
+                plan your month ahead and make sure you don't miss out. You can also search by
+                date or category and find out what's on during your visit.
+            </p>
+            </div>
+          </Col>
+          <Col s={3} offset="s1" className="tabs-container">
+            <Route path="/" component={SignInUpTabs} exact />
+            <Route path="/recover" component={RecoverPasswordTab} exact />
+          </Col>
+        </Row>
       );
+    } else {
+      return (
+        <Row className="img-container">
+          <Col s={10} offset="s1" >
+            <div className="header-text center-align">
+              <h1>Find out Rivne events with us</h1>
+              <p className="flow-text">
+                There's so much happening in Rivne all year round – Rivne's events calendar
+                is always busy! Have a look at our overview of events in London by week,
+                plan your month ahead and make sure you don't miss out. You can also search by
+                date or category and find out what's on during your visit.
+            </p>
+            </div>
+          </Col>
+        </Row>
+      )
     }
   }
 
   render() {
     return (
-    <React.Fragment>
-    <Row>
-    <div id="home_background" className="parallax-container">
-        <Row>
-        </Row>
-        <div id="parent">
-            <div className="white left">
-                <h1>Oleh Vinnik Forever</h1>
-            </div>
-           <div className="right">
-               {this.renderNotLogined()}
-           </div>
-        </div>
-
-    </div>
-    </Row>
-    </React.Fragment>
+      <React.Fragment>
+        {this.renderHeader()}
+        <Row className="center-align"><h2>Our Team</h2></Row>
+          <OurTeam />
+        <Row className="center-align"><h2>How to add an event?</h2></Row>
+          <HowAddEvent />
+      </React.Fragment>
     );
   }
 }

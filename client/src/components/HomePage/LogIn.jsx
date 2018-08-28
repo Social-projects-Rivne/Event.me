@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, Row } from 'react-materialize'
+import { Input, Button, Row } from 'react-materialize'
 import { Link } from 'react-router-dom'
 import { request, emailValidation, log_event } from '../../utils'
 
@@ -36,7 +36,6 @@ class LogIn extends Component {
           sessionStorage.setItem("User-nickname", data.user.nickname);
           sessionStorage.setItem("User-avatar", data.user.avatar);
           sessionStorage.setItem("User-id", data.user.user_id);
-          this.props.update();
           window.dispatchEvent(log_event);
         } else {
           this.setState({ msg: data.msg });
@@ -48,8 +47,7 @@ class LogIn extends Component {
 
   render() {
     return (
-      <React.Fragment>
-      <Row className="white">
+      <div className="white">
         <Row>
           <Input
             id="email"
@@ -57,7 +55,7 @@ class LogIn extends Component {
             onChange={this.onChangeHandler}
             type="email"
             label="Email"
-            m={12}
+            s={12}
           />
         </Row>
         <Row>
@@ -67,15 +65,12 @@ class LogIn extends Component {
             onChange={this.onChangeHandler}
             type="password"
             label="Password"
-            m={12}
+            s={12}
           />
-          </Row>
-        <Row>
-        <Link id="recover_link" to={"/recover"}>forgot password?</Link>
+          <Link className="forgot-password-link" to={"/recover"}>forgot password?</Link>
         </Row>
-          <Button id="login_button" waves="light" waves="light" onClick={this.logIn}>Sign In</Button>
-        </Row>
-      </React.Fragment>
+        <Button waves="light" onClick={this.logIn}>Sign In</Button>
+      </div>
     );
   }
 }

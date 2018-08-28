@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Navbar, Button, Row } from 'react-materialize';
-import { NavLink, Link, Redirect } from 'react-router-dom'
+import { Navbar } from 'react-materialize';
+import { Link } from 'react-router-dom';
 import NavProfile from './NavProfile';
 import LogOut from './LogOut';
 import { isLogged } from '../../utils'
@@ -31,9 +31,10 @@ class Nav extends Component {
   render() {
     return (
       <Navbar brand="Event.me" right>
-      <Row>
+      <li>
+        <Link to="/map">Map</Link>
+      </li>
         {this.renderAuthFileds()}
-        </Row>
       </Navbar>
     );
   }
