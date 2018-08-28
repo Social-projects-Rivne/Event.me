@@ -1,7 +1,7 @@
 from cornice.resource import resource, view
 from cornice.validators import colander_body_validator
 from passlib.hash import pbkdf2_sha256
-from pyramid.security import Deny, Allow, Everyone, Authenticated, ALL_PERMISSIONS
+from pyramid.security import Allow
 from ..validation_schema import ProfileSchema
 
 from server.models import model_to_dict
@@ -32,8 +32,26 @@ class UserView(object):
     def put(self):
         request = self.request
         data = request.validated
-        
+        update_status = False
+        is_data_not_null = False
+
+        response = {'success': False}
+
+        check_dict = {
+            "first_name",
+            "last_name",
+            "nickname",
+            "location"
+        }
+
+        if any(data.get(key) for key in check_dict):
+            is_data_not_null = True
+
         if data.get('password'):
             data['password'] = pbkdf2_sha256.hash(data['password'])
 
-        return User.update_user(request, data)
+        if is_data_not_null:
+            update_status = User.update_user(request, data)
+            response['success'] = update_status
+            return response
+        return response

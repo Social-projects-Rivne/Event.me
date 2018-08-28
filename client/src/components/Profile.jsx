@@ -8,15 +8,23 @@ class Profile extends Component {
 
     state = {
         user: {},
-        page_id: ""
     };
 
     componentDidMount() {
-        this.setState({ page_id: this.props.match.params.profile_id });
         request('/profile/' + this.props.match.params.profile_id)
-        .then(json => {
-            this.setState({ user: json });
+        .then(data => {
+            this.setState({ user: data });
         })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.profile_id !==
+            prevProps.match.params.profile_id) {
+            request('/profile/' + this.props.match.params.profile_id)
+            .then(data => {
+                this.setState({ user: data });
+            })
+        }
     }
 
     renderAvatarImage = () => {

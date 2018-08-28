@@ -6,9 +6,10 @@ import ConfirmEmail from './ConfirmEmail';
 import RecoverInfo from './RecoverInfo';
 import ChangePasswordConfirm from './ChangePasswordConfirm';
 import ChangePassword from './ChangePassword';
-import Profile from './Profile';
-import ProfileEdit from './ProfileEdit';
 import EventForm from './EventForm';
+import Profile from './Profile';
+import EventPage from './EventPage';
+import ProfileEdit from './ProfileEdit';
 
 
 function Routes() {
@@ -24,6 +25,7 @@ function Routes() {
         <Route path="/confirm-new-password" component={ChangePasswordConfirm} />
         <Route path="/add-event" component={EventForm} />
         <Route path="/profile/:profile_id" component={Profile} />
+        <Route path="/event/:id" component={EventPage} />
         <Route path="/profile-edit/:profile_id" component={ProfileEdit} />
       </div>
     </React.Fragment>
