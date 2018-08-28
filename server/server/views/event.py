@@ -164,32 +164,10 @@ class EventView(object):
                 return response
             event_dict['category_id'] = category_obj.id
 
-            current_event.update_event(request, event_dict)
+            response['success'] = current_event\
+                .update_event(request, event_dict, self.event_id,
+                              request.validated.get('tags', []))
 
-            currnet_event_tags = EventTag.get_event_tags(request,
-                                                         self.event_id)
-            for tag in currnet_event_tags:
-                if tag not in request.validated.get('tags', []):
-                    EventTag.delete_tag(request,
-                                        currnet_event_tags[tag], self.event_id)
-            for tag in request.validated.get('tags', []):
-                tag_obj = Tag.get_by_name(request, tag.lower())
-                if tag_obj is not None:
-                    tag_id = tag_obj.id
-                    if tag not in currnet_event_tags:
-                        EventTag.add_new(request, tag_id, self.event_id)
-                else:
-                    tag_id = Tag.add_new(request, tag.lower())
-                    EventTag.add_new(request, tag_id, self.event_id)
-
-            response['success'] = EventHistory.create_new(
-                request,
-                event_id=self.event_id,
-                status_id=EventStatus.get_status(request, 'New').id,
-                date=datetime.now(),
-                comment=("Your event updated. "
-                         "Please wait for review by moderator.")
-            )
             del response['errors']
         return response
 
@@ -197,11 +175,5 @@ class EventView(object):
     def delete(self):
         """Make event closed"""
         response = {'success': False}
-        response['success'] = EventHistory.create_new(
-            self.request,
-            event_id=self.event_id,
-            status_id=EventStatus.get_status(self.request, 'Close').id,
-            date=datetime.now(),
-            comment="This event closed by author."
-            )
+        response['success'] = Event.close_event(self.request, self.event_id)
         return response

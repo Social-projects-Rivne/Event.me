@@ -43,6 +43,10 @@ class TagAutocomplete extends Component {
         },
         placeholder: 'Enter a tag',
       });
+      let f = this.props.deleteTag;
+      window.$('#chips-tags').on('chip.delete', function(e, chip){
+        f(chip.tag);
+      });
     }
   }
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Row, Col, Input, Button, Modal } from 'react-materialize';
 import SelectCategory from './SelectCategory';
 import TagAutocomplete from './TagAutocomplete';
-import { request } from '../../utils';
+import { request, momentUTCToLocal } from '../../utils';
 
 
 class EventForm extends Component {
@@ -32,6 +32,11 @@ class EventForm extends Component {
       },
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.deleteTag = this.deleteTag.bind(this);
+  }
+
+  deleteTag (tag) {
+    delete this.state.tags[tag];
   }
 
   validateData() {
@@ -85,18 +90,18 @@ class EventForm extends Component {
           for (const key in data.event) {
             if (key in this.state) {
               if (key === 'start_date' || key === 'end_date') {
-                this.setState({ [key]: moment(data.event[key]).format('D MMMM, YYYY') });
+                this.setState({ [key]: momentUTCToLocal(data.event[key]).format('D MMMM, YYYY') });
 
                 if (key === 'start_date') {
-                  this.setState({ start_time: moment(data.event[key]).format('h:mmA') });
+                  this.setState({ start_time: momentUTCToLocal(data.event[key]).format('h:mmA') });
                   document.getElementById('start_time').value =
-                    moment(data.event[key]).format('h:mmA');
+                    momentUTCToLocal(data.event[key]).format('h:mmA');
                   document.getElementById('start_time')
                     .parentNode.lastChild.className = 'active';
                 } else {
-                  this.setState({ 'end_time': moment(data.event[key]).format('h:mmA') });
+                  this.setState({ 'end_time': momentUTCToLocal(data.event[key]).format('h:mmA') });
                   document.getElementById('end_time').value =
-                    moment(data.event[key]).format('h:mmA');
+                    momentUTCToLocal(data.event[key]).format('h:mmA');
                   document.getElementById('end_time')
                     .parentNode.lastChild.className = 'active';
                 }
@@ -106,8 +111,10 @@ class EventForm extends Component {
               document.getElementById([key]).parentNode.lastChild.className = 'active';
             }
           }
-          this.setState({ 'category': data.category });
-          this.setState({ 'tags': data.tags });
+          this.setState({
+            'category': data.category,
+            'tags': data.tags
+          });
         }
       })
     }
@@ -129,14 +136,14 @@ class EventForm extends Component {
       start_date: moment(
         [this.state.start_date, this.state.start_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      ).add(3, 'hours')._d.toJSON(),
+      )._d.toJSON(),
     };
 
     if (this.state.end_date && this.state.end_time) {
       eventData.end_date = moment(
         [this.state.end_date, this.state.end_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      ).add(3, 'hours')._d.toJSON();
+      )._d.toJSON();
 
       if (eventData.end_date < eventData.start_date) {
         this.setState({
@@ -188,14 +195,14 @@ class EventForm extends Component {
       start_date: moment(
         [this.state.start_date, this.state.start_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      ).add(3, 'hours')._d.toJSON(),
+      )._d.toJSON(),
     };
 
     if (this.state.end_date && this.state.end_time) {
       eventData.end_date = moment(
         [this.state.end_date, this.state.end_time].join(' '),
         'D MMMM, YYYY h:mmA'
-      ).add(3, 'hours')._d.toJSON();
+      )._d.toJSON();
 
       if (eventData.end_date < eventData.start_date) {
         this.setState({
@@ -389,7 +396,7 @@ class EventForm extends Component {
             />
           </Row>
           <Row>
-            <TagAutocomplete value={this.state.tags} />
+            <TagAutocomplete deleteTag={this.deleteTag} value={this.state.tags} />
           </Row>
           <Row>
             {this.renderButtons()}

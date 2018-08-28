@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Parallax, Row, Col, CardPanel, Icon, Chip } from 'react-materialize';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
 import EventMap from '../EventMap';
 import EventMeta from './EventMeta';
-import { isEmpty, request } from '../../utils';
+import { isEmpty, request, momentUTCToLocal } from '../../utils';
 
 
 class EventPage extends Component {
@@ -59,7 +58,7 @@ class EventPage extends Component {
   }
 
   renderEditButton() {
-    if (Number(sessionStorage.getItem('User-id')) === this.state.author_id) {
+    if (parseInt(sessionStorage.getItem('User-id'), 10) === this.state.author_id) {
       return (
         <div className="fixed-action-btn horizontal">
           <Link
@@ -78,7 +77,7 @@ class EventPage extends Component {
     if (this.state.status) {
       return (
       <div className="flow-text white-text card-panel red darken-1">
-        {moment(this.state.status.date).format('MMMM D, YYYY hh:mm')}
+        {momentUTCToLocal(this.state.status.date).format('MMMM D, YYYY HH:mm')}
         <br />
         {this.state.status.comment}
       </div>
@@ -87,26 +86,26 @@ class EventPage extends Component {
   }
 
   renderTimeString() {
-    const start_day = moment(this.state.start_date).format('MMMM D, YYYY');
+    const start_day = momentUTCToLocal(this.state.start_date).format('MMMM D, YYYY');
     if (!this.state.end_date) {
       return (
         <p className="flow-text">
           <Icon>date_range</Icon>
           {start_day}
           <Icon>access_time</Icon>
-          {moment(this.state.start_date).format('HH:mm')}
+          {momentUTCToLocal(this.state.start_date).format('HH:mm')}
         </p>
       )
     }
 
-    if (start_day === moment(this.state.end_date).format('MMMM D, YYYY')) {
+    if (start_day === momentUTCToLocal(this.state.end_date).format('MMMM D, YYYY')) {
       return (
         <p className="flow-text">
           <Icon>date_range</Icon>
           {start_day}
           <Icon>access_time</Icon>
-          {`${moment(this.state.start_date).format('HH:mm')} -
-            ${moment(this.state.end_date).format('HH:mm')}`}
+          {`${momentUTCToLocal(this.state.start_date).format('HH:mm')} -
+            ${momentUTCToLocal(this.state.end_date).format('HH:mm')}`}
         </p>
       )
     }
@@ -116,8 +115,8 @@ class EventPage extends Component {
         <Icon>date_range</Icon>
         {
           [
-            moment(this.state.start_date).format('MMMM D, YYYY HH:mm'),
-            moment(this.state.end_date).format('MMMM D, YYYY HH:mm')
+            momentUTCToLocal(this.state.start_date).format('MMMM D, YYYY HH:mm'),
+            momentUTCToLocal(this.state.end_date).format('MMMM D, YYYY HH:mm')
           ].join(' - ')
         }
       </p>
