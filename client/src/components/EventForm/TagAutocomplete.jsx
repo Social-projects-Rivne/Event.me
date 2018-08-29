@@ -27,6 +27,29 @@ class TagAutocomplete extends Component {
     });
   }
 
+  componentDidUpdate() {
+    if ('value' in this.props) {
+      let chip_data = [];
+      for (const key in this.props.value) {
+        chip_data.push({ tag: String([key]) });
+      };
+
+      window.$('#chips-tags').material_chip({
+        data: chip_data,
+        autocompleteOptions: {
+          data: this.state.tags_autocomplete,
+          limit: Infinity,
+          minLength: 2,
+        },
+        placeholder: 'Enter a tag',
+      });
+      let f = this.props.deleteTag;
+      window.$('#chips-tags').on('chip.delete', function(e, chip){
+        f(chip.tag);
+      });
+    }
+  }
+
   render(){
     return (
       <Col s={12}><div id="chips-tags" className="chips chips-autocomplete"></div></Col>
