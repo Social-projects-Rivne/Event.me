@@ -56,3 +56,13 @@ class Event(Base):
             .filter(cls.start_date > datetime_now,
                     cls.start_date < datetime_now +
                     timedelta(days=period)).all()
+
+    @classmethod
+    def get_event_short_info_with_category_id(cls, request, period, category_name_id):
+        datetime_now = datetime.now()
+        return request.dbsession \
+            .query(cls).with_entities(cls.id, cls.long, cls.lat, cls.name, cls.category_id) \
+            .filter(cls.start_date > datetime_now,
+                    cls.start_date < datetime_now +
+                    timedelta(days=period),
+                    cls.category_id == category_name_id).all()

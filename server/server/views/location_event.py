@@ -1,7 +1,7 @@
 from cornice import Service
 from ..models.event import Event
+from ..models.category import Category
 
-from datetime import datetime, timedelta
 
 events_short_info = Service(name='events_short_info',
                             path='/events-short-info',
@@ -11,23 +11,22 @@ events_short_info = Service(name='events_short_info',
 @events_short_info.post()
 def get_events_short_info(request):
     """ """
-    datetime_now = datetime.now()
-    categories = {'holiday': 1, 'concert': 2, 'movie': 3, 'Voluntary': 4}
+
     json = request.json_body
+    categories = Category.get_all(request)
+    categories_list = [obj.category for obj in categories]
+    categories_id = [obj.id for obj in categories]
+    categories_dict = dict(zip(categories_list, categories_id))
     response = {
         'info': []
     }
-    if json['category'] in categories:
-        json['category'] = categories[json['category']]
+    if json['category'] in categories_list:
+        json['category'] = categories_dict[json['category']]
 
     if json['category'] == '':
         response['info'] = Event.get_events_short_info(request, int(json['day_filter']))
         return response
     else:
-        response['info'] = request.dbsession.query(Event).\
-            with_entities(Event.id, Event.long, Event.lat, Event.name, Event.category_id).\
-            filter(Event.start_date > datetime_now,
-                   Event.start_date < datetime_now +
-                   timedelta(days=int(json['day_filter'])),
-                   Event.category_id == json['category']).all()
+        response['info'] = Event.get_event_short_info_with_category_id\
+            (request, int(json['day_filter']), json['category'])
         return response

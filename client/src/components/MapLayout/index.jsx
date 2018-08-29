@@ -9,7 +9,7 @@ import SelectCategory from '../EventForm/SelectCategory';
 class MapLayout extends Component {
   state = {
     events: [],
-    day_filter: 14,
+    day_filter: 0,
     category: ''
   }
 
@@ -24,13 +24,7 @@ class MapLayout extends Component {
       }
       request('/events-short-info', 'POST', JSON.stringify(filterData)).then(data => {
           if ('info' in data) {
-              this.setState({events: []})
-              data.info.forEach(element => {
-                  let eventShortInfo = this.state.events;
-                  eventShortInfo.push(element);
-                  this.setState({ events: eventShortInfo });
-                  console.log()
-              });
+              this.setState({ events: data.info })
           }
       });
   }
@@ -38,16 +32,10 @@ class MapLayout extends Component {
   componentDidMount() {
       let filterData = {
           day_filter: this.state.day_filter
-
       }
       request('/events-short-info', 'POST', JSON.stringify(filterData)).then(data => {
           if ('info' in data) {
-              data.info.forEach(element => {
-                  let eventShortInfo = this.state.events;
-                  eventShortInfo.push(element);
-                  this.setState({ events: eventShortInfo });
-
-              });
+              this.setState({ events: data.info })
           }
       });
   }
@@ -57,9 +45,9 @@ class MapLayout extends Component {
       <Row>
           <Input id='day_filter' s={3} type='select' label="Filter by days" defaultValue='' onChange={this.onChangeHandler}>
               <option value="" disabled selected>Choose filter</option>
-              <option value='1' >today</option>
-              <option value='7'>one weeks</option>
-              <option value='14'>two weeks</option>
+              <option value='1' >Today</option>
+              <option value='7'>One week</option>
+              <option value='14'>Two weeks</option>
           </Input>
           <Button onClick={this.filter}>Filter</Button>
           <Col s={3}>
