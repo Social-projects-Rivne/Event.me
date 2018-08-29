@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Row, Col, Input, Button} from 'react-materialize'
-import MapFilters from './MapFilters';
 import EventMap from '../EventMap';
 import { request } from '../../utils';
 import SelectCategory from '../EventForm/SelectCategory';
