@@ -23,9 +23,12 @@ function Routes() {
         <Route path="/recover-info" component={RecoverInfo} />
         <Route path="/change-password/:token" component={ChangePassword} />
         <Route path="/confirm-new-password" component={ChangePasswordConfirm} />
-        <Route path="/add-event" component={EventForm} />
+  
+        <Route path="/add-event" component={EventForm} exact />
+        <Route path="/event/:id" component={EventPage} exact />
+        <Route path="/event/edit/:id" component={EventForm} exact />
+
         <Route path="/profile/:profile_id" component={Profile} />
-        <Route path="/event/:id" component={EventPage} />
         <Route path="/profile-edit/:profile_id" component={ProfileEdit} />
       </div>
     </React.Fragment>

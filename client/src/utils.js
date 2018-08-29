@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { server_url } from './config.json';
 
 
@@ -35,7 +36,7 @@ export const emailValidation = email => /.+@{1}.+/.test(email);
 export const isLogged = () => (typeof(sessionStorage['Authorization-token']) !== 'undefined');
 
 /*
- * Get object like parametr and check is object empty, return (True/False)
+ * Check is object empty, return (True/False)
  */
 export const isEmpty = obj => {
   for (const key in obj) {
@@ -43,3 +44,8 @@ export const isEmpty = obj => {
   }
   return true;
 }
+
+/*
+ * Convert UTC datetime string to local datetime (moment.js object)
+ */
+export const momentUTCToLocal = utcString => moment(moment.utc(utcString).local());

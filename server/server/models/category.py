@@ -1,5 +1,5 @@
 """SQLAlchemy model for table categories"""
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, func
 from sqlalchemy.orm import relationship
 
 from . import Base, model_to_dict
@@ -23,4 +23,4 @@ class Category(Base):
     def get_by_name(cls, request, category_str):
         """Return Category object by category name"""
         return request.dbsession.query(cls)\
-            .filter_by(category=category_str).one_or_none()
+            .filter(func.lower(cls.category) == category_str).one_or_none()

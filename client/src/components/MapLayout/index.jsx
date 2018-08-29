@@ -54,7 +54,9 @@ class MapLayout extends Component {
               <SelectCategory onChangeHandler={this.onChangeHandler}/>
           </Col>
         <Col s={4}>
-          <MapFilters />
+          <div>
+            &nbsp;
+          </div>
         </Col>
         <Col s={8} className="map-page-container">
           <EventMap events={this.state.events}/>

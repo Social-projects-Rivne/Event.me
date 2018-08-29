@@ -76,3 +76,23 @@
 label::after {
     width: 6rem;
 }
+
+.fixed-action-btn i {
+    padding: 0;
+}
+
+.mobile-fab-tip {
+    position: fixed;
+    right: 12px;
+    bottom: 70px;
+    padding:0px 0.5rem;
+    text-align: right;
+    background-color: #323232;
+    border-radius: 2px;
+    color: #FFF;
+    width:auto;
+}
+
+blockquote .flow-text {
+    margin: 0;
+}

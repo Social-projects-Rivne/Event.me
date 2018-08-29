@@ -1,15 +1,15 @@
 import React from 'react';
-import { Icon, Col } from 'react-materialize';
+import { Icon } from 'react-materialize';
 import { Link } from 'react-router-dom';
 
 
 const EventMeta = (props) => {
     return (
-      <Col className="valign-wrapper">
+      <React.Fragment>
         {props.icon ? <Icon>{props.icon}</Icon> : ''}
         &nbsp;
         {props.link ? <Link to={props.link}>{props.children}</Link> : props.children}
-      </Col>
+      </React.Fragment>
     );
 }
 

@@ -42,4 +42,5 @@ class Token(Base):
         return True
 
     def update_expiration_date(self):
+        """Updates token expiration date on two weeks"""
         self.expiration_date = datetime.now() + timedelta(days=TOKEN_LIFETIME)
