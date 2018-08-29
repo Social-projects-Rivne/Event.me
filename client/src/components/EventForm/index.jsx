@@ -30,6 +30,7 @@ class EventForm extends Component {
         end_time: '',
         end_date: '',
       },
+      status: '',
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.deleteTag = this.deleteTag.bind(this);
@@ -82,6 +83,43 @@ class EventForm extends Component {
     return errorMessages;
   }
 
+  createEventDataObj() {
+    let eventData = {
+      name: this.state.title,
+      lat: this.state.lat,
+      long: this.state.long,
+      description: this.state.description,
+      category: this.state.category,
+      start_date: moment(
+        [this.state.start_date, this.state.start_time].join(' '),
+        'D MMMM, YYYY HH:mm'
+      )._d.toJSON(),
+    };
+
+    if (this.state.end_date && this.state.end_time) {
+      eventData.end_date = moment(
+        [this.state.end_date, this.state.end_time].join(' '),
+        'D MMMM, YYYY HH:mm'
+      )._d.toJSON();
+
+      if (eventData.end_date < eventData.start_date) {
+        this.setState({
+          error: {
+            ...this.state.error,
+            end_date: 'End date can\'t be later than start',
+          }
+        });
+        return 1;
+      };
+    };
+
+    const tag_arr = window.$('#chips-tags').material_chip('data');
+    if (tag_arr.length) {
+      eventData.tags = tag_arr.map(obj => obj.tag);
+    };
+    return eventData;
+  }
+
   componentDidMount() {
     if ('id' in this.props.match.params) {
       request(`/event/${this.props.match.params.id}`).then(data => {
@@ -93,15 +131,15 @@ class EventForm extends Component {
                 this.setState({ [key]: momentUTCToLocal(data.event[key]).format('D MMMM, YYYY') });
 
                 if (key === 'start_date') {
-                  this.setState({ start_time: momentUTCToLocal(data.event[key]).format('h:mmA') });
+                  this.setState({ start_time: momentUTCToLocal(data.event[key]).format('HH:mm') });
                   document.getElementById('start_time').value =
-                    momentUTCToLocal(data.event[key]).format('h:mmA');
+                    momentUTCToLocal(data.event[key]).format('HH:mm');
                   document.getElementById('start_time')
                     .parentNode.lastChild.className = 'active';
                 } else {
-                  this.setState({ 'end_time': momentUTCToLocal(data.event[key]).format('h:mmA') });
+                  this.setState({ 'end_time': momentUTCToLocal(data.event[key]).format('HH:mm') });
                   document.getElementById('end_time').value =
-                    momentUTCToLocal(data.event[key]).format('h:mmA');
+                    momentUTCToLocal(data.event[key]).format('HH:mm');
                   document.getElementById('end_time')
                     .parentNode.lastChild.className = 'active';
                 }
@@ -113,7 +151,8 @@ class EventForm extends Component {
           }
           this.setState({
             'category': data.category,
-            'tags': data.tags
+            'tags': data.tags,
+            'status_str': data.status_str,
           });
         }
       })
@@ -122,46 +161,13 @@ class EventForm extends Component {
   }
 
   updateEvent = (e) => {
-    if (!this.validateData()) return 0;
-
     let errorMessages = this.validateData();
     if (!errorMessages) return 0;
 
-    let eventData = {
-      name: this.state.title,
-      lat: this.state.lat,
-      long: this.state.long,
-      description: this.state.description,
-      category: this.state.category,
-      start_date: moment(
-        [this.state.start_date, this.state.start_time].join(' '),
-        'D MMMM, YYYY h:mmA'
-      )._d.toJSON(),
-    };
-
-    if (this.state.end_date && this.state.end_time) {
-      eventData.end_date = moment(
-        [this.state.end_date, this.state.end_time].join(' '),
-        'D MMMM, YYYY h:mmA'
-      )._d.toJSON();
-
-      if (eventData.end_date < eventData.start_date) {
-        this.setState({
-          error: {
-            ...this.state.error,
-            end_date: 'Invalid date and time',
-          }
-        });
-        return 1;
-      };
-    };
-
-    const tag_arr = window.$('#chips-tags').material_chip('data');
-    if (tag_arr.length) {
-      eventData.tags = tag_arr.map(obj => obj.tag);
-    };
-
-    request(`/event/${this.props.match.params.id}`, 'PUT', JSON.stringify(eventData))
+    request(
+      `/event/${this.props.match.params.id}`,
+      'PUT',
+      JSON.stringify(this.createEventDataObj()))
       .then(data => {
         if ('errors' in data) {
           for (let i = 0; i < data['errors'].length; i++) {
@@ -186,41 +192,7 @@ class EventForm extends Component {
     let errorMessages = this.validateData();
     if (!errorMessages) return 0;
 
-    let eventData = {
-      name: this.state.title,
-      lat: this.state.lat,
-      long: this.state.long,
-      description: this.state.description,
-      category: this.state.category,
-      start_date: moment(
-        [this.state.start_date, this.state.start_time].join(' '),
-        'D MMMM, YYYY h:mmA'
-      )._d.toJSON(),
-    };
-
-    if (this.state.end_date && this.state.end_time) {
-      eventData.end_date = moment(
-        [this.state.end_date, this.state.end_time].join(' '),
-        'D MMMM, YYYY h:mmA'
-      )._d.toJSON();
-
-      if (eventData.end_date < eventData.start_date) {
-        this.setState({
-          error: {
-            ...this.state.error,
-            end_date: 'Invalid date and time',
-          }
-        });
-        return 1;
-      };
-    };
-
-    const tag_arr = window.$('#chips-tags').material_chip('data');
-    if (tag_arr.length) {
-      eventData.tags = tag_arr.map(obj => obj.tag);
-    };
-
-    request('/event', 'POST', JSON.stringify(eventData))
+    request('/event', 'POST', JSON.stringify(this.createEventDataObj()))
       .then(data => {
         if ('errors' in data) {
           for (let i = 0; i < data['errors'].length; i++) {
@@ -269,35 +241,43 @@ class EventForm extends Component {
   }
 
   renderButtons() {
-    if ('id' in this.props.match.params) return (
-      <React.Fragment>
-        <Col className="left-align" s={6}>
-          <Button waves="light" onClick={this.updateEvent}>Update Event</Button>
-        </Col>
-        <Col className="right-align" s={6}>
-          <Button
-            className="red" waves="light" onClick={() => window.$('#eventClose').modal('open')}>
-            Close Event
-          </Button>
-        </Col>
-        <Modal
-          id='eventClose'
-          header='Modal Header'
-          actions={
-            <div>
-              <Button flat modal="close" waves="light" onClick={this.closeEventHandler}>
-                Yes
-              </Button>
-              <Button flat modal="close" waves="light">
-                No
-              </Button>
-            </div>
-          }>
-          Do you really want to close this event?
-        </Modal>
-      </React.Fragment>
-    )
-    else return (
+    if ('id' in this.props.match.params) {
+      if(this.state.status_str === 'Close') return (
+        <React.Fragment>
+          <Col className="center-align" s={12}>
+            <Button waves="light" onClick={this.updateEvent}>Update Event</Button>
+          </Col>
+        </React.Fragment>
+      )
+      else return (
+        <React.Fragment>
+          <Col className="left-align" s={6}>
+            <Button waves="light" onClick={this.updateEvent}>Update Event</Button>
+          </Col>
+          <Col className="right-align" s={6}>
+            <Button
+              className="red" waves="light" onClick={() => window.$('#eventClose').modal('open')}>
+              Close Event
+            </Button>
+          </Col>
+          <Modal
+            id='eventClose'
+            header='Close Event'
+            actions={
+              <div>
+                <Button flat modal="close" waves="light" onClick={this.closeEventHandler}>
+                  Yes
+                </Button>
+                <Button flat modal="close" waves="light">
+                  No
+                </Button>
+              </div>
+            }>
+            Do you really want to close this event?
+          </Modal>
+        </React.Fragment>
+      )
+    } else return (
       <Col className="center-align">
         <Button waves="light" onClick={this.addEvent}>Add Event</Button>
       </Col>
@@ -367,6 +347,12 @@ class EventForm extends Component {
               onChange={this.onChangeHandler}
               value={this.state.start_time}
               label="Pick start time"
+              options={
+                {
+                  twelvehour: false,
+                  autoclose: false,
+                }
+              }
             />
           </Row>
           <Row>
@@ -386,6 +372,12 @@ class EventForm extends Component {
               onChange={this.onChangeHandler}
               value={this.state.end_time}
               label="Pick end time"
+              options={
+                {
+                  twelvehour: false,
+                  autoclose: false,
+                }
+              }
             />
           </Row>
           <Row className="category-select-wrapper">
