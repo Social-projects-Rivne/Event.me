@@ -78,6 +78,7 @@ label::after {
 }
 
 .hot-event-description {
+    padding-left: 10px;
     display: block;
     width: 20em;
     overflow: hidden;
@@ -91,4 +92,10 @@ label::after {
 
 .hot-event-after-name {
     margin-top: 0.2em;
+}
+
+.card .card-content {
+    padding-left: 1em;
+    paddign-right: 1em;
+    padding-top: 6px;
 }

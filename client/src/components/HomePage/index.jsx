@@ -57,7 +57,7 @@ class HomePage extends Component {
       <React.Fragment>
         {this.renderHeader()}
         <Row className="center-align"><h2>Featured Events</h2></Row>
-          <Row className="center-align"><HotEvents /></Row>
+          <Row><HotEvents /></Row>
         <Row className="center-align"><h2>Our Team</h2></Row>
           <OurTeam />
         <Row className="center-align"><h2>How to add an event?</h2></Row>
