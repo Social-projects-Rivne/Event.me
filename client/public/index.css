@@ -1,28 +1,10 @@
-.event-description {
-    font: 20px 'Helvetica';
-}
+.event-description { font: 20px 'Helvetica' }
 
-.nav-wrapper {
-    padding: 0 15px;
-}
+.nav-wrapper { padding: 0 15px }
 
-.nav-wrapper .input-field label{
-    color: white;
-}
+.nav-wrapper .user-pictogram { vertical-align: middle }
 
-.nav-wrapper .input-field input[type=email]:focus,
-.nav-wrapper .input-field input[type=password]:focus {
-    border-bottom: none;
-    box-shadow: none;
-}
-
-.nav-wrapper .user-pictogram {
-    vertical-align: middle;
-}
-
-.chips .input {
-    color: black;
-}
+.chips .input { color: black }
 
 .chips-autocomplete input::-moz-placeholder,
 .chips-autocomplete input:-moz-placeholder {
@@ -30,9 +12,7 @@
     color: rgba(0,0,0,.5);
 }
 
-.textarea-wrapper label::after{
-    transform: translateY(36px);
-}
+.textarea-wrapper label::after{ transform: translateY(36px) }
 
 .category-select-wrapper .invalid input {
     border-bottom: 1px solid #F44336;
@@ -59,6 +39,40 @@
     width: 100%;
 }
 
-.material-icons {
-    padding: 0 0.2em 0 0.8em;
+.material-icons { padding: 0 0.2em 0 0.8em }
+
+.img-container {
+    padding: 30px 0;
+    background-size: cover;
+    background-image: url("/yellow-flower-background.jpg");
+}
+
+.tabs-container button {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.forgot-password-link { padding: 0 .75rem }
+
+#email_recover { margin: 20px 0 }
+
+.header-text h1,
+.header-text p {
+    display: inline-block;
+    color: white;
+    padding: 0.3em 0.2em 0.3em 0.2em;
+    background: rgba(0,0,0,.5);
+    margin: 0.2em 0;
+}
+
+.recover-tab .col {
+    padding: 0;
+}
+.recover-tab .col .btn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+label::after {
+    width: 6rem;
 }
