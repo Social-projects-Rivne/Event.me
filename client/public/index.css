@@ -77,22 +77,25 @@ label::after {
     width: 6rem;
 }
 
-.fixed-action-btn i {
-    padding: 0;
+.hot-event-description {
+    padding-left: 10px;
+    display: block;
+    width: 20em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.mobile-fab-tip {
-    position: fixed;
-    right: 12px;
-    bottom: 70px;
-    padding:0px 0.5rem;
-    text-align: right;
-    background-color: #323232;
-    border-radius: 2px;
-    color: #FFF;
-    width:auto;
+.hot-event-other-info {
+    font-size: 12px;
 }
 
-blockquote .flow-text {
-    margin: 0;
+.hot-event-after-name {
+    margin-top: 0.2em;
+}
+
+.card .card-content {
+    padding-left: 1em;
+    paddign-right: 1em;
+    padding-top: 6px;
 }

@@ -27,6 +27,14 @@ class EventHistory(Base):
         return True
 
     @classmethod
+    def get_all(cls, request):
+        return request.dbsession.query(cls).all()
+
+    @classmethod
+    def get_all_by(cls, request, **kwargs):
+        return request.dbsession.query(cls).filter_by(**kwargs).all()
+
+    @classmethod
     def get_current_event_status(cls, request, event_id):
         """Get last event history object for some event by id"""
         return request.dbsession.query(cls)\

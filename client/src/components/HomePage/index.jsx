@@ -6,6 +6,7 @@ import RecoverPasswordTab from './RecoverPasswordTab';
 import OurTeam from './OurTeam';
 import HowAddEvent from './HowAddEvent';
 import { isLogged } from '../../utils';
+import HotEvents from '../HotEvents'
 
 
 class HomePage extends Component {
@@ -55,10 +56,12 @@ class HomePage extends Component {
     return (
       <React.Fragment>
         {this.renderHeader()}
+        <Row className="center-align"><h2>Featured Events</h2></Row>
+          <Row><HotEvents /></Row>
         <Row className="center-align"><h2>Our Team</h2></Row>
-        <OurTeam />
+          <OurTeam />
         <Row className="center-align"><h2>How to add an event?</h2></Row>
-        <HowAddEvent />
+          <HowAddEvent />
       </React.Fragment>
     );
   }
