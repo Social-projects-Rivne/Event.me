@@ -1,12 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Home from './Home';
+import HomePage from './HomePage';
 import MapLayout from './MapLayout';
-import Registration from './Nav/Registration';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverInfo from './RecoverInfo';
 import ChangePasswordConfirm from './ChangePasswordConfirm';
-import RecoverPassword from './RecoverPassword';
 import ChangePassword from './ChangePassword';
 import EventForm from './EventForm';
 import Profile from './Profile';
@@ -17,12 +15,11 @@ import ProfileEdit from './ProfileEdit';
 function Routes() {
   return (
     <React.Fragment>
-      <Route path="/map" component={MapLayout} exact />
+        <Route path="/map" component={MapLayout} exact />
+        <Route path="/" component={HomePage} exact />
+        <Route path="/recover" component={HomePage} exact />
       <div className="container">
-        <Route path="/" component={Home} exact />
-        <Route path="/registration" component={Registration} exact />
         <Route path="/email_confirm/:token" component={ConfirmEmail} />
-        <Route path="/recover" component={RecoverPassword} exact />
         <Route path="/recover-info" component={RecoverInfo} />
         <Route path="/change-password/:token" component={ChangePassword} />
         <Route path="/confirm-new-password" component={ChangePasswordConfirm} />
