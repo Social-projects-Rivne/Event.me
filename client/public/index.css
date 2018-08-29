@@ -71,14 +71,10 @@
     text-overflow: ellipsis;
 }
 
-.custom-card-height {
-    height: 310px !important;
-}
-
 .hot-event-other-info {
     font-size: 12px;
 }
 
 .hot-event-after-name {
-    margin-top: 0.7em;
+    margin-top: 0.2em;
 }
