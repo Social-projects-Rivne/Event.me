@@ -56,7 +56,7 @@ class HotEvents extends Component {
                   <Link to={"/event/" + element.id}>View Info</Link>
                 ]}
                 >
-                  <span className="hot-event-description  hot-event-content">
+                  <span className="hot-event-description">
                     {element.description}
                   </span>
                   <Row className="hot-event-after-name">
