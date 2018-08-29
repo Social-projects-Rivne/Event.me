@@ -8,7 +8,6 @@ import moment from 'moment';
 class HotEvents extends Component {
   state = {
     hot_events: [],
-    num_fo_hot_events: null,
     display_method: null
   }
 
@@ -17,17 +16,8 @@ class HotEvents extends Component {
     .then(data => {
       this.setState({
         hot_events: data.hot_events,
-        num_of_hot_events: data.num_of_hot_events
+        display_method: data.display_method
        })
-       if (this.state.num_of_hot_events === 1) {
-         this.setState({ display_method: 12})
-       }
-       else if (this.state.num_of_hot_events === 2) {
-         this.setState({ display_method: 6 })
-       }
-       else {
-         this.setState({ display_method: 4 })
-       }
     })
   }
 
@@ -37,7 +27,7 @@ class HotEvents extends Component {
           {this.state.hot_events.map((element) => (
             <Col key={element.id} s={this.state.display_method}>
               <Card
-                className="custom-card-height medium"
+                className={"custom-card-height medium"}
                 header={
                   <CardTitle image={element.main_image}>
                     {element.name}

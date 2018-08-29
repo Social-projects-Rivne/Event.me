@@ -26,12 +26,18 @@ class HotEventView(object):
 
         response = {
             'hot_events': None,
-            'num_of_hot_events': None
+            'display_method': None
         }
 
         histories = EventHistory.get_all_by(request, status_id=5)
         id_array = [obj.event_id for obj in histories]
-        response['num_of_hot_events'] = len(id_array)
+
+        if len(id_array) == 1:
+            response['display_method'] = 12
+        elif len(id_array) == 2:
+            response['display_method'] = 6
+        else:
+            response['display_method'] = 4
 
         hot_events = Event.get_events_by_ids(request, id_array)
         hot_array = [model_to_dict(obj) for obj in hot_events]
