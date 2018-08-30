@@ -18,25 +18,18 @@ class Registration extends Component {
   onChangeHandler = (e) => {
     let { id } = e.currentTarget;
     this.setState({ [id]: e.currentTarget.value });
-    if (
-      this.state.password === this.state.repeat_password
-    ) {
-      this.setState({ check_password: "" });
-    } else {
-    this.setState({ check_password: "passwords isn't equal" });
-    }
     }
 
     onChangePasswordError = (e) => {
     let { id } = e.currentTarget;
-    this.setState({ [id]: e.currentTarget.value });
-      if (
-        e.currentTarget.value === this.state.repeat_password
-      ) {
-        this.setState({ check_password: "" });
-      } else {
-      this.setState({ check_password: "passwords isn't equal" });
+    this.setState({ [id]: e.currentTarget.value },
+    () => {
+      if (this.state.password === this.state.repeat_password) this.setState({ check_password: "" });
+      else {
+        this.setState({ check_password: "passwords isn't equal" });
       }
+    });
+
       }
 
 
@@ -49,13 +42,17 @@ class Registration extends Component {
     };
 
     if (
-      !emailValidation(this.state.email)
-      || !this.state.password.length
-      || this.state.password !== this.state.repeat_password
+      !this.state.password.length
     ) {
-      this.setState({ check_password: "passwords isn't equal" });
+      this.setState({ check_password: "Empty field" });
       window.Materialize.toast("Invalid input", 3000);
-      return null;
+    }
+    if (!emailValidation(this.state.email)) {
+      this.setState({ check_email: "Empty email field" });
+    }
+    if (!this.state.nickname.length) {
+      this.setState({ check_nickname: "Empty field" });
+      window.Materialize.toast("Invalid input", 3000);
     }
 
     request('/registration', "POST", JSON.stringify(registerData))
@@ -82,7 +79,6 @@ class Registration extends Component {
         <Row>
           <Input
             id="nickname"
-            ref={el => this.inputNickname = el}
             error={this.state.check_nickname}
             value={this.state.nickname}
             onChange={this.onChangeHandler}
@@ -105,7 +101,6 @@ class Registration extends Component {
             error={this.state.check_password}
             value={this.state.password}
             onChange={this.onChangePasswordError}
-
             type="password"
             label="Password"
             s={12} />

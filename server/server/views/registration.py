@@ -47,12 +47,9 @@ def registration_view(request):
     'Non_active', generate and send url-token to user email.
     """
     json = request.json_body
-    user_query = request.dbsession.query(User)\
-        .filter(func.lower(User.email) == func.lower(json['email']))\
-        .one_or_none()
-    nickname_query = request.dbsession.query(User)\
-        .filter(func.lower(User.nickname) == func.lower(json['nickname']))\
-        .one_or_none()
+    user_query = User.get_user_by_email(request, request.json['email'])
+    nickname_query = User\
+        .get_user_by_nickname(request, request.json['nickname'])
     if user_query is None:
         if nickname_query is None:
             url_token_confirmation = generate_secret()

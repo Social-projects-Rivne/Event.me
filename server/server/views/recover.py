@@ -24,7 +24,7 @@ def recover_send_mail(request):
     generate and send url-token to user email.
     """
     json = request.json_body
-    user = request.dbsession.query(User).filter(func.lower(User.email)==func.lower(json['email'])).one_or_none()
+    user = User.get_user_by_email(request, request.json['email'])
     if (user is not None) and user.is_active(request):
         url_token_confirmation = generate_secret()
         user.url_token = url_token_confirmation
@@ -57,7 +57,7 @@ def recover_change_password(request):
     """
     json = request.json_body
     change_password_url_token = request.matchdict['change_password_hash']
-    user = request.dbsession.query(User).filter_by(url_token=change_password_url_token).one_or_none()
+    user = User.get_one(request, url_token=change_password_url_token)
     if user is not None:
         user.password=pbkdf2_sha256.hash(json['password'])
         user.url_token = None
