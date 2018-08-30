@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Row, Col, Tabs, Tab } from 'react-materialize';
+import { Input, Button, Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import { emailValidation, request } from '../../utils.js';
 
@@ -38,9 +38,14 @@ export class RecoverPasswordTab extends Component {
   }
   render() {
     return (
-      <Tabs className="tabs tabs-fixed-width tab-demo z-depth-1">
-        <Tab title="Recover Password" active>
           <div className="white">
+          <Row>
+            <ul className="tabs">
+              <li className="tab col s12">
+                <a className="active">Recover</a>
+              </li>
+            </ul>
+          </Row>
             <Row className="recover-tab">
               <Input
                 id="email_recover"
@@ -59,8 +64,6 @@ export class RecoverPasswordTab extends Component {
               </Col>
             </Row>
           </div>
-        </Tab>
-      </Tabs>
     );
   }
 }

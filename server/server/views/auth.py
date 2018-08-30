@@ -2,6 +2,7 @@
 from cornice import Service
 from cornice.validators import colander_body_validator
 from pyramid.security import remember, forget
+from sqlalchemy import func
 
 from ..models.token import Token
 from ..models.user import User
@@ -25,7 +26,9 @@ def log_in_post(request):
         'success': False,
         'user': {}
     }
-    user = User.get_one(request, email=request.validated['email'])
+    user = request.dbsession.query(User)\
+        .filter(func.lower(User.email) == func.lower(request.validated['email']))\
+        .one_or_none()
 
     if (user is not None and
             user.check_password(request.validated['password'])):

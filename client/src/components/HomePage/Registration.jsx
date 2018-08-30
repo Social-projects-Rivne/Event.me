@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Input, Button, Row } from 'react-materialize'
+import React, { Component, ReactDOM } from 'react';
+import { Input, Button, Row } from 'react-materialize';
 import { emailValidation, request } from '../../utils';
 
 
@@ -18,7 +18,27 @@ class Registration extends Component {
   onChangeHandler = (e) => {
     let { id } = e.currentTarget;
     this.setState({ [id]: e.currentTarget.value });
-  };
+    if (
+      this.state.password === this.state.repeat_password
+    ) {
+      this.setState({ check_password: "" });
+    } else {
+    this.setState({ check_password: "passwords isn't equal" });
+    }
+    }
+
+    onChangePasswordError = (e) => {
+    let { id } = e.currentTarget;
+    this.setState({ [id]: e.currentTarget.value });
+      if (
+        e.currentTarget.value === this.state.repeat_password
+      ) {
+        this.setState({ check_password: "" });
+      } else {
+      this.setState({ check_password: "passwords isn't equal" });
+      }
+      }
+
 
   register = (e) => {
     let registerData = {
@@ -45,10 +65,11 @@ class Registration extends Component {
 
         if ('error' in data) {
           this.setState({ [`check_${data.error}`]: `Invalid ${data.error}` })
-          this.props.history.push('/registration');
           return null;
+
         } else {
-          this.props.history.push('/');
+        window.location.reload();
+
           return null;
         }
       })
@@ -57,10 +78,11 @@ class Registration extends Component {
 
   render() {
     return (
-      <div className="white">
+      <div className="white" id="registration-container">
         <Row>
           <Input
             id="nickname"
+            ref={el => this.inputNickname = el}
             error={this.state.check_nickname}
             value={this.state.nickname}
             onChange={this.onChangeHandler}
@@ -82,7 +104,8 @@ class Registration extends Component {
             id="password"
             error={this.state.check_password}
             value={this.state.password}
-            onChange={this.onChangeHandler}
+            onChange={this.onChangePasswordError}
+
             type="password"
             label="Password"
             s={12} />
@@ -92,7 +115,7 @@ class Registration extends Component {
             id="repeat_password"
             error={this.state.check_password}
             value={this.state.repeat_password}
-            onChange={this.onChangeHandler}
+            onChange={this.onChangePasswordError}
             type="password"
             label="Repeat password"
             s={12} />
