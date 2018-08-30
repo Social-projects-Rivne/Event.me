@@ -57,7 +57,7 @@ def recover_change_password(request):
     """
     json = request.json_body
     change_password_url_token = request.matchdict['change_password_hash']
-    user = User.get_one(request, url_token=change_password_url_token)
+    user = User.get_one(request, url_token=change_password_url_token )
     if user is not None:
         user.password=pbkdf2_sha256.hash(json['password'])
         user.url_token = None
