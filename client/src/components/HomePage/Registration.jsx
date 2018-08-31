@@ -42,24 +42,12 @@ class Registration extends Component {
       .then(data => {
         this.setState({ msg: data.msg });
         window.Materialize.toast(this.state.msg, 3000);
-        console.log(data)
+
         if ('error' in data) {
           this.setState({ [`check_${data.error}`]: `Invalid ${data.error}` })
           return null;
-        } else {
-          this.setState({
-            email: '',
-            nickname: '',
-            password: '',
-            repeat_password: '',
-            msg: '',
-            check_email: '',
-            check_nickname: '',
-            check_password: '',
-          })
-          return null;
         }
-      })
+      });
   }
 
 

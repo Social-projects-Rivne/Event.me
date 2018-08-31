@@ -266,10 +266,10 @@ class EventForm extends Component {
             actions={
               <div>
                 <Button flat modal="close" waves="light" onClick={this.closeEventHandler}>
-                  Yes
+                  Confirm
                 </Button>
                 <Button flat modal="close" waves="light">
-                  No
+                  Cancel
                 </Button>
               </div>
             }>

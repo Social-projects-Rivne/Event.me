@@ -50,7 +50,7 @@
 .img-container {
     padding: 30px 0;
     background-size: cover;
-    background-image: url("/yellow-flower-background.jpg");
+    background-image: url("/img/yellow-flower-background.jpg");
 }
 
 .tabs-container button {
