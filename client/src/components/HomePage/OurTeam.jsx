@@ -9,7 +9,7 @@ const OurTeam = () => {
         <Card className='large'
           header={
             <CardTitle
-              image='/default-avatar-team.jpg'>
+              image='/img/default-avatar-team.jpg'>
               Person Zero
                 </CardTitle>
           }>
@@ -21,7 +21,7 @@ const OurTeam = () => {
         <Card className='large'
           header={
             <CardTitle
-              image='/default-avatar-team.jpg'>
+              image='/img/default-avatar-team.jpg'>
               Person One
             </CardTitle>
           }>
@@ -33,7 +33,7 @@ const OurTeam = () => {
         <Card className='large'
           header={
             <CardTitle
-              image='/default-avatar-team.jpg'>
+              image='/img/default-avatar-team.jpg'>
               Person Two
             </CardTitle>
           }>
@@ -45,7 +45,7 @@ const OurTeam = () => {
         <Card className='large'
           header={
             <CardTitle
-              image='/default-avatar-team.jpg'>
+              image='/img/default-avatar-team.jpg'>
               Person Three
             </CardTitle>
           }>

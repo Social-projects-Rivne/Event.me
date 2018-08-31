@@ -45,13 +45,9 @@ class Registration extends Component {
 
         if ('error' in data) {
           this.setState({ [`check_${data.error}`]: `Invalid ${data.error}` })
-          this.props.history.push('/registration');
-          return null;
-        } else {
-          this.props.history.push('/');
           return null;
         }
-      })
+      });
   }
 
 
