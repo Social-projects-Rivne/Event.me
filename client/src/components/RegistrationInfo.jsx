@@ -14,4 +14,4 @@ const RegistrationInfo = () => {
   )
 }
 
-export default RegistrationInfo  ;
+export default RegistrationInfo;
