@@ -25,7 +25,7 @@ function Routes() {
         <Route path="/change-password/:token" component={ChangePassword} />
         <Route path="/confirm-new-password" component={ChangePasswordConfirm} />
         <Route path="/registration-info" component={RegistrationInfo } />
-        
+
         <Route path="/add-event" component={EventForm} exact />
         <Route path="/event/:id" component={EventPage} exact />
         <Route path="/event/edit/:id" component={EventForm} exact />

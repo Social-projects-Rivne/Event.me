@@ -26,8 +26,8 @@ def log_in_post(request):
         'success': False,
         'user': {}
     }
-    user = request.dbsession.query(User)\
-        .filter(func.lower(User.email) == func.lower(request.validated['email']))\
+    user = request.dbsession.query(User).filter(
+        func.lower(User.email) == func.lower(request.validated['email']))\
         .one_or_none()
 
     if (user is not None and

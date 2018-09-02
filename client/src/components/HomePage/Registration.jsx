@@ -22,7 +22,6 @@ class Registration extends Component {
       if (this.state.password === this.state.repeat_password) this.setState({ check_password: "" });
       else {
         this.setState({ check_password: "passwords isn't equal" });
-        return null;
       }
     });
     }
@@ -44,7 +43,7 @@ class Registration extends Component {
     this.setState({ [id]: e.currentTarget.value },
     () => {
       if (!emailValidation(this.state.email)) {
-        this.setState({ check_email: "Please provide a valid email address" });
+        this.setState({ check_email: "Invalid email" });
       } else {
         this.setState({ check_email: "" });
       }
@@ -59,19 +58,22 @@ class Registration extends Component {
       repeat_password: this.state.repeat_password,
     };
 
-    if (
-      !this.state.password.length
-    ) {
+    if (!this.state.password.length) {
       this.setState({ check_password: "Empty field" });
       window.Materialize.toast("Invalid input", 3000);
     }
     if (!emailValidation(this.state.email)) {
-      this.setState({ check_email: "Please provide a valid email address" });
+      this.setState({ check_email: "Invalid email" });
     }
     if (!this.state.nickname.length) {
       this.setState({ check_nickname: "Empty field" });
       window.Materialize.toast("Invalid input", 3000);
     }
+    if (
+      !this.state.password.length
+      || !emailValidation(this.state.email)
+      || !this.state.nickname.length
+    ) return null;
 
     request('/registration', "POST", JSON.stringify(registerData))
       .then(data => {
@@ -83,10 +85,8 @@ class Registration extends Component {
           return null;
 
         } else {
-        window.Materialize.toast("Check your email box", 3000);
-        window.history.forward('/registration-info');
-
-          return null;
+          window.Materialize.toast("Check your email box", 3000);
+          window.history.forward('/registration-info');
         }
       })
   }
@@ -94,7 +94,7 @@ class Registration extends Component {
 
   render() {
     return (
-      <div className="white" id="registration-container">
+      <div className="white">
         <Row>
           <Input
             id="nickname"
