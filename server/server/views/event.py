@@ -128,6 +128,7 @@ class EventView(object):
         }
         if request.user is not None and event_obj.author_id == request.user.id:
             response['status'] = model_to_dict(self.event_history)
+        response['status_str'] = self.event_status
 
         return response
 

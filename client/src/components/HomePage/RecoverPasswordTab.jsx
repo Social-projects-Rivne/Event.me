@@ -31,39 +31,39 @@ export class RecoverPasswordTab extends Component {
         this.setState({
           msg: data.msg,
           success: data.success
-         });
+        });
         window.Materialize.toast(this.state.msg, 3000);
         if (this.state.success) this.props.history.push('/recover-info');
       })
   }
   render() {
     return (
-          <div className="white">
-          <Row>
-            <ul className="tabs">
-              <li className="tab col s12">
-                <a className="active">Recover</a>
-              </li>
-            </ul>
-          </Row>
-            <Row className="recover-tab">
-              <Input
-                id="email_recover"
-                error={this.state.check_email}
-                value={this.state.email_recover}
-                onChange={this.onChangeHandler}
-                s={12}
-                type="email"
-                label="Email"
-              />
-              <Col s={6}>
-                <Link to="/" className="btn waves-effect waves-light btn-flat">Back</Link>
-              </Col>
-              <Col s={6}>
-                <Button flat waves='light' onClick={this.sendMailRecoverPassword}>Reset password</Button>
-              </Col>
-            </Row>
-          </div>
+      <div className="white">
+        <Row>
+          <ul className="tabs">
+            <li className="tab col s12"><a className="active">Recover</a></li>
+          </ul>
+        </Row>
+        <Row>
+          <Input
+            id="email_recover"
+            error={this.state.check_email}
+            value={this.state.email_recover}
+            onChange={this.onChangeHandler}
+            s={12}
+            type="email"
+            label="Email"
+          />
+        </Row>
+        <Row className="recover-tab">
+          <Col s={6}>
+            <Link to="/" className="btn waves-effect waves-light btn-flat">Back</Link>
+          </Col>
+          <Col s={6}>
+            <Button flat waves='light' onClick={this.sendMailRecoverPassword}>Reset password</Button>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

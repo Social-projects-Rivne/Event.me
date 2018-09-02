@@ -83,12 +83,11 @@ class Registration extends Component {
         if ('error' in data) {
           this.setState({ [`check_${data.error}`]: `Invalid ${data.error}` })
           return null;
-
         } else {
           window.Materialize.toast("Check your email box", 3000);
           window.history.forward('/registration-info');
         }
-      })
+      });
   }
 
 
