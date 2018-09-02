@@ -5,11 +5,13 @@ import transaction
 import datetime
 
 import zope.sqlalchemy
+from pymongo import MongoClient
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers, \
-                            class_mapper, ColumnProperty
+    class_mapper, ColumnProperty
 from sqlalchemy import engine_from_config
+from urlparse import urlparse
 from zope.sqlalchemy import ZopeTransactionExtension
 
 
@@ -99,8 +101,21 @@ def includeme(config):
     session_factory = get_session_factory(get_engine(settings))
     config.registry['dbsession_factory'] = session_factory
 
+    db_url = urlparse(settings['mongodb.url'])
+    config.registry.mongo = MongoClient(
+        host=db_url.hostname,
+        port=db_url.port,
+    )
+
+    def add_mongo_connection(request):
+        db = config.registry.mongo[db_url.path[1:]]
+        if db_url.username and db_url.password:
+            db.authenticate(db_url.username, db_url.password)
+        return db
+
     init_tables(get_engine(settings))
 
+    config.add_request_method(add_mongo_connection, 'mongo', reify=True)
     config.add_request_method(
         lambda r: get_tm_session(session_factory, r.tm),
         'dbsession',
