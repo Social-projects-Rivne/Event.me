@@ -1,4 +1,4 @@
-import React, { Component, ReactDOM } from 'react';
+import React, { Component } from 'react';
 import { Input, Button, Row } from 'react-materialize';
 import { emailValidation, request } from '../../utils';
 
@@ -15,23 +15,41 @@ class Registration extends Component {
     check_password: '',
   };
 
-  onChangeHandler = (e) => {
-    let { id } = e.currentTarget;
-    this.setState({ [id]: e.currentTarget.value });
-    }
-
-    onChangePasswordError = (e) => {
+    onChangeHandlerPassword = (e) => {
     let { id } = e.currentTarget;
     this.setState({ [id]: e.currentTarget.value },
     () => {
       if (this.state.password === this.state.repeat_password) this.setState({ check_password: "" });
       else {
         this.setState({ check_password: "passwords isn't equal" });
+        return null;
       }
     });
+    }
 
+    onChangeHandlerNickname = (e) => {
+    let { id } = e.currentTarget;
+    this.setState({ [id]: e.currentTarget.value },
+    () => {
+      if (!this.state.nickname.length) {
+        this.setState({ check_nickname: "Empty field" });
+      } else {
+        this.setState({ check_nickname: "" });
       }
+    });
+    }
 
+    onChangeHandlerEmail = (e) => {
+    let { id } = e.currentTarget;
+    this.setState({ [id]: e.currentTarget.value },
+    () => {
+      if (!emailValidation(this.state.email)) {
+        this.setState({ check_email: "Please provide a valid email address" });
+      } else {
+        this.setState({ check_email: "" });
+      }
+    });
+    }
 
   register = (e) => {
     let registerData = {
@@ -48,7 +66,7 @@ class Registration extends Component {
       window.Materialize.toast("Invalid input", 3000);
     }
     if (!emailValidation(this.state.email)) {
-      this.setState({ check_email: "Empty email field" });
+      this.setState({ check_email: "Please provide a valid email address" });
     }
     if (!this.state.nickname.length) {
       this.setState({ check_nickname: "Empty field" });
@@ -65,7 +83,8 @@ class Registration extends Component {
           return null;
 
         } else {
-        window.location.reload();
+        window.Materialize.toast("Check your email box", 3000);
+        window.history.forward('/registration-info');
 
           return null;
         }
@@ -81,7 +100,7 @@ class Registration extends Component {
             id="nickname"
             error={this.state.check_nickname}
             value={this.state.nickname}
-            onChange={this.onChangeHandler}
+            onChange={this.onChangeHandlerNickname}
             label="Nickname"
             s={12} />
         </Row>
@@ -90,7 +109,7 @@ class Registration extends Component {
             id="email"
             error={this.state.check_email}
             value={this.state.email}
-            onChange={this.onChangeHandler}
+            onChange={this.onChangeHandlerEmail}
             type="email"
             label="Email"
             s={12} />
@@ -100,7 +119,7 @@ class Registration extends Component {
             id="password"
             error={this.state.check_password}
             value={this.state.password}
-            onChange={this.onChangePasswordError}
+            onChange={this.onChangeHandlerPassword}
             type="password"
             label="Password"
             s={12} />
@@ -110,7 +129,7 @@ class Registration extends Component {
             id="repeat_password"
             error={this.state.check_password}
             value={this.state.repeat_password}
-            onChange={this.onChangePasswordError}
+            onChange={this.onChangeHandlerPassword}
             type="password"
             label="Repeat password"
             s={12} />
