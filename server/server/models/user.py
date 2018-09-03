@@ -3,7 +3,7 @@
 import datetime
 
 from passlib.hash import pbkdf2_sha256
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from pyramid import httpexceptions
 
@@ -49,6 +49,20 @@ class User(Base):
         """
         user = request.dbsession.query(cls).filter_by(**kwargs).one_or_none()
         return user
+
+    @classmethod
+    def get_user_by_email(cls, request, email):
+        """Get one user from db by email"""
+        return request.dbsession.query(User)\
+            .filter(func.lower(User.email) == func.lower(email)).one_or_none()
+
+    @classmethod
+    def get_user_by_nickname(cls, request, nickname):
+        """Get one user from db by nickname"""
+        return request.dbsession.query(User)\
+            .filter(func.lower(User.nickname) == func.lower(nickname))\
+            .one_or_none()
+
 
     def check_password(self, password):
         """Check if user password valid"""
