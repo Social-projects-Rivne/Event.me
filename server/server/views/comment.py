@@ -1,12 +1,14 @@
 """View for adding new event to db"""
 from cornice.resource import resource, view
+from cornice.validators import colander_body_validator
 from pyramid.security import Allow, Authenticated
 
 from ..models import model_to_dict
 from ..models.comment import Comment
+from ..validation_schema import CommentSchema
 
 
-@resource(collection_path='/comment', path='/comment/{category_id}',
+@resource(collection_path='/comment', path='/comment/{event_id}',
           renderer='json', cors_origins=('http://localhost:3000',))
 class CommentView(object):
 
@@ -24,7 +26,15 @@ class CommentView(object):
                                               request.matchdict['event_id'])
         }
 
+    @view(schema=CommentSchema(), validators=(colander_body_validator,),
+          permission='post')
     def post(self):
         request = self.request
-        # TODO: validation schema for comment
-        Comment.add_comment(request, request.matchdict['event_id'])
+        data = request.validated
+        Comment.add_comment(request,
+                            request.matchdict['event_id'],
+                            request.user.id,
+                            data['comment'],
+                            data['unix_time'],
+                            data['father_comment_id']
+                            )
