@@ -54,6 +54,10 @@ class User(Base):
     def get_user_by_email(cls, request, email):
         """Get one user from db by email
         Return user object if user exist and return None if not
+        Arguments:
+        request -- request object that provides from view
+        email -- parameters for searching user by email
+        (e.g. field=value, field=value)
         """
         return request.dbsession.query(User)\
             .filter(func.lower(User.email) == func.lower(email)).one_or_none()
@@ -62,6 +66,10 @@ class User(Base):
     def get_user_by_nickname(cls, request, nickname):
         """Get one user from db by nickname
         Return user object if user exist and return None if not
+        Arguments:
+        request -- request object that provides from view
+        nickname -- parameters for searching user by nickname
+        (e.g. field=value, field=value)
         """
         return request.dbsession.query(User)\
             .filter(func.lower(User.nickname) == func.lower(nickname))\
