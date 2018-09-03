@@ -26,10 +26,7 @@ def log_in_post(request):
         'success': False,
         'user': {}
     }
-    user = request.dbsession.query(User).filter(
-        func.lower(User.email) == func.lower(request.validated['email']))\
-        .one_or_none()
-
+    user = User.get_user_by_email(request, request.json['email'])
     if (user is not None and
             user.check_password(request.validated['password'])):
         if user.is_active(request):
