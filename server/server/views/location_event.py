@@ -13,8 +13,7 @@ def get_events_short_info(request):
     """ """
 
     json = request.json_body
-    get_id_category = Category.get_by_name(request, json['category'])
-
+    get_one_category = Category.get_by_name(request, json['category'].lower())
     response = {
         'info': []
     }
@@ -23,5 +22,5 @@ def get_events_short_info(request):
         return response
     else:
         response['info'] = Event.get_event_short_info_with_category_id\
-            (request, int(json['day_filter']), get_id_category.id)
+            (request, int(json['day_filter']), get_one_category.id)
         return response
