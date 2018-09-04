@@ -4,7 +4,9 @@ class Comment:
         obj = request.mongo.comments.find_one({
             'event_id': event_id
         })
-        return list(obj['comments'])
+        if obj is None:
+            return {'comments': []}
+        return obj['comments']
 
     @staticmethod
     def add_comment(request, event_id, author_id, comment_msg,

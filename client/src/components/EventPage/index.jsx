@@ -3,6 +3,7 @@ import { Parallax, Row, Col, CardPanel, Icon, Chip } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import EventMap from '../EventMap';
 import EventMeta from './EventMeta';
+import Comments from './Comments';
 import { isEmpty, request, momentUTCToLocal } from '../../utils';
 
 
@@ -77,14 +78,14 @@ class EventPage extends Component {
   renderStatusContent() {
     if (this.state.status) {
       let bgColor = 'red';
-      if(this.state.status_str === 'New') bgColor = 'amber';
+      if (this.state.status_str === 'New') bgColor = 'amber';
       if (this.state.status_str === 'Approved' || this.state.status_str === 'Hot') bgColor = 'green';
       return (
-      <div className={`${bgColor} flow-text white-text card-panel darken-1`}>
-        {momentUTCToLocal(this.state.status.date).format('MMMM D, YYYY HH:mm')}
-        <br />
-        {this.state.status.comment}
-      </div>
+        <div className={`${bgColor} flow-text white-text card-panel darken-1`}>
+          {momentUTCToLocal(this.state.status.date).format('MMMM D, YYYY HH:mm')}
+          <br />
+          {this.state.status.comment}
+        </div>
       )
     };
   }
@@ -198,6 +199,16 @@ class EventPage extends Component {
           </Row>
           <Row>
             {this.renderTags()}
+          </Row>
+          <Row>
+            <Col s={12} className="center-align">
+              <h4>Comments</h4>
+            </Col>
+          </Row>
+          <Row>
+            <Col s={12}>
+              <Comments eventId={this.props.match.params.id} />
+            </Col>
           </Row>
         </CardPanel>
         {this.renderEditButton()}

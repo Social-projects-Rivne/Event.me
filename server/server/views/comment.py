@@ -38,3 +38,4 @@ class CommentView(object):
                             data['unix_time'],
                             data['father_comment_id']
                             )
+        return {'success': True}

@@ -27,6 +27,10 @@
 
 .event-description { font: 1.3em 'Helvetica' }
 
+.comment-card .hover-buttons { display: none }
+
+.comment-card:hover .hover-buttons { display: block }
+
 /***Map page***/
 .map-page-container .mapWrapper {
     height: 500px;
