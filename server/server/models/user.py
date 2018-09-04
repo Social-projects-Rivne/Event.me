@@ -41,6 +41,7 @@ class User(Base):
     @classmethod
     def get_one(cls, request, **kwargs):
         """Get one user from db by params
+
         Return user object if user exist and return None if not
         Arguments:
         request -- request object that provides from view
@@ -56,6 +57,7 @@ class User(Base):
 
     def is_active(self, request):
         """Check is user active
+
         Change user status to active if user was banned but time of his
         ban ended. Return True if user active and return False if not.
         Arguments:

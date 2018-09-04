@@ -26,3 +26,24 @@ class Comment:
                     'event_id': event_id,
                     'comments': [new_comment]
                 })
+        else:
+            request.mongo.comments.update_one(
+                {'event_id': event_id},
+                {
+                    '$push': {parse_comment_id(father_comment_id): new_comment}
+                }
+            )
+
+
+def parse_comment_id(comment_id):
+    """Parse comment_id and return path in db
+
+    Get comment id and return path string (e. g. 'comments.5.child.2.child')
+    Arguments:
+    comment_id -- comment object id (e. g. '5.2')
+    """
+    arrayIndexes = comment_id.split('.')
+    path_str = 'comments'
+    for index in arrayIndexes:
+        path_str = path_str + "." + index + ".child"
+    return path_str
