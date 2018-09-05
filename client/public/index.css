@@ -1,0 +1,116 @@
+.event-description { font: 20px 'Helvetica' }
+
+.nav-wrapper { padding: 0 15px }
+
+.nav-wrapper .user-pictogram { vertical-align: middle }
+
+.chips .input { color: black }
+
+.chips-autocomplete input::-moz-placeholder,
+.chips-autocomplete input:-moz-placeholder {
+    opacity: 1;
+    color: rgba(0,0,0,.5);
+}
+
+.textarea-wrapper label::after{ transform: translateY(36px) }
+
+.category-select-wrapper .invalid input {
+    border-bottom: 1px solid #F44336;
+    box-shadow: 0 1px 0 0 #F44336;
+}
+
+.parallax-container {
+    width: 100%;
+    height: 35vh;
+}
+
+.map-page-container .mapWrapper {
+    height: 500px;
+    height: calc(100vh - 100px);
+}
+
+.map-single-container .mapWrapper {
+    height: 300px;
+    height: calc(80vh - 100px);
+}
+
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+}
+
+.material-icons { padding: 0 0.2em 0 0.8em }
+
+.img-container {
+    padding: 30px 0;
+    background-size: cover;
+    background-image: url("/yellow-flower-background.jpg");
+}
+
+.tabs-container button {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.forgot-password-link { padding: 0 .75rem }
+
+#email_recover { margin: 20px 0 }
+
+.header-text h1,
+.header-text p {
+    display: inline-block;
+    color: white;
+    padding: 0.3em 0.2em 0.3em 0.2em;
+    background: rgba(0,0,0,.5);
+    margin: 0.2em 0;
+}
+
+.recover-tab .col {
+    padding: 0;
+}
+.recover-tab .col .btn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+label::after {
+    width: 6rem;
+}
+
+.hot-event-description {
+    padding-left: 10px;
+    display: block;
+    width: 20em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.hot-event-other-info {
+    font-size: 12px;
+}
+
+.hot-event-after-name {
+    margin-top: 0.2em;
+}
+
+.card .card-content {
+    padding-left: 1em;
+    paddign-right: 1em;
+    padding-top: 6px;
+}
+
+.event-subscribe {
+    margin-top: 1em;
+    margin-left: 25em;
+    padding-left: 0.2em;
+}
+
+.event-subscribe-icon {
+    padding-left: 0.3em;
+    padding-right: 0.1em;
+}
+
+.i.left {
+    margin-right: 0px;
+}
