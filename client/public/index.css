@@ -114,3 +114,9 @@ label::after {
 .i.left {
     margin-right: 0px;
 }
+
+.sub-icons {
+    margin-left: 1em;
+    margin-right: 1em;
+    vertical-align: middle;
+}

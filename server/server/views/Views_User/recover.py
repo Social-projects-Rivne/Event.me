@@ -4,7 +4,7 @@ from passlib.totp import generate_secret
 from pyramid_mailer.message import Message
 from sqlalchemy import func
 
-from ..models.user import User
+from ...models.user import User
 
 
 recover_password = Service(name='recover_password',

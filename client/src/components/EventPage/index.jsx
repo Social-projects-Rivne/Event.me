@@ -22,7 +22,9 @@ class EventPage extends Component {
     tags: {},
     is_subbed: false,
     sub_icon: 'check_circle_outlined',
-    sub_label: 'Subscribe'
+    sub_label: 'Subscribe',
+    subs: [],
+    any_subs: false
   }
 
   componentDidMount = () => {
@@ -69,7 +71,6 @@ class EventPage extends Component {
             sub_icon: 'check_circle',
             sub_label: 'Unsubscribe'
           })
-          window.Materialize.toast("Subscribed", 1500);
         }
         else {
           this.setState({
@@ -77,7 +78,6 @@ class EventPage extends Component {
             sub_icon: 'check_circle_outlined',
             sub_label: 'Subscribe'
           })
-          window.Materialize.toast("Unsubscribed", 1500);
         }
       }
       else {
@@ -103,6 +103,11 @@ class EventPage extends Component {
           category: data.category,
           tags: data.tags,
         });
+
+        this.setState({
+          any_subs: data.any_subs
+        })
+
         if (data.is_subbed === true) {
           this.setState({
             is_subbed: true,
@@ -117,8 +122,62 @@ class EventPage extends Component {
             sub_label: 'Subscribe'
           })
         }
+        if (data.subscriptions !== null) {
+          this.setState({
+            subs: data.subscriptions
+          })
+        }
+        else {
+          this.setState({
+            subs: null
+          })
+        }
       };
     });
+  }
+
+  renderSubscribedUsers() {
+    if (this.state.any_subs === true) {
+      return (
+        <React.Fragment>
+        {this.state.subs.map((element) => {
+          if (element.avatar === null) {
+            return (
+              <Col>
+                <img
+                  className="circle sub-icons"
+                  key={element.id}
+                  src="/person.jpg"
+                  alt="Default icon"
+                />
+                <Link to={/profile/ + element.id}>{element.nickname}</Link>
+              </Col>
+            );
+          }
+          else {
+            return (
+              <Col>
+                <img
+                  className="circle sub-icons"
+                  key={element.id}
+                  src={element.avatar}
+                  alt="Default icon"
+                />
+              <Link to={/profile/ + element.id}>{element.nickname}</Link>
+              </Col>
+            );
+          }
+        })}
+        </React.Fragment>
+      )
+    }
+    else {
+      return (
+        <React.Fragment>
+          <Row s={12}>No one subscribed yet!</Row>
+        </React.Fragment>
+      );
+    }
   }
 
   renderEditButton() {
@@ -230,6 +289,9 @@ class EventPage extends Component {
                 </Icon>
               </Button>
             </Col>
+          </Row>
+          <Row>
+            {this.renderSubscribedUsers()}
           </Row>
           <Row>
             <Col s={12} className="left-align valign-wrapper">
