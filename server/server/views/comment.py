@@ -34,8 +34,18 @@ class CommentView(object):
         Comment.add_comment(request,
                             request.matchdict['event_id'],
                             request.user.id,
+                            request.user.nickname,
                             data['comment'],
                             data['unix_time'],
                             data['father_comment_id']
                             )
+        return {'success': True}
+
+    @view(permission='post')
+    def delete(self):
+        request = self.request
+        Comment.delete_comment(request,
+                               request.matchdict['event_id'],
+                               request.json_body['comment_id'],
+                               request.user.id)
         return {'success': True}

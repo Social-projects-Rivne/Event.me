@@ -9,10 +9,11 @@ class Comment:
         return obj['comments']
 
     @staticmethod
-    def add_comment(request, event_id, author_id, comment_msg,
+    def add_comment(request, event_id, author_id, author_nickname, comment_msg,
                     timestamp, father_comment_id):
         new_comment = {
             'author_id': author_id,
+            'author_nickname': author_nickname,
             'timestamp': timestamp,
             'comment': comment_msg,
             'child': []
@@ -35,6 +36,17 @@ class Comment:
                     '$push': {parse_comment_id(father_comment_id): new_comment}
                 }
             )
+
+    @staticmethod
+    def delete_comment(request, event_id, comment_id, user_id):
+        path = parse_comment_id(comment_id)[:-6]
+        request.mongo.comments.update_one(
+            {
+                'event_id': event_id,
+                path + ".author_id": user_id
+            },
+            {'$set': {path + ".comment": "<Comment deleted>"}}
+        )
 
 
 def parse_comment_id(comment_id):

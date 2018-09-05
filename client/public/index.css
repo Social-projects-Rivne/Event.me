@@ -27,9 +27,21 @@
 
 .event-description { font: 1.3em 'Helvetica' }
 
-.comment-card .hover-buttons { display: none }
+.comment-block .hover-buttons .fixed-action-btn { position: relative }
 
-.comment-card:hover .hover-buttons { display: block }
+.comment-block .answer-link { cursor: pointer }
+
+.comment-block .answer-form { display: none }
+
+.comment-block .hover-buttons a { cursor: pointer }
+
+.comment-block .hover-buttons,
+.comment-block .child-wrapper { padding-right: 0 }
+
+.comment-block .hover-buttons .card-panel {
+    margin: 0;
+    padding: 2px 5px;
+}
 
 /***Map page***/
 .map-page-container .mapWrapper {
