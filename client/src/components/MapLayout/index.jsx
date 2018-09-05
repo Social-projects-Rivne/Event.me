@@ -19,7 +19,6 @@ class MapLayout extends Component {
   onChangeHandler = (e) => {
     let { id } = e.currentTarget
     this.setState({ [id]: e.currentTarget.value })
-
   };
 
   filter = (e) => {
@@ -27,7 +26,6 @@ class MapLayout extends Component {
       day_filter: this.state.date_filter,
       category: this.state.category
     }
-    // alert(filterData.category)
     request('/events-short-info', 'POST', JSON.stringify(filterData)).then(data => {
       if ('info' in data) {
         this.setState({ events: data.info })
@@ -52,27 +50,51 @@ class MapLayout extends Component {
       <Row>
         <Col>
           <p>
-              <input class="with-gap" name="group1" type="radio" id="test1" value='1' onChange={this.onChangeHandlerRadio}/>
+              <input
+                     className="with-gap"
+                     name="group1"
+                     type="radio"
+                     id="test1"
+                     value='1'
+                     onChange={this.onChangeHandlerRadio}
+              />
               <label htmlFor="test1">One day</label>
           </p>
           <p>
-              <input class="with-gap" name="group1" type="radio" id="test2" value='7' onChange={this.onChangeHandlerRadio}/>
+              <input
+                     className="with-gap"
+                     name="group1"
+                     type="radio"
+                     id="test2"
+                     value='7'
+                     onChange={this.onChangeHandlerRadio}
+              />
               <label htmlFor="test2">One week</label>
           </p>
           <p>
-              <input class="with-gap" name="group1" type="radio" id="test3" value='14' onChange={this.onChangeHandlerRadio}/>
+              <input
+                     className="with-gap"
+                     name="group1"
+                     type="radio"
+                     id="test3"
+                     value='14'
+                     onChange={this.onChangeHandlerRadio}
+              />
               <label htmlFor="test3">Two weeks</label>
           </p>
           <p>
-              <input class="with-gap" name="group1" type="radio" id="test4" value='31' onChange={this.onChangeHandlerRadio}/>
+              <input
+                     className="with-gap"
+                     name="group1"
+                     type="radio"
+                     id="test4"
+                     value='31'
+                     onChange={this.onChangeHandlerRadio}
+              />
               <label htmlFor="test4">A month</label>
           </p>
-            <Button onClick={this.filter}>Filter</Button>
-
+          <Button onClick={this.filter}>Filter</Button>
         </Col>
-
-
-
         <Col l={0}>
           <SelectCategory value={this.state.category} onChangeHandler={this.onChangeHandler} />
         </Col>
