@@ -17,7 +17,7 @@ class CategoryView(object):
     def __acl__(self):
         return [(Allow, Authenticated, 'get')]
 
-    @view(permission='get')
+    #@view(permission='get')
     def collection_get(self):
         request = self.request
         response = {
