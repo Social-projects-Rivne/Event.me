@@ -4,6 +4,7 @@ import HomePage from './HomePage';
 import MapLayout from './MapLayout';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverInfo from './RecoverInfo';
+import RegistrationInfo from './RegistrationInfo';
 import ChangePasswordConfirm from './ChangePasswordConfirm';
 import ChangePassword from './ChangePassword';
 import EventForm from './EventForm';
@@ -23,7 +24,8 @@ function Routes() {
         <Route path="/recover-info" component={RecoverInfo} />
         <Route path="/change-password/:token" component={ChangePassword} />
         <Route path="/confirm-new-password" component={ChangePasswordConfirm} />
-  
+        <Route path="/registration-info" component={RegistrationInfo } />
+
         <Route path="/add-event" component={EventForm} exact />
         <Route path="/event/:id" component={EventPage} exact />
         <Route path="/event/edit/:id" component={EventForm} exact />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Row, Col, Tabs, Tab } from 'react-materialize';
+import { Input, Button, Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import { emailValidation, request } from '../../utils.js';
 
@@ -31,36 +31,39 @@ export class RecoverPasswordTab extends Component {
         this.setState({
           msg: data.msg,
           success: data.success
-         });
+        });
         window.Materialize.toast(this.state.msg, 3000);
         if (this.state.success) this.props.history.push('/recover-info');
       })
   }
   render() {
     return (
-      <Tabs className="tabs tabs-fixed-width tab-demo z-depth-1">
-        <Tab title="Recover Password" active>
-          <div className="white">
-            <Row className="recover-tab">
-              <Input
-                id="email_recover"
-                error={this.state.check_email}
-                value={this.state.email_recover}
-                onChange={this.onChangeHandler}
-                s={12}
-                type="email"
-                label="Email"
-              />
-              <Col s={6}>
-                <Link to="/" className="btn waves-effect waves-light btn-flat">Back</Link>
-              </Col>
-              <Col s={6}>
-                <Button flat waves='light' onClick={this.sendMailRecoverPassword}>Reset password</Button>
-              </Col>
-            </Row>
-          </div>
-        </Tab>
-      </Tabs>
+      <div className="white">
+        <Row>
+          <ul className="tabs">
+            <li className="tab col s12"><a className="active">Recover</a></li>
+          </ul>
+        </Row>
+        <Row>
+          <Input
+            id="email_recover"
+            error={this.state.check_email}
+            value={this.state.email_recover}
+            onChange={this.onChangeHandler}
+            s={12}
+            type="email"
+            label="Email"
+          />
+        </Row>
+        <Row className="recover-tab">
+          <Col s={6}>
+            <Link to="/" className="btn waves-effect waves-light btn-flat">Back</Link>
+          </Col>
+          <Col s={6}>
+            <Button flat waves='light' onClick={this.sendMailRecoverPassword}>Reset password</Button>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

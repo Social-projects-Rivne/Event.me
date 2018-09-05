@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {Row, Col, Input, Button} from 'react-materialize'
+import { Row, Col, Input, Button, Icon } from 'react-materialize'
+import { Link } from 'react-router-dom';
 import EventMap from '../EventMap';
-import { request } from '../../utils';
+import { request, isLogged } from '../../utils';
 import SelectCategory from '../EventForm/SelectCategory';
 
 
@@ -16,6 +17,7 @@ class MapLayout extends Component {
       let {id} = e.currentTarget
       this.setState({[id]: e.currentTarget.value})
   };
+
   filter = (e) => {
       let filterData = {
           day_filter: this.state.day_filter,
@@ -39,6 +41,18 @@ class MapLayout extends Component {
       });
   }
 
+  renderAddEventButton() {
+    if (isLogged()) {
+      return (
+        <div className="fixed-action-btn horizontal">
+          <Link className="btn-floating btn-large red" to="/add-event">
+            <Icon>add</Icon>
+          </Link>
+        </div>
+      )
+    }
+  }
+
   render(){
     return (
       <Row>
@@ -60,6 +74,7 @@ class MapLayout extends Component {
         <Col s={8} className="map-page-container">
           <EventMap events={this.state.events}/>
         </Col>
+        {this.renderAddEventButton()}
       </Row>
     );
   }

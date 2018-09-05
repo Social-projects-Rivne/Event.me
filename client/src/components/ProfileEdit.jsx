@@ -59,8 +59,7 @@ class ProfileEdit extends Component {
                                                     this.state.nickname_input);
                         }
                         this.setState({ errors_edit: {} });
-                        this.props.history.push('/profile/' +
-                        this.props.match.params.profile_id);
+                        this.props.history.push('/profile/' + this.props.match.params.profile_id);
                         window.Materialize.toast("Profile Updated", 2500);
                     }
                     else {

@@ -105,7 +105,8 @@ class EventPage extends Component {
         });
 
         this.setState({
-          any_subs: data.any_subs
+          any_subs: data.any_subs,
+          status_str: data.status_str
         })
 
         if (data.is_subbed === true) {
@@ -198,14 +199,25 @@ class EventPage extends Component {
 
   renderStatusContent() {
     if (this.state.status) {
+      let bgColor = 'red';
+      if(this.state.status_str === 'New') bgColor = 'amber';
+      if (this.state.status_str === 'Approved' || this.state.status_str === 'Hot') bgColor = 'green';
       return (
-      <div className="flow-text white-text card-panel red darken-1">
+      <div className={`${bgColor} flow-text white-text card-panel darken-1`}>
         {momentUTCToLocal(this.state.status.date).format('MMMM D, YYYY HH:mm')}
         <br />
         {this.state.status.comment}
       </div>
       )
     };
+  }
+
+  renderClosed() {
+    if (!this.state.status && this.state.status_str === 'Close') return (
+      <div className="center-align">
+        <p className="flow-text red-text">This event closed</p>
+      </div>
+    )
   }
 
   renderTimeString() {
@@ -269,6 +281,7 @@ class EventPage extends Component {
   render() {
     return (
       <React.Fragment>
+        {this.renderClosed()}
         {this.renderStatusContent()}
         {this.state.main_image ? <Parallax imageSrc={this.state.main_image} /> : ''}
         <CardPanel className="black-text">

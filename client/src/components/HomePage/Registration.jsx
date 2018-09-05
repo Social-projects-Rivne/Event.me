@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Row } from 'react-materialize'
+import { Input, Button, Row } from 'react-materialize';
 import { emailValidation, request } from '../../utils';
 
 
@@ -15,10 +15,40 @@ class Registration extends Component {
     check_password: '',
   };
 
-  onChangeHandler = (e) => {
+    onChangeHandlerPassword = (e) => {
     let { id } = e.currentTarget;
-    this.setState({ [id]: e.currentTarget.value });
-  };
+    this.setState({ [id]: e.currentTarget.value },
+    () => {
+      if (this.state.password === this.state.repeat_password) this.setState({ check_password: "" });
+      else {
+        this.setState({ check_password: "passwords isn't equal" });
+      }
+    });
+    }
+
+    onChangeHandlerNickname = (e) => {
+    let { id } = e.currentTarget;
+    this.setState({ [id]: e.currentTarget.value },
+    () => {
+      if (!this.state.nickname.length) {
+        this.setState({ check_nickname: "Empty field" });
+      } else {
+        this.setState({ check_nickname: "" });
+      }
+    });
+    }
+
+    onChangeHandlerEmail = (e) => {
+    let { id } = e.currentTarget;
+    this.setState({ [id]: e.currentTarget.value },
+    () => {
+      if (!emailValidation(this.state.email)) {
+        this.setState({ check_email: "Invalid email" });
+      } else {
+        this.setState({ check_email: "" });
+      }
+    });
+    }
 
   register = (e) => {
     let registerData = {
@@ -28,15 +58,22 @@ class Registration extends Component {
       repeat_password: this.state.repeat_password,
     };
 
-    if (
-      !emailValidation(this.state.email)
-      || !this.state.password.length
-      || this.state.password !== this.state.repeat_password
-    ) {
-      this.setState({ check_password: "passwords isn't equal" });
+    if (!this.state.password.length) {
+      this.setState({ check_password: "Empty field" });
       window.Materialize.toast("Invalid input", 3000);
-      return null;
     }
+    if (!emailValidation(this.state.email)) {
+      this.setState({ check_email: "Invalid email" });
+    }
+    if (!this.state.nickname.length) {
+      this.setState({ check_nickname: "Empty field" });
+      window.Materialize.toast("Invalid input", 3000);
+    }
+    if (
+      !this.state.password.length
+      || !emailValidation(this.state.email)
+      || !this.state.nickname.length
+    ) return null;
 
     request('/registration', "POST", JSON.stringify(registerData))
       .then(data => {
@@ -45,13 +82,11 @@ class Registration extends Component {
 
         if ('error' in data) {
           this.setState({ [`check_${data.error}`]: `Invalid ${data.error}` })
-          this.props.history.push('/registration');
-          return null;
         } else {
-          this.props.history.push('/');
-          return null;
+          window.Materialize.toast("Check your email box", 3000);
+          window.history.forward('/registration-info');
         }
-      })
+      });
   }
 
 
@@ -63,7 +98,7 @@ class Registration extends Component {
             id="nickname"
             error={this.state.check_nickname}
             value={this.state.nickname}
-            onChange={this.onChangeHandler}
+            onChange={this.onChangeHandlerNickname}
             label="Nickname"
             s={12} />
         </Row>
@@ -72,7 +107,7 @@ class Registration extends Component {
             id="email"
             error={this.state.check_email}
             value={this.state.email}
-            onChange={this.onChangeHandler}
+            onChange={this.onChangeHandlerEmail}
             type="email"
             label="Email"
             s={12} />
@@ -82,7 +117,7 @@ class Registration extends Component {
             id="password"
             error={this.state.check_password}
             value={this.state.password}
-            onChange={this.onChangeHandler}
+            onChange={this.onChangeHandlerPassword}
             type="password"
             label="Password"
             s={12} />
@@ -92,7 +127,7 @@ class Registration extends Component {
             id="repeat_password"
             error={this.state.check_password}
             value={this.state.repeat_password}
-            onChange={this.onChangeHandler}
+            onChange={this.onChangeHandlerPassword}
             type="password"
             label="Repeat password"
             s={12} />
