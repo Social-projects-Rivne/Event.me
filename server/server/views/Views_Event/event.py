@@ -1,20 +1,22 @@
 """View for adding new event to db"""
 from datetime import datetime
+import json
 
 from cornice.resource import resource, view
 from cornice.validators import colander_body_validator
 from pyramid.security import Allow, Authenticated, Everyone
 from pyramid.httpexceptions import HTTPNotFound
 
-from ..models import model_to_dict
-from ..models.category import Category
-from ..models.event import Event
-from ..models.event_history import EventHistory
-from ..models.event_status import EventStatus
-from ..models.event_tag import EventTag
-from ..models.tag import Tag
-from ..models.subscribe import Subscribe
-from ..validation_schema import EventSchema
+from ...models import model_to_dict
+from ...models.category import Category
+from ...models.event import Event
+from ...models.event_history import EventHistory
+from ...models.event_status import EventStatus
+from ...models.event_tag import EventTag
+from ...models.tag import Tag
+from ...models.subscribe import Subscribe
+from ...validation_schema import EventSchema
+from ...models.user import User
 
 
 @resource(collection_path='/event', path='/event/{event_id}', renderer='json',
@@ -130,14 +132,23 @@ class EventView(object):
 
         if request.user is not None and event_obj.author_id == request.user.id:
             response['status'] = model_to_dict(self.event_history)
+            subscriptions = Subscribe.get_all_subs(request,
+                            event_id=event_obj.id)
             subscription = Subscribe.get_subscription(request,
                            user_id=request.user.id,
                            event_id=event_obj.id)
-            if subscription is not None:
-                response['is_subbed'] = True
+            if subscriptions is not None:
+                id_array = [obj.user_id for obj in subscriptions]
+                user_list = User.get_users_by_ids(request, id_array)
+                user_arr = [model_to_dict(obj) for obj in user_list]
+                response['subscriptions'] = user_arr
+                response['any_subs'] = True
+                if subscription is not None:
+                    response['is_subbed'] = True
+                else:
+                    response['is_subbed'] = False
             else:
-                response['is_subbed'] = False
-            # response['subscribes'].append(model_to_dict(subscription))
+                response['any_subs'] = False
 
         return response
 

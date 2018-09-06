@@ -25,6 +25,11 @@ class Subscribe(Base):
         return subscription
 
     @classmethod
+    def get_all_subs(cls, request, **kwargs):
+        subscriptions = request.dbsession.query(cls).filter_by(**kwargs).all()
+        return subscriptions
+
+    @classmethod
     def add_subscription(cls, request, **kwargs):
         """Add subscription"""
         request.dbsession.add(cls(**kwargs))

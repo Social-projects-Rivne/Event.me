@@ -3,9 +3,9 @@ from cornice import Service
 from cornice.validators import colander_body_validator
 from pyramid.security import remember, forget
 
-from ..models.token import Token
-from ..models.user import User
-from ..validation_schema import LogInSchema
+from ...models.token import Token
+from ...models.user import User
+from ...validation_schema import LogInSchema
 
 
 log_in = Service(name='log_in', path='/log-in',

@@ -2,13 +2,14 @@
 from cornice.resource import resource, view
 from pyramid.security import Allow, Authenticated
 
-from ..models import model_to_dict
-from ..models.category import Category
+from ...models import model_to_dict
+from ...models.event_tag import EventTag
+from ...models.tag import Tag
 
 
-@resource(collection_path='/category', path='/category/{category_id}',
+@resource(collection_path='/tag', path='/tag/{tag_id}',
           renderer='json', cors_origins=('http://localhost:3000',))
-class CategoryView(object):
+class TagView(object):
 
     def __init__(self, request, context=None):
         self.request = request
@@ -21,8 +22,9 @@ class CategoryView(object):
     def collection_get(self):
         request = self.request
         response = {
-            'categories': None
+            'success': False,
+            'tags': None
         }
-        categories = Category.get_all(request)
-        response['categories'] = [obj.category for obj in categories]
+        tags = Tag.get_all(request)
+        response['tags'] = [obj.tag for obj in tags]
         return response
