@@ -68,17 +68,22 @@ class Comments extends Component {
       })
   }
 
-  renderCommentOptionsButton(commentId) {
-    return (
-      <div className="fixed-action-btn horizontal click-to-toggle">
-        <a className="points">...</a>
-        <ul>
-          <li className="waves-effect waves-red hoverable card-panel">
-            <a data-id={commentId} onClick={this.deleteComment}>Delete comment</a>
-          </li>
-        </ul>
-      </div>
-    )
+  renderCommentOptionsButton(commentId, deleted, author_id) {
+    if (
+      parseInt(sessionStorage['User-id'], 10) === author_id
+      && !deleted
+    ) {
+      return (
+        <div className="fixed-action-btn horizontal click-to-toggle">
+          <a className="points">...</a>
+          <ul>
+            <li className="waves-effect waves-red hoverable card-panel">
+              <a data-id={commentId} onClick={this.deleteComment}>Delete comment</a>
+            </li>
+          </ul>
+        </div>
+      )
+    }
   }
 
   renderChildComments(childs, parentIndex) {
@@ -96,36 +101,37 @@ class Comments extends Component {
                 <div className="comment-block" key={commentId}>
                   <Row>
                     <Col s={6} className="valign-wrapper">
-                    <img
-                      alt="user pictogram"
-                      className="user-pictogram"
-                      src="/img/person.jpg"
-                    />
-                      &#9899;
+                      <img
+                        alt="user pictogram"
+                        className="user-pictogram"
+                        src="/img/person.jpg"
+                      />
                       <Link className="author-link" to={`/profile/${obj.author_id}`}>
-                      {obj.author_nickname}
+                        {obj.author_nickname}
                       </Link>
-                      &#9899;
                       {moment(obj.timestamp).format("MMMM D, YYYY HH:mm")}
                     </Col>
                     <Col s={6} className="right-align hover-buttons">
-                      {parseInt(sessionStorage['User-id'], 10) === obj.author_id ?
-                        this.renderCommentOptionsButton(commentId) : ''}
+                      {this.renderCommentOptionsButton(commentId, obj.deleted, obj.author_id)}
                     </Col>
                   </Row>
                   <Row>
-                    <Col s={12}>
-                    <p className="comment-text">{obj.comment}</p>
+                    <Col s={12} className={obj.deleted ? 'comment-deleted' : ''}>
+                      <p>{obj.comment}</p>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col s={1}>
-                      <a className="answer-link" onClick={this.showAnswerForm}>Answer</a>
-                    </Col>
-                    <Col s={11} className="answer-form">
-                      <CommentForm commentId={commentId} addComment={this.addComment} />
-                    </Col>
-                  </Row>
+                  {
+                    obj.deleted ? ''
+                      :
+                      <Row>
+                        <Col s={1}>
+                          <a className="answer-link" onClick={this.showAnswerForm}>Answer</a>
+                        </Col>
+                        <Col s={11} className="answer-form">
+                          <CommentForm commentId={commentId} addComment={this.addComment} />
+                        </Col>
+                      </Row>
+                  }
                   <Row>
                     <Col className="child-wrapper" s={12}>
                       <Col s={12}>

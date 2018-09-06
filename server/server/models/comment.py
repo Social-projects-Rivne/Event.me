@@ -45,7 +45,12 @@ class Comment:
                 'event_id': event_id,
                 path + ".author_id": user_id
             },
-            {'$set': {path + ".comment": "<Comment deleted>"}}
+            {
+                '$set': {
+                    path + ".comment": "Comment deleted",
+                    path + ".deleted": True
+                }
+            }
         )
 
 
