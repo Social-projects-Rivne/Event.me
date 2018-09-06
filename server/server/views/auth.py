@@ -37,7 +37,7 @@ def log_in_post(request):
                 'nickname': user.nickname,
                 'avatar': user.avatar,
                 'user_id': user.id,
-                'user_role': user.role
+                'user_role': user.role_id
             }
             return response
         else:

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import HomePage from './HomePage';
+import AdminPage from './AdminPage';
 import MapLayout from './MapLayout';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverInfo from './RecoverInfo';
@@ -11,11 +12,27 @@ import EventForm from './EventForm';
 import Profile from './Profile';
 import EventPage from './EventPage';
 import ProfileEdit from './ProfileEdit';
+import { isLogged } from '../utils';
 
 
-function Routes() {
+
+class Routes extends Component {
+
+adminPageRoute() {
+    if (isLogged() && parseInt(sessionStorage.getItem('User-role')) === 1) {
+    return (
+    <React.Fragment>
+      <Route path="/admin-page" component={AdminPage} />
+    </React.Fragment>
+    );
+    }
+  }
+
+
+render(){
   return (
     <React.Fragment>
+        {this.adminPageRoute()}
         <Route path="/map" component={MapLayout} exact />
         <Route path="/" component={HomePage} exact />
         <Route path="/recover" component={HomePage} exact />
@@ -36,5 +53,5 @@ function Routes() {
     </React.Fragment>
   )
 }
-
+}
 export default Routes;
