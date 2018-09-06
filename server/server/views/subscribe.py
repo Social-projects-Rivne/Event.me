@@ -3,9 +3,9 @@
 from cornice.resource import Service
 from pyramid.security import Allow, Everyone
 
-from ...models import model_to_dict
-from ...models.event import Event
-from ...models.subscribe import Subscribe
+from ..models import model_to_dict
+from ..models.event import Event
+from ..models.subscribe import Subscribe
 
 
 class SubscribeView(object):

@@ -3,9 +3,9 @@
 from cornice.resource import Service
 from pyramid.security import Allow, Everyone
 
-from ...models import model_to_dict
-from ...models.event import Event
-from ...models.event_history import EventHistory
+from ..models import model_to_dict
+from ..models.event import Event
+from ..models.event_history import EventHistory
 
 
 class HotEventView(object):

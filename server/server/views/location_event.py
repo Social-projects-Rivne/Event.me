@@ -1,7 +1,7 @@
 from cornice import Service
 
-from ...models.event import Event
-from ...models.category import Category
+from ..models.event import Event
+from ..models.category import Category
 
 
 events_short_info = Service(name='events_short_info',
