@@ -5,6 +5,14 @@ import { isEmpty, request } from '../utils';
 
 
 class AdminPage extends Component {
+
+componentDidMount() {
+    request('/admin-page')
+    .then(data => {
+        data.user_dict;
+    })
+}
+
 render() {
   return (
     <React.Fragment>
