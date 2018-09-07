@@ -1,5 +1,4 @@
-.event-description { font: 20px 'Helvetica' }
-
+/***Nav***/
 .nav-wrapper { padding: 0 15px }
 
 .nav-wrapper .user-pictogram { vertical-align: middle }
@@ -121,6 +120,12 @@ label::after {
     margin-left: 1em;
     margin-right: 1em;
     vertical-align: middle;
+}
+
+.card .card-content {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 6px;
 }
 
 /***Float buttons***/

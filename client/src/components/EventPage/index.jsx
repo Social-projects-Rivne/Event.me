@@ -110,7 +110,8 @@ class EventPage extends Component {
         });
 
         this.setState({
-          any_subs: data.any_subs
+          any_subs: data.any_subs,
+          status_str: data.status_str
         })
 
         if (data.is_subbed === true) {

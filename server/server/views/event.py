@@ -13,7 +13,6 @@ from ..models.event_history import EventHistory
 from ..models.event_status import EventStatus
 from ..models.event_tag import EventTag
 from ..models.tag import Tag
-from ..models.subscribe import Subscribe
 from ..validation_schema import EventSchema
 from ..models.user import User
 
@@ -128,7 +127,6 @@ class EventView(object):
             'category': event_obj.category.category,
             'tags': tags,
         }
-
         if request.user is not None and event_obj.author_id == request.user.id:
             response['status'] = model_to_dict(self.event_history)
             response['status_str'] = self.event_status
