@@ -108,4 +108,3 @@ class MapLayout extends Component {
 }
 
 export default MapLayout;
-
