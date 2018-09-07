@@ -1,6 +1,5 @@
 """View for adding new event to db"""
 from datetime import datetime
-import json
 
 from cornice.resource import resource, view
 from cornice.validators import colander_body_validator
@@ -132,6 +131,7 @@ class EventView(object):
 
         if request.user is not None and event_obj.author_id == request.user.id:
             response['status'] = model_to_dict(self.event_history)
+            response['status_str'] = self.event_status
             subscriptions = Subscribe.get_all_subs(request,
                             event_id=event_obj.id)
             subscription = Subscribe.get_subscription(request,
@@ -149,7 +149,6 @@ class EventView(object):
                     response['is_subbed'] = False
             else:
                 response['any_subs'] = False
-
         return response
 
     @view(schema=EventSchema(), validators=(colander_body_validator,),

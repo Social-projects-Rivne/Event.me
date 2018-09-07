@@ -1,5 +1,4 @@
 from cornice import Service
-
 from ..models.event import Event
 from ..models.category import Category
 

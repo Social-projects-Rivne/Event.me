@@ -8,7 +8,7 @@ class NavProfile extends Component {
     if (sessionStorage['User-avatar'] !== "null") {
       return sessionStorage['User-avatar']
     }
-    else return '/person.jpg'
+    else return '/img/person.jpg'
   }
 
   render() {

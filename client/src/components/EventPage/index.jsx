@@ -45,45 +45,50 @@ class EventPage extends Component {
     eve.preventDefault()
 
     let data;
-
-    if (this.state.is_subbed === true) {
-      data = {
-        'action': false,
-        'event_id': this.props.match.params.id,
-        'user_id': sessionStorage['User-id']
-      }
-    }
-    else {
-      data = {
-        'action': true,
-        'event_id': this.props.match.params.id,
-        'user_id': sessionStorage['User-id']
-      }
-    }
-
-    request('/subscribe/' + sessionStorage['User-id'], "POST",
-            JSON.stringify(data))
-    .then(data => {
-      if (data.success) {
-        if (data.is_subbed) {
-          this.setState({
-            is_subbed: true,
-            sub_icon: 'check_circle',
-            sub_label: 'Unsubscribe'
-          })
-        }
-        else {
-          this.setState({
-            is_subbed: false,
-            sub_icon: 'check_circle_outlined',
-            sub_label: 'Subscribe'
-          })
+    if (sessionStorage['User-id'] !== undefined) {
+      if (this.state.is_subbed === true) {
+        data = {
+          'action': false,
+          'event_id': this.props.match.params.id,
+          'user_id': sessionStorage['User-id']
         }
       }
       else {
-        window.Materialize.toast("Something has gone wrong", 1500);
+        data = {
+          'action': true,
+          'event_id': this.props.match.params.id,
+          'user_id': sessionStorage['User-id']
+        }
       }
-    })
+
+      request('/subscribe/' + sessionStorage['User-id'], "POST",
+              JSON.stringify(data))
+      .then(data => {
+        if (data.success) {
+          if (data.is_subbed) {
+            this.setState({
+              is_subbed: true,
+              sub_icon: 'check_circle',
+              sub_label: 'Unsubscribe'
+            })
+          }
+          else {
+            this.setState({
+              is_subbed: false,
+              sub_icon: 'check_circle_outlined',
+              sub_label: 'Subscribe'
+            })
+          }
+        }
+        else {
+          window.Materialize.toast("Something has gone wrong", 1500);
+        }
+      })
+    }
+    else {
+      window.Materialize.toast("You need to register in order to subscribe", 3500);
+      this.props.history.push('/');
+    }
   };
 
   getEventData() {
@@ -144,39 +149,36 @@ class EventPage extends Component {
           if (element.avatar === null) {
             return (
               <Col>
-                <img
-                  className="circle sub-icons"
-                  key={element.id}
-                  src="/person.jpg"
-                  alt="Default icon"
-                />
-                <Link to={/profile/ + element.id}>{element.nickname}</Link>
+                <Link to={/profile/ + element.id}>
+                  <img
+                    className="circle sub-icons"
+                    key={element.id}
+                    src="/person.jpg"
+                    alt="Default icon"
+                    title={element.nickname}
+                  />
+                </Link>
               </Col>
             );
           }
           else {
             return (
               <Col>
-                <img
-                  className="circle sub-icons"
-                  key={element.id}
-                  src={element.avatar}
-                  alt="Default icon"
-                />
-              <Link to={/profile/ + element.id}>{element.nickname}</Link>
+                <Link to={/profile/ + element.id}>
+                  <img
+                    className="circle sub-icons"
+                    key={element.id}
+                    src={element.avatar}
+                    alt="Default icon"
+                    title={element.nickname}
+                  />
+                </Link>
               </Col>
             );
           }
         })}
         </React.Fragment>
       )
-    }
-    else {
-      return (
-        <React.Fragment>
-          <Row s={12}>No one subscribed yet!</Row>
-        </React.Fragment>
-      );
     }
   }
 
@@ -198,14 +200,25 @@ class EventPage extends Component {
 
   renderStatusContent() {
     if (this.state.status) {
+      let bgColor = 'red';
+      if(this.state.status_str === 'New') bgColor = 'amber';
+      if (this.state.status_str === 'Approved' || this.state.status_str === 'Hot') bgColor = 'green';
       return (
-      <div className="flow-text white-text card-panel red darken-1">
+      <div className={`${bgColor} flow-text white-text card-panel darken-1`}>
         {momentUTCToLocal(this.state.status.date).format('MMMM D, YYYY HH:mm')}
         <br />
         {this.state.status.comment}
       </div>
       )
     };
+  }
+
+  renderClosed() {
+    if (!this.state.status && this.state.status_str === 'Close') return (
+      <div className="center-align">
+        <p className="flow-text red-text">This event closed</p>
+      </div>
+    )
   }
 
   renderTimeString() {
@@ -269,6 +282,7 @@ class EventPage extends Component {
   render() {
     return (
       <React.Fragment>
+        {this.renderClosed()}
         {this.renderStatusContent()}
         {this.state.main_image ? <Parallax imageSrc={this.state.main_image} /> : ''}
         <CardPanel className="black-text">
