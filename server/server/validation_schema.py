@@ -75,5 +75,4 @@ class CommentSchema(colander.MappingSchema):
     """Schema for comments data validation"""
     comment = colander.SchemaNode(colander.String(),
                                   validator=colander.Length(max=1500))
-    unix_time = colander.SchemaNode(colander.Int())
-    father_comment_id = colander.SchemaNode(colander.String(), missing=None)
+    parent_comment_id = colander.SchemaNode(colander.String(), missing=None)

@@ -33,11 +33,8 @@ class Comments extends Component {
     }
 
     const parentCommentId = e.currentTarget.getAttribute('data-id');
-    let comment = {
-      comment: document.getElementById(`textarea-${parentCommentId}`).value,
-      unix_time: Date.now(),
-    }
-    if (parentCommentId) comment.father_comment_id = parentCommentId;
+    let comment = { comment: document.getElementById(`textarea-${parentCommentId}`).value }
+    if (parentCommentId) comment.parent_comment_id = parentCommentId;
 
     request(`/comment/${this.props.eventId}`, 'POST', JSON.stringify(comment))
       .then(data => {
@@ -45,7 +42,7 @@ class Comments extends Component {
           document.getElementById(`textarea-${parentCommentId}`).value = '';
           this.getComments();
         } else {
-          window.Materialize.toast(`Your comment didn't added`, 4000);
+          window.Materialize.toast(`Your comment hasn't been added`, 4000);
         }
       })
   }
@@ -55,7 +52,7 @@ class Comments extends Component {
 
     request(`/comment/${this.props.eventId}`, 'DELETE', JSON.stringify(commentParams))
       .then(data => {
-        if ('success' in data && data.success) {
+        if (data.success) {
           this.getComments();
 
           let toggleButtons = document.getElementsByClassName('click-to-toggle');
@@ -63,7 +60,7 @@ class Comments extends Component {
             toggleButtons[i].classList.remove('active');
           }
         } else {
-          window.Materialize.toast(`Your comment didn't deleted`, 4000);
+          window.Materialize.toast(`Your comment hasn't been deleted`, 4000);
         }
       })
   }
@@ -92,10 +89,7 @@ class Comments extends Component {
         <React.Fragment>
           {
             childs.map((obj, index) => {
-              let commentId;
-              if (parentIndex !== '') {
-                commentId = parentIndex + '.' + index;
-              } else commentId = index;
+              let commentId = parentIndex ? parentIndex + '.' + index : index;
 
               return (
                 <div className="comment-block" key={commentId}>

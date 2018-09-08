@@ -132,8 +132,8 @@ event_data = [
         "long": 51.619900,
         "lat": 27.251617,
         "description": "Drizzt long adventure",
-        "start_date": "2018-09-01 00:00:00",
-        "end_date": "2018-09-05 00:00:00",
+        "start_date": "2018-09-13 00:00:00",
+        "end_date": "2018-09-17 00:00:00",
         "author_name": "Ranger",
         "author_id": 3,
         "main_image": None,
@@ -149,8 +149,8 @@ event_data = [
                         "такі заняття – це можливість вивчити сучасний "
                         "напрямок танцю в парі та порухатися під музику "
                         "міксованих бачата-версій сучасних треків."),
-        "start_date": "2018-09-04 11:00:00",
-        "end_date": "2018-09-04 18:00:00",
+        "start_date": "2018-09-15 11:00:00",
+        "end_date": "2018-09-15 18:00:00",
         "author_name": "oleksandttarar",
         "author_id": 1,
         "main_image": None,
@@ -161,8 +161,8 @@ event_data = [
         "long": 50.60122,
         "lat": 26.299617,
         "description": "If you want more potatoes, please help me and cats.",
-        "start_date": "2018-08-30 17:30:00",
-        "end_date": "2018-08-30 20:00:00",
+        "start_date": "2018-09-14 17:30:00",
+        "end_date": "2018-09-14 20:00:00",
         "author_name": "RingDestroyer",
         "main_image": "https://r.hswstatic.com/w_907/gif/tesla-cat.jpg",
         "author_id": 2,
@@ -182,8 +182,8 @@ event_data = [
                         "належить заглянути в обличчя своїм страхам і знайти "
                         "дорогу додому. І можливо, від результату його "
                         "подорожі залежить доля всього людства."),
-        "start_date": "2018-08-29 10:20:00",
-        "end_date": "2018-08-29 21:40:00",
+        "start_date": "2018-09-16 10:20:00",
+        "end_date": "2018-09-16 21:40:00",
         "author_name": "oleksandttarar",
         "main_image": ("http://www.thebluediamondgallery.com/"
                        "handwriting/images/film.jpg"),
@@ -237,8 +237,6 @@ event_history_data = [
      "comment": "Moderator add your event to hot events"},
     {"event_id": 3, "status_id": 3,
      "date": "2018-08-21", "comment": "Moderator approved your event"},
-    {"event_id": 3, "status_id": 2,
-     "date": "2018-08-25", "comment": "Your event closed by time"},
     {"event_id": 2, "status_id": 3,
      "date": "2018-08-27", "comment": "Moderator approved your event"},
     {"event_id": 4, "status_id": 3,

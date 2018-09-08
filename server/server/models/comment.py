@@ -1,3 +1,6 @@
+import time
+
+
 class Comment:
     @staticmethod
     def get_for_event(request, event_id):
@@ -10,15 +13,15 @@ class Comment:
 
     @staticmethod
     def add_comment(request, event_id, author_id, author_nickname, comment_msg,
-                    timestamp, father_comment_id):
+                    parent_comment_id):
         new_comment = {
             'author_id': author_id,
             'author_nickname': author_nickname,
-            'timestamp': timestamp,
+            'timestamp': time.time() * 1000,
             'comment': comment_msg,
             'child': []
         }
-        if father_comment_id is None:
+        if parent_comment_id is None:
             if request.mongo.comments.find_one({'event_id': event_id}):
                 request.mongo.comments.update_one(
                     {'event_id': event_id},
@@ -33,7 +36,7 @@ class Comment:
             request.mongo.comments.update_one(
                 {'event_id': event_id},
                 {
-                    '$push': {parse_comment_id(father_comment_id): new_comment}
+                    '$push': {parse_comment_id(parent_comment_id): new_comment}
                 }
             )
 
@@ -61,8 +64,5 @@ def parse_comment_id(comment_id):
     Arguments:
     comment_id -- comment object id (e. g. '5.2')
     """
-    arrayIndexes = comment_id.split('.')
-    path_str = 'comments'
-    for index in arrayIndexes:
-        path_str = path_str + "." + index + ".child"
-    return path_str
+    indexes_arr = comment_id.split('.')
+    return 'comments.' + '.'.join(index + '.child' for index in indexes_arr)

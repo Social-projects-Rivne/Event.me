@@ -36,8 +36,7 @@ class CommentView(object):
                             request.user.id,
                             request.user.nickname,
                             data['comment'],
-                            data['unix_time'],
-                            data['father_comment_id']
+                            data['parent_comment_id']
                             )
         return {'success': True}
 

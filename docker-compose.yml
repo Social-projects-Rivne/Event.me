@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
     pyramid:
         build: .
@@ -24,7 +24,7 @@ services:
         ports:
             - 5555:5432
     mongo:
-        image: mongo
+        image: mongo:latest
         restart: always
         container_name: mongo
         ports:
