@@ -22,7 +22,7 @@ class MapLayout extends Component {
     this.setState({ [id]: e.currentTarget.value })
   };
 
-  filter = (e) => {
+  filter = () => {
     let filterData = {
       day_filter: this.state.date_filter,
       category: this.state.category
@@ -34,26 +34,15 @@ class MapLayout extends Component {
     });
   }
 
-  componentDidMount() {
-    let filterData = {
-      day_filter: this.state.date_filter,
-      category: this.state.category
-    }
-    request('/events-short-info', 'POST', JSON.stringify(filterData)).then(data => {
-      if ('info' in data) {
-        this.setState({ events: data.info })
-      }
-    });
-  }
-
+  componentDidMount = () => this.filter();
     renderAddEventButton() {
       if (isLogged()) {
         return (
-         <div className="fixed-action-btn horizontal">
-           <Link className="btn-floating btn-large red" to="/add-event">
-             <Icon>add</Icon>
-           </Link>
-         </div>
+          <div className="fixed-action-btn horizontal">
+            <Link className="btn-floating btn-large red" to="/add-event">
+              <Icon>add</Icon>
+            </Link>
+          </div>
         )
       }
     }
