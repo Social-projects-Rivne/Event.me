@@ -1,23 +1,101 @@
 import React, { Component } from 'react';
-import { Parallax, Row, Col, CardPanel, Icon, Chip } from 'react-materialize';
+import { Parallax, Row, Col, CardPanel, Icon, Chip, Table, Button, Input } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import { isEmpty, request } from '../utils';
 
 
 class AdminPage extends Component {
+  state = {
+    users: [],
+    statuses: []
+  };
+
 
 componentDidMount() {
     request('/admin-page')
     .then(data => {
-        data.user_dict;
+      this.setState({users: data.users_dict});
     })
 }
 
+changeUserStatus = (e) => {
+  {this.state.users.map((element) => {
+  if (element.nickname + element.id === e.currentTarget.id) {
+    if (e.currentTarget.value === "Banned") {
+      element.status_id = '1'
+      element.status_str = "Active"
+      e.currentTarget.value = element.status_str
+    } else if (e.currentTarget.value === "Active") {
+      element.status_id = '2'
+      element.status_str = "Banned"
+      e.currentTarget.value = element.status_str
+    }
+
+  }
+  return null;
+  }
+  )}
+  }
+
+  confirmUsersChange = (e) => {
+  const data = {
+
+  }
+
+  request('/',
+          "PUT", JSON.stringify(data)).then(data => {
+
+   })
+ }
+
+
+renderUsersList() {
+
+return (
+  <React.Fragment>
+    {this.state.users.map((element) => {
+          return (
+          <tr>
+            <td>{element.id}</td>
+            <td>{element.email}</td>
+            <td>{element.nickname}</td>
+            <td>{element.create_date}</td>
+            <td>
+              <Input
+                type="button"
+                id={element.nickname + element.id}
+                onClick={this.changeUserStatus}
+                value={element.status_str}
+            />
+
+            </td>
+          </tr>
+          );
+        }
+        )}
+
+  </React.Fragment>
+);
+
+}
 render() {
   return (
-    <React.Fragment>
-      <h1>This is Admin page</h1>
-    </React.Fragment>
+  <Table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Nickname</th>
+      <th>Registration date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {this.renderUsersList()}
+    <Button waves='light' onClick={ this.confirmUsersChange }>Confirm</Button>
+  </tbody>
+</Table>
   );
 }
 }

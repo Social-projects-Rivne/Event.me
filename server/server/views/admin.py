@@ -20,8 +20,12 @@ class AdminView(object):
         return [(Allow, 'role:admin', 'admin')]
 
     def collection_get(self):
-        user_ls = User.get_all(self.request)
-        user_dict = [model_to_dict(obj) for obj in user_ls]
+        users_list = User.get_all(self.request)
+        users_dict = []
+        for obj in users_list:
+            temp_dict = model_to_dict(obj)
+            temp_dict['status_str'] = obj.user_statuses.status
+            users_dict.append(temp_dict)
         response = {}
-        response['user_dict'] = user_dict
+        response['users_dict'] = users_dict
         return response
