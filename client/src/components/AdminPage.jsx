@@ -25,10 +25,28 @@ changeUserStatus = (e) => {
       element.status_id = '1'
       element.status_str = "Active"
       e.currentTarget.value = element.status_str
+      const data = {
+            "nickname": element.nickname,
+            "status_id": element.status_id
+      }
+
+      request(`/admin-page/`, "POST", JSON.stringify(data))
+           .then(data => {
+
+       })
     } else if (e.currentTarget.value === "Active") {
       element.status_id = '2'
       element.status_str = "Banned"
       e.currentTarget.value = element.status_str
+      const data = {
+            "user_id": element.id,
+            "status_id": element.status_id
+      }
+
+      request(`/admin-page/`, "POST", JSON.stringify(data))
+           .then(data => {
+
+       })
     }
 
   }
@@ -38,14 +56,7 @@ changeUserStatus = (e) => {
   }
 
   confirmUsersChange = (e) => {
-  const data = {
 
-  }
-
-  request('/',
-          "PUT", JSON.stringify(data)).then(data => {
-
-   })
  }
 
 
