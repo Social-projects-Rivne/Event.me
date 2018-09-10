@@ -35,17 +35,18 @@ class MapLayout extends Component {
   }
 
   componentDidMount = () => this.filter();
-    renderAddEventButton() {
-      if (isLogged()) {
-        return (
-          <div className="fixed-action-btn horizontal">
-            <Link className="btn-floating btn-large red" to="/add-event">
-              <Icon>add</Icon>
-            </Link>
-          </div>
-        )
-      }
-    }
+
+  renderAddEventButton() {
+     if (isLogged()) {
+       return (
+         <div className="fixed-action-btn horizontal">
+           <Link className="btn-floating btn-large red" to="/add-event">
+             <Icon>add</Icon>
+           </Link>
+         </div>
+       )
+     }
+  }
 
   render() {
     return (
