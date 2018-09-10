@@ -8,6 +8,7 @@ import RegistrationInfo from './RegistrationInfo';
 import ChangePasswordConfirm from './ChangePasswordConfirm';
 import ChangePassword from './ChangePassword';
 import EventForm from './EventForm';
+import EventAdd from './EventAdd';
 import Profile from './Profile';
 import EventPage from './EventPage';
 import ProfileEdit from './ProfileEdit';
@@ -19,6 +20,7 @@ function Routes() {
         <Route path="/map" component={MapLayout} exact />
         <Route path="/" component={HomePage} exact />
         <Route path="/recover" component={HomePage} exact />
+        <Route path="/add-event" component={EventAdd} exact />
       <div className="container">
         <Route path="/email_confirm/:token" component={ConfirmEmail} />
         <Route path="/recover-info" component={RecoverInfo} />
@@ -26,7 +28,6 @@ function Routes() {
         <Route path="/confirm-new-password" component={ChangePasswordConfirm} />
         <Route path="/registration-info" component={RegistrationInfo } />
 
-        <Route path="/add-event" component={EventForm} exact />
         <Route path="/event/:id" component={EventPage} exact />
         <Route path="/event/edit/:id" component={EventForm} exact />
 
