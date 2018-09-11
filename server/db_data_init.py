@@ -52,6 +52,7 @@ user_data = [
         "nickname": "oleksandttarar",
         "password": pbkdf2_sha256.hash("passwd"),
         "location": "Rivne",
+        "create_date": "2018-07-02 17:47:23",
         "first_name": "Oleksandr",
         "last_name": "Tarar",
         "status_id": 1,
@@ -62,6 +63,7 @@ user_data = [
         "nickname": "RingDestroyer",
         "password": pbkdf2_sha256.hash("iloveSam"),
         "location": "Shire",
+        "create_date": "2018-07-03 14:30:00",
         "first_name": "Frodo",
         "last_name": "Baggins",
         "status_id": 1,
@@ -72,10 +74,11 @@ user_data = [
         "nickname": "Ranger",
         "password": pbkdf2_sha256.hash("icewindDale"),
         "location": "Menzoberranzan",
+        "create_date": "2018-07-07 00:00:00",
         "first_name": "Drizzt",
         "last_name": "Do Urden",
         "status_id": 2,
-        "banned_to_date": "2018-09-01 00:00:00",
+        "banned_to_date": "2018-09-01 01:00:00",
         "role_id": 2
     },
     {
@@ -83,6 +86,7 @@ user_data = [
         "nickname": "KnowNothing",
         "password": pbkdf2_sha256.hash("Ygritte"),
         "location": "Wall",
+        "create_date": "2018-07-12 18:00:00",
         "first_name": "Aegon",
         "last_name": "Targaryen",
         "status_id": 1,
@@ -93,6 +97,7 @@ user_data = [
         "nickname": "WhiteWolf",
         "password": pbkdf2_sha256.hash("Merigold"),
         "location": "Kaer Morhen",
+        "create_date": "2018-08-03 12:00:00",
         "first_name": "Geralt",
         "last_name": "of Rivia",
         "status_id": 4,
@@ -117,8 +122,8 @@ event_data = [
                         "television shows. If the rehearsals, private "
                         "sessions, live shows and alternate takes are "
                         "included the total adds up to at least 990 songs."),
-        "start_date": "2018-08-28 20:00:00",
-        "end_date": "2018-08-28 23:00:00",
+        "start_date": "2018-09-28 20:00:00",
+        "end_date": "2018-09-28 23:00:00",
         "author_name": "oleksandttarar",
         "main_image": ("https://img.tsn.ua/cached/1533907428/"
                        "tsn-5c161a41b1f154cd63aedacab6e94568/thumbs/"
