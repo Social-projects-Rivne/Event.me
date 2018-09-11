@@ -9,48 +9,48 @@ const OurTeam = () => {
         <Card className='large'
           header={
             <CardTitle
-              image='/img/default-avatar-team.jpg'>
-              Person Zero
+              image='/img/team/andre.jpg'>
+              Andrew Black
                 </CardTitle>
           }>
-          I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.
+          As the leader of Squarespace’s Strategy division, Andrew is responsible for 
+          developing the analytical frameworks that shape the company’s business.
             </Card>
       </Col>
       <Col s={3}>
         <Card className='large'
           header={
             <CardTitle
-              image='/img/default-avatar-team.jpg'>
-              Person One
+              image='/img/team/artem.jpeg'>
+              Artem Korniychuk
             </CardTitle>
           }>
-          I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.
+          Artem Korniychuk, SVP of Engineering, oversees Squarespace’s vast engineering organization 
+          which drives the core programming for the company.
             </Card>
       </Col>
       <Col s={3}>
         <Card className='large'
           header={
             <CardTitle
-              image='/img/default-avatar-team.jpg'>
-              Person Two
+              image='/img/team/yura.jpeg'>
+              Yruii Asstelite
             </CardTitle>
           }>
-          I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.
+          Yruii Asstelite leads Squarespace Ireland and oversees the company’s global Customer Operations 
+          teams that support millions of Squarespace users.
             </Card>
       </Col>
       <Col s={3}>
         <Card className='large'
           header={
             <CardTitle
-              image='/img/default-avatar-team.jpg'>
-              Person Three
+              image='/img/team/YaZhyvyi.jpg'>
+              Undead
             </CardTitle>
           }>
-          I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.
+          Undead leads the company’s award-winning creative team, whose work encapsulates 
+          all brand creative, web design, and product design efforts for the company.
             </Card>
       </Col>
     </Row>

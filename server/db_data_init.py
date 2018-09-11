@@ -117,8 +117,8 @@ event_data = [
                         "television shows. If the rehearsals, private "
                         "sessions, live shows and alternate takes are "
                         "included the total adds up to at least 990 songs."),
-        "start_date": "2018-08-28 20:00:00",
-        "end_date": "2018-08-28 23:00:00",
+        "start_date": "2018-09-28 20:00:00",
+        "end_date": "2018-09-28 23:00:00",
         "author_name": "oleksandttarar",
         "main_image": ("https://img.tsn.ua/cached/1533907428/"
                        "tsn-5c161a41b1f154cd63aedacab6e94568/thumbs/"
