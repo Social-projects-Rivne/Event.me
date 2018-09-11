@@ -3,13 +3,16 @@
 import datetime
 
 from passlib.hash import pbkdf2_sha256
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
+from sqlalchemy import (Column, Integer, String, DateTime,
+                        ForeignKey, func, desc)
 from sqlalchemy.orm import relationship
 from pyramid import httpexceptions
 
 from . import Base
 from .role import Role
 from .user_status import UserStatus
+
+USER_LIMIT = 100
 
 
 class User(Base):
@@ -63,7 +66,6 @@ class User(Base):
             .filter(func.lower(User.nickname) == func.lower(nickname))\
             .one_or_none()
 
-
     def check_password(self, password):
         """Check if user password valid"""
         return pbkdf2_sha256.verify(password, self.password)
@@ -89,7 +91,8 @@ class User(Base):
     @classmethod
     def get_all(cls, request):
         """Get all users"""
-        return request.dbsession.query(cls).all()
+        return request.dbsession.query(cls)\
+            .order_by(desc(cls.id)).limit(USER_LIMIT).all()
 
     @classmethod
     def add_user(cls, request, **kwargs):

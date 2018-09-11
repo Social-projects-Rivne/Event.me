@@ -1,18 +1,9 @@
-from cornice import Service
 from cornice.resource import resource, view
-from cornice.validators import colander_body_validator
-from passlib.hash import pbkdf2_sha256
 from pyramid.security import Allow
-from ..validation_schema import ProfileSchema
 
 from server.models import model_to_dict
 from server.models.user import User
-
-user_status = Service(name='user_status',
-                           path='/user-status/',
-                           renderer='json',
-                           cors_origins=('http://localhost:3000',))
-
+from server.models.user_status import UserStatus
 
 
 @resource(collection_path='/admin-page', path='/admin-page/{id}',
@@ -37,12 +28,16 @@ class AdminView(object):
         response['users_dict'] = users_dict
         return response
 
-@user_status.post(validators=(colander_body_validator,))
-def put(request):
-    json = request.json_body
-    user = User.get_user_by_nickname(request, request.json['nickname'])
-    response = {}
+    @view(permission="admin")
+    def put(self):
+        request = self.request
+        json = request.json_body
+        user = User.get_one(request, id=request.matchdict['id'])
 
-    if user is not None:
-        user.status_id = json['status_id']
-        return 0
+        if user is not None:
+            if json['status_str'] == 'Active':
+                user.status_id = UserStatus.get_id_by_status(request, 'Banned')
+                return {'status': 'Banned'}
+            if json['status_str'] == 'Banned':
+                user.status_id = UserStatus.get_id_by_status(request, 'Active')
+                return {'status': 'Active'}

@@ -21,3 +21,9 @@ class UserStatus(Base):
         user_status = request.dbsession.query(cls)\
             .filter_by(status=status).one()
         return user_status
+
+    @classmethod
+    def get_id_by_status(cls, request, status_str):
+        """ """
+        return request.dbsession.query(cls)\
+            .filter_by(status=status_str).one().id
