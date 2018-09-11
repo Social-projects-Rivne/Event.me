@@ -17,29 +17,26 @@ class DraggableMarker extends Component {
   refmarker = React.createRef()
 
   componentDidUpdate(prevProps) {
-    if (this.props.lat !== prevProps.lat && this.props.long !== prevProps.long) {
-      let latitude, longitude;
-      latitude = this.props.lat ? Number(this.props.lat) : 50.619900;
-      longitude = this.props.long ? Number(this.props.long) : 26.251617;
-      console.log(latitude, longitude)
-      this.setState({
-        marker: {
-          ...this.state.marker,
-          lat: latitude,
-          long: longitude,
-        }
-      })
+    if (this.props.lat !== prevProps.lat || this.props.long !== prevProps.long) {
+      if (this.props.lat && this.props.long) {
+        this.setState({
+          marker: {
+            lat: this.props.lat,
+            lng: this.props.long,
+          }
+        })
+      }
     }
   }
 
   renderEventMarker() {
     return (
       <Marker
-          draggable
-          onDragend={this.updatePosition}
-          position={[this.state.marker.lat, this.state.marker.lng]}
-          ref={this.refmarker}>
-        </Marker>
+        draggable
+        onDragend={this.updatePosition}
+        position={[this.state.marker.lat, this.state.marker.lng]}
+        ref={this.refmarker}>
+      </Marker>
     )
   }
 
