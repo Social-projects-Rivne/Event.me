@@ -6,16 +6,17 @@ from ..models.subscribe import Subscribe
 
 
 class SubscribeFactory(object):
-     def __init__(self, request):
-         self.request = request
+    def __init__(self, request):
+        self.request = request
 
-     def __acl__(self):
-         return [(Allow, Everyone, 'get')]
+    def __acl__(self):
+        return [(Allow, Everyone, 'get')]
 
 subscribe = Service(name='subscribe',
                     path='/subscribe/{subscribe_user_id}',
                     factory=SubscribeFactory,
                     cors_origins=('http://localhost:3000',))
+
 
 @subscribe.post()
 def subscribe_post(request):
