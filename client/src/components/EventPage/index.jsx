@@ -40,6 +40,7 @@ class EventPage extends Component {
   getEventData() {
     request(`/event/${this.props.match.params.id}`).then(data => {
       if ('event' in data) {
+        console.log(data)
         for (const key in data.event) {
           if (this.state.hasOwnProperty(key)) {
             this.setState({ [key]: data.event[key] });
