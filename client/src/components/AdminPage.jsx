@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Parallax, Row, Col, CardPanel, Icon, Chip, Table, Button, Input } from 'react-materialize';
-import { Link } from 'react-router-dom';
-import { isEmpty, request } from '../utils';
+import { Row, Col, Table, Button, Input } from 'react-materialize';
+import { request } from '../utils';
 
 
 class AdminPage extends Component {
@@ -19,7 +18,7 @@ componentDidMount() {
 }
 
 changeUserStatus = (e) => {
-  {this.state.users.map((element) => {
+  this.state.users.map((element) => {
   if (element.nickname + element.id === e.currentTarget.id) {
     if (e.currentTarget.value === "Banned") {
       element.status_id = '1'
@@ -30,7 +29,7 @@ changeUserStatus = (e) => {
             "status_id": element.status_id
       }
 
-      request(`/admin-page/`, "POST", JSON.stringify(data))
+      request(`/user-status/`, "POST", JSON.stringify(data))
            .then(data => {
 
        })
@@ -39,11 +38,11 @@ changeUserStatus = (e) => {
       element.status_str = "Banned"
       e.currentTarget.value = element.status_str
       const data = {
-            "user_id": element.id,
+            "nickname": element.nickname,
             "status_id": element.status_id
       }
 
-      request(`/admin-page/`, "POST", JSON.stringify(data))
+      request(`/user-status/`, "POST", JSON.stringify(data))
            .then(data => {
 
        })
@@ -51,8 +50,7 @@ changeUserStatus = (e) => {
 
   }
   return null;
-  }
-  )}
+  })
   }
 
   confirmUsersChange = (e) => {
