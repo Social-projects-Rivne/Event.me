@@ -4,6 +4,7 @@ import { Row, Col, Input, Button, Modal } from 'react-materialize';
 import SelectCategory from './SelectCategory';
 import TagAutocomplete from './TagAutocomplete';
 import { request, momentUTCToLocal } from '../../utils';
+import DraggableMarker from './DraggableMarker';
 
 
 class EventForm extends Component {
@@ -33,10 +34,11 @@ class EventForm extends Component {
       status: '',
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.coordinatesHandle = this.coordinatesHandle.bind(this);
     this.deleteTag = this.deleteTag.bind(this);
   }
 
-  deleteTag (tag) {
+  deleteTag(tag) {
     delete this.state.tags[tag];
   }
 
@@ -143,13 +145,15 @@ class EventForm extends Component {
                   document.getElementById('end_time')
                     .parentNode.lastChild.className = 'active';
                 }
-              } else {
+              } else if (key !== 'lat' || key !== 'long') {
                 this.setState({ [key]: String(data.event[key]) });
               }
               document.getElementById([key]).parentNode.lastChild.className = 'active';
             }
           }
           this.setState({
+            'lat': data.event.lat,
+            'long': data.event.long,
             'category': data.category,
             'tags': data.tags,
             'status_str': data.status_str,
@@ -160,7 +164,7 @@ class EventForm extends Component {
     window.addEventListener('user-log', (e) => this.props.history.push('/'), { once: true });
   }
 
-  updateEvent = (e) => {
+  updateEvent = e => {
     let errorMessages = this.validateData();
     if (!errorMessages) return 0;
 
@@ -188,7 +192,7 @@ class EventForm extends Component {
       });
   }
 
-  addEvent = (e) => {
+  addEvent = e => {
     let errorMessages = this.validateData();
     if (!errorMessages) return 0;
 
@@ -213,7 +217,7 @@ class EventForm extends Component {
       });
   }
 
-  onChangeHandler = (e) => {
+  onChangeHandler = e => {
     const { id } = e.currentTarget;
     this.setState({ [id]: e.currentTarget.value });
 
@@ -226,12 +230,19 @@ class EventForm extends Component {
     };
   }
 
-  onChangeHandlerFloat = (e) => {
+  coordinatesHandle = (lat, lng) => {
+    this.setState({
+      long: lng.toFixed(6),
+      lat: lat.toFixed(6)
+    })
+  }
+
+  onChangeHandlerFloat = e => {
     const { id } = e.currentTarget;
     this.setState({ [id]: e.target.value.replace(/[^0-9.-]/, '') });
   }
 
-  closeEventHandler = (e) => {
+  closeEventHandler = e => {
     request(`/event/${this.props.match.params.id}`, 'DELETE').then(data => {
       if ('success' in data && data.success) {
         this.props.history.push(`/event/${this.props.match.params.id}`);
@@ -242,7 +253,7 @@ class EventForm extends Component {
 
   renderButtons() {
     if ('id' in this.props.match.params) {
-      if(this.state.status_str === 'Close') return (
+      if (this.state.status_str === 'Close') return (
         <React.Fragment>
           <Col className="center-align" s={12}>
             <Button waves="light" onClick={this.updateEvent}>Update Event</Button>
@@ -293,6 +304,7 @@ class EventForm extends Component {
               <h2>Edit Event Data</h2>
             </Col>
           </Row>
+
           <Row>
             <Input
               s={12} id="title" type="text"
@@ -304,21 +316,10 @@ class EventForm extends Component {
             />
           </Row>
           <Row>
-            <Input
-              s={6} id="long" type="text"
-              step="0.000001"
-              label="Longitude (must be a float)"
-              error={this.state.error.long}
-              value={this.state.long}
-              onChange={this.onChangeHandlerFloat}
-            />
-            <Input
-              s={6} id="lat" type="text"
-              step="0.000001"
-              label="Latitude (must be a float)"
-              error={this.state.error.lat}
-              value={this.state.lat}
-              onChange={this.onChangeHandlerFloat}
+            <DraggableMarker
+              coordinatesHandle={this.coordinatesHandle}
+              long={this.state.long}
+              lat={this.state.lat}
             />
           </Row>
           <Row className="textarea-wrapper">
