@@ -15,6 +15,7 @@ pyramid.includes =
     pyramid_debugtoolbar
 
 sqlalchemy.url = postgresql://admin:1@eventme_postgres/eventme
+mongodb.url = mongodb://admin:1@mongo/eventme
 client.url = http://localhost:3000
 
 mail.host = smtp.gmail.com

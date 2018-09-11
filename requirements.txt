@@ -9,6 +9,7 @@ passlib==1.7.1
 plaster==1.0
 plaster-pastedeploy==0.5
 psycopg2==2.7.5
+pymongo==3.7.1
 pyramid==1.9.2
 pyramid_jinja2
 pyramid_debugtoolbar

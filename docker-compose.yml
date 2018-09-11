@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
     pyramid:
         build: .
@@ -8,6 +8,7 @@ services:
             - .:/app
         depends_on:
             - db
+            - mongo
         ports:
             - "6543:6543"
     db:
@@ -15,20 +16,38 @@ services:
         restart: always
         container_name: eventme_postgres
         environment:
-          POSTGRES_USER: admin
-          POSTGRES_PASSWORD: 1
-          POSTGRES_DB: eventme
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: 1
+            POSTGRES_DB: eventme
         volumes:
-          - ~/.eventme-postgres:/var/lib/postgresql/data
+            - ~/.eventme-postgres:/var/lib/postgresql/data
         ports:
-          - 5555:5432
+            - 5555:5432
+    mongo:
+        image: mongo:latest
+        restart: always
+        container_name: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - ~/.eventme-mongo:/data/db
+    mongoUser:
+        image: mongo:latest
+        container_name: mongoUser
+        restart: on-failure:2
+        links:
+            - mongo:mongo
+        command: mongo --host mongo --eval "db.getSiblingDB('eventme').createUser({user:'admin', pwd:'1', roles:[{role:'readWrite',db:'eventme'}]});"
+        depends_on:
+            - mongo
     adminer:
-        image: adminer
+        image: dockette/adminer:full-php5
         restart: always
         depends_on:
-            - db
+           - db
+           - mongo
         ports:
-          - 9000:8080
+         - 9000:80
     client:
         image: node:10
         container_name: react
