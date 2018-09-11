@@ -45,6 +45,15 @@ class AdminPage extends Component {
                   type="button"
                   id={`user-${element.id}`}
                   onClick={this.changeUserStatus}
+                  value={element.role_str}
+                />
+
+              </td>
+              <td>
+                <Input
+                  type="button"
+                  id={`user-${element.id}`}
+                  onClick={this.changeUserStatus}
                   value={element.status_str}
                 />
 
@@ -67,6 +76,7 @@ class AdminPage extends Component {
             <th>Email</th>
             <th>Nickname</th>
             <th>Registration date</th>
+            <th>Role</th>
             <th>Status</th>
           </tr>
         </thead>

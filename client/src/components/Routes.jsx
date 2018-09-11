@@ -18,25 +18,15 @@ import { isLogged } from '../utils';
 
 class Routes extends Component {
 
-adminPageRoute() {
-    if (isLogged() && parseInt(sessionStorage.getItem('User-role')) === 1) {
-    return (
-    <React.Fragment>
-      <Route path="/admin-page" component={AdminPage} />
-    </React.Fragment>
-    );
-    }
-  }
-
 
 render(){
   return (
     <React.Fragment>
-        {this.adminPageRoute()}
         <Route path="/map" component={MapLayout} exact />
         <Route path="/" component={HomePage} exact />
         <Route path="/recover" component={HomePage} exact />
       <div className="container">
+        <Route path="/admin-page" component={AdminPage} />
         <Route path="/email_confirm/:token" component={ConfirmEmail} />
         <Route path="/recover-info" component={RecoverInfo} />
         <Route path="/change-password/:token" component={ChangePassword} />
