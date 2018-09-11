@@ -47,7 +47,7 @@ class EventPage extends Component {
 
     let data;
     if (sessionStorage['User-id'] !== undefined) {
-      if (this.state.is_subbed === true) {
+      if (this.state.is_subbed) {
         data = {
           'action': false,
           'event_id': this.props.match.params.id,
@@ -144,7 +144,7 @@ class EventPage extends Component {
   }
 
   renderSubscribedUsers() {
-    if (this.state.any_subs === true) {
+    if (this.state.any_subs) {
       return (
         <React.Fragment>
         {this.state.subs.map((element) => {
