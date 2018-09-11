@@ -36,6 +36,8 @@ class Subscribe(Base):
 
     @classmethod
     def del_subscription(cls, request, **kwargs):
+
         subscription = request.dbsession.query(cls).filter_by(**kwargs).\
                        one_or_none()
-        request.dbsession.delete(subscription)
+        if subscription is not None:
+            request.dbsession.delete(subscription)

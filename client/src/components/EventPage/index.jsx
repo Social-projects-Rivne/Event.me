@@ -46,17 +46,17 @@ class EventPage extends Component {
     eve.preventDefault()
 
     let data;
-    if (sessionStorage['User-id'] !== undefined) {
+    if (sessionStorage['User-id']) {
       if (this.state.is_subbed) {
         data = {
-          'action': false,
+          'if_subbed': false,
           'event_id': this.props.match.params.id,
           'user_id': sessionStorage['User-id']
         }
       }
       else {
         data = {
-          'action': true,
+          'if_subbed': true,
           'event_id': this.props.match.params.id,
           'user_id': sessionStorage['User-id']
         }
