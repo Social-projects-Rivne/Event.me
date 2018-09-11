@@ -3,6 +3,7 @@
 
 .nav-wrapper .user-pictogram { vertical-align: middle }
 
+
 /***Event Form***/
 .chips .input { color: black }
 
@@ -19,6 +20,7 @@
     box-shadow: 0 1px 0 0 #F44336;
 }
 
+
 /***Event Page***/
 .parallax-container {
     width: 100%;
@@ -26,6 +28,52 @@
 }
 
 .event-description { font: 1.3em 'Helvetica' }
+
+.comment-block {
+    border-left: 2px solid lightgrey;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.comment-block .row { margin-bottom: 0 }
+
+.comment-block .author-link { 
+    font-weight: bold;
+    color: black;
+    margin: 0 1em;
+}
+
+.comment-block img {
+    border-radius: 50%;
+    margin: 0 3px;
+    width: 32px;
+}
+
+.comment-block .hover-buttons .fixed-action-btn { position: relative }
+
+.comment-block .hover-buttons a { cursor: pointer }
+
+.comment-block .hover-buttons .points { font: 900 24px Roboto }
+
+.comment-block .hover-buttons,
+.comment-block .child-wrapper { padding-right: 0 }
+
+.comment-block .hover-buttons .card-panel {
+    margin: 0;
+    padding: 5px 8px;
+}
+
+.comment-block .comment-deleted {
+    font-size: 0.8em;
+    color: darkgrey;
+    font-style: italic;
+}
+
+.comment-block .answer-link { cursor: pointer }
+
+.comment-block .answer-form { display: none }
+
 
 /***Map page***/
 .map-page-container .mapWrapper {
@@ -97,6 +145,7 @@
     padding-top: 6px;
 }
 
+
 /***Float buttons***/
 .btn-floating .material-icons { padding: 0 }
 
@@ -112,6 +161,6 @@
     width:auto;
 }
 
-/***All Inputs***/
 
+/***All Inputs***/
 label::after { width: 10rem }
