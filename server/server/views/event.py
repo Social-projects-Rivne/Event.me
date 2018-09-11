@@ -15,6 +15,7 @@ from ..models.event_tag import EventTag
 from ..models.tag import Tag
 from ..validation_schema import EventSchema
 from ..models.user import User
+from ..models.subscribe import Subscribe
 
 
 @resource(collection_path='/event', path='/event/{event_id}', renderer='json',

@@ -114,7 +114,7 @@ class EventPage extends Component {
           status_str: data.status_str
         })
 
-        if (data.is_subbed === true) {
+        if (data.is_subbed) {
           this.setState({
             is_subbed: true,
             sub_icon: 'check_circle',
@@ -128,14 +128,14 @@ class EventPage extends Component {
             sub_label: 'Subscribe'
           })
         }
-        if (data.subscriptions !== null) {
+        if (data.subscriptions) {
           this.setState({
             subs: data.subscriptions
           })
         }
         else {
           this.setState({
-            subs: null
+            subs: []
           })
         }
       };
