@@ -13,7 +13,7 @@ def get_events_short_info(request):
     """ """
 
     json = request.json_body
-    get_id_category = Category.get_by_name(request, json['category'])
+    get_id_category = Category.get_by_name(request, json['category'].lower())
 
     response = {
         'info': []
