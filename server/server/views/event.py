@@ -132,14 +132,12 @@ class EventView(object):
             response['status'] = model_to_dict(self.event_history)
             response['status_str'] = self.event_status
             subscriptions = Subscribe.get_all_subs(request,
-                            event_id=event_obj.id)
+                                                   event_id=event_obj.id)
             subscription = Subscribe.get_subscription(request,
-                           user_id=request.user.id,
-                           event_id=event_obj.id)
+                                                      user_id=request.user.id,
+                                                      event_id=event_obj.id)
             if subscriptions is not None:
-                id_array = [obj.user_id for obj in subscriptions]
-                user_list = User.get_users_by_ids(request, id_array)
-                user_arr = [model_to_dict(obj) for obj in user_list]
+                user_arr = [model_to_dict(obj.users) for obj in subscriptions]
                 response['subscriptions'] = user_arr
                 response['any_subs'] = True
                 if subscription is not None:

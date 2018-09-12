@@ -73,13 +73,6 @@ class EventPage extends Component {
               sub_label: 'Unsubscribe'
             })
           }
-          else {
-            this.setState({
-              is_subbed: false,
-              sub_icon: 'check_circle_outlined',
-              sub_label: 'Subscribe'
-            })
-          }
         }
         else {
           window.Materialize.toast("Something has gone wrong", 1500);
@@ -122,21 +115,9 @@ class EventPage extends Component {
             sub_label: 'Unsubscribe'
           })
         }
-        else {
-          this.setState({
-            is_subbed: false,
-            sub_icon: 'check_circle_outlined',
-            sub_label: 'Subscribe'
-          })
-        }
         if (data.subscriptions) {
           this.setState({
             subs: data.subscriptions
-          })
-        }
-        else {
-          this.setState({
-            subs: []
           })
         }
       };
@@ -148,36 +129,20 @@ class EventPage extends Component {
       return (
         <React.Fragment>
         {this.state.subs.map((element) => {
-          if (element.avatar === null) {
-            return (
-              <Col>
-                <Link to={/profile/ + element.id}>
-                  <img
-                    className="circle sub-icons"
-                    key={element.id}
-                    src="/person.jpg"
-                    alt="Default icon"
-                    title={element.nickname}
-                  />
-                </Link>
-              </Col>
-            );
-          }
-          else {
-            return (
-              <Col>
-                <Link to={/profile/ + element.id}>
-                  <img
-                    className="circle sub-icons"
-                    key={element.id}
-                    src={element.avatar}
-                    alt="Default icon"
-                    title={element.nickname}
-                  />
-                </Link>
-              </Col>
-            );
-          }
+          let avatar = element.avatar === null ? "/person.jpg" : element.avatar
+          return (
+            <Col>
+              <Link to={/profile/ + element.id}>
+                <img
+                  className="circle sub-icons"
+                  key={element.id}
+                  src={avatar}
+                  alt="Default icon"
+                  title={element.nickname}
+                />
+              </Link>
+            </Col>
+          );
         })}
         </React.Fragment>
       )

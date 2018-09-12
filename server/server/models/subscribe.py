@@ -20,9 +20,7 @@ class Subscribe(Base):
 
     @classmethod
     def get_subscription(cls, request, **kwargs):
-        subscription = request.dbsession.query(cls).filter_by(**kwargs).\
-                       one_or_none()
-        return subscription
+        return request.dbsession.query(cls).filter_by(**kwargs).one_or_none()
 
     @classmethod
     def get_all_subs(cls, request, **kwargs):
