@@ -13,7 +13,6 @@ import EventForm from './EventForm';
 import Profile from './Profile';
 import EventPage from './EventPage';
 import ProfileEdit from './ProfileEdit';
-import { isLogged } from '../utils';
 
 
 

@@ -20,3 +20,7 @@ class Role(Base):
         """Get role from db"""
         user_role = request.dbsession.query(cls).filter_by(role=role).one()
         return user_role
+
+    @classmethod
+    def get_all(cls,request):
+        return request.dbsession.query(cls).all()
