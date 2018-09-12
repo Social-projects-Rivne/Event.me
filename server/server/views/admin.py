@@ -6,7 +6,7 @@ from server.models.user import User
 from server.models.user_status import UserStatus
 
 
-@resource(collection_path='/admin-page', path='/admin-page/{id}',
+@resource(collection_path='/admin-page/users', path='/admin-page/users{id}',
           renderer='json', cors_origins=('http://localhost:3000',))
 class AdminView(object):
 
