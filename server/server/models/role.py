@@ -22,5 +22,6 @@ class Role(Base):
         return user_role
 
     @classmethod
-    def get_all(cls,request):
+    def get_all(cls, request):
+        """Get all roles from db"""
         return request.dbsession.query(cls).all()

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Table, Button, Input } from 'react-materialize';
 import { Link } from 'react-router-dom';
-import { request } from '../utils';
 
 
 class AdminPage extends Component {

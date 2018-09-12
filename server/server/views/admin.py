@@ -22,16 +22,20 @@ class AdminView(object):
     def collection_get(self):
         users_list = User.get_all(self.request)
         roles_list = Role.get_all(self.request)
+        statuses_list = UserStatus.get_all(self.request)
         users_dict = []
         roles_dict = []
+        statuses_dict = []
         for obj in users_list:
             temp_dict = model_to_dict(obj)
             temp_dict['status_str'] = obj.user_statuses.status
             users_dict.append(temp_dict)
         roles_dict = [model_to_dict(obj) for obj in roles_list]
+        statuses_dict = [model_to_dict(obj) for obj in statuses_list]
         response = {}
         response['users_dict'] = users_dict
         response['roles_dict'] = roles_dict
+        response['statuses_dict'] = statuses_dict
         return response
 
     @view(permission="admin")
@@ -40,13 +44,9 @@ class AdminView(object):
         json = request.json_body
         user = User.get_one(request, id=request.matchdict['id'])
         if user is not None:
-            if 'status_str' in json:
-                if json['status_str'] == 'Active':
-                    user.status_id = UserStatus.get_id_by_status(request, 'Banned')
-                    return {'status': 'Banned'}
-                if json['status_str'] == 'Banned':
-                    user.status_id = UserStatus.get_id_by_status(request, 'Active')
-                    return {'status': 'Active'}
             if 'role_id' in json:
                 user.role_id = json['role_id']
                 return {'role_id': json['role_id']}
+            if 'status_id' in json and 'status':
+                user.status_id = json['status_id']
+                return {'status_id': json['status_id']}

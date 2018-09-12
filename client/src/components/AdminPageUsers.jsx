@@ -1,36 +1,24 @@
 import React, { Component } from 'react';
-import { Row, Col, Table, Button, Input } from 'react-materialize';
+import { Table, Input } from 'react-materialize';
 import { request } from '../utils';
 
 
 class AdminPageUsers extends Component {
   state = {
     users: [],
-    roles: []
+    roles: [],
+    statuses: []
   };
-
 
   componentDidMount() {
     request('/admin-page/users')
       .then(data => {
         this.setState({ users: data.users_dict });
         this.setState({ roles: data.roles_dict})
+        this.setState({ statuses: data.statuses_dict})
       })
   }
 
-  changeUserStatus = (e) => {
-    let { id } = e.currentTarget;
-    id = id.slice(5);
-    const data = {
-      "status_str": e.currentTarget.value
-    }
-    request(`/admin-page/users/${id}`, "PUT", JSON.stringify(data))
-      .then(data => {
-        if ('status' in data) {
-          document.getElementById(`user-${id}`).value = data.status;
-        }
-      })
-  }
   changeUserRole = (e) => {
     let { id } = e.currentTarget;
     id = id.slice(10);
@@ -42,7 +30,7 @@ class AdminPageUsers extends Component {
         if ('role_id' in data) {
         let users_arr = this.state.users;
         for(let i = 0; i < users_arr.length; i++) {
-          if (users_arr[i].id == id) {
+          if (users_arr[i].id === id) {
             users_arr[i].role_id = data['role_id']
           }
         }
@@ -52,20 +40,55 @@ class AdminPageUsers extends Component {
         }
       })
   }
+  changeUserStatus = (e) => {
+    let { id } = e.currentTarget;
+    id = id.slice(5);
+    const data = {
+      "status_id": e.currentTarget.value
+    }
+    request(`/admin-page/users/${id}`, "PUT", JSON.stringify(data))
+      .then(data => {
+        if ('status_id' in data) {
+        let users_arr = this.state.users;
+        for(let i = 0; i < users_arr.length; i++) {
+          if (users_arr[i].id === id) {
+            users_arr[i].status_id = data['status_id']
+          }
+        }
+        this.setState({
+          users: users_arr
+        })
+        }
+      })
+  }
 
-renderRolelist() {
-return (
-<React.Fragment>
-{this.state.roles.map((element) => {
-  return (
-    <option value={element.id}>{element.role}</option>
-  );})
-}
-</React.Fragment>
-)
-}
+  renderRolelist() {
+    return (
+      <React.Fragment>
+        {this.state.roles.map((element) => {
+          return (
+            <option value={element.id}>{element.role}</option>
+          );
+        })
+      }
+    </React.Fragment>
+    )
+  }
 
-  renderUsersList() {
+  renderStatuslist() {
+    return (
+      <React.Fragment>
+        {this.state.statuses.map((element) => {
+          if (element.status !== 'Non_active') {
+            return (<option value={element.id}>{element.status}</option>);
+          } else return 0;
+        })
+        }
+      </React.Fragment>
+    )
+  }
+
+  renderUsers() {
     return (
       <React.Fragment>
         {this.state.users.map((element) => {
@@ -76,25 +99,30 @@ return (
               <td>{element.nickname}</td>
               <td>{element.create_date}</td>
               <td>
-              <Input s={12}
-              type='select'
-              id={`user-role-${element.id}`}
-              label="Materialize Select"
-              value={element.role_id}
-              onChange={this.changeUserRole}>
-              <option value='0' disabled>Default</option>
-                {this.renderRolelist()}
-              </Input>
+                <Input s={12}
+                  type='select'
+                  id={`user-role-${element.id}`}
+                  label="Materialize Select"
+                  value={element.role_id}
+                  onChange={this.changeUserRole}>
+                  <option value='0' disabled>Default</option>
+                  {this.renderRolelist()}
+                </Input>
               </td>
-              <td>
-                <Input
-                  type="button"
-                  id={`user-${element.id}`}
-                  onClick={this.changeUserStatus}
-                  value={element.status_str}
-                />
-
-              </td>
+              {(element.status_str !== 'Non_active') ?
+                <td>
+                  <Input s={12}
+                    type='select'
+                    id={`user-${element.id}`}
+                    label="Materialize Select"
+                    value={element.status_id}
+                    onChange={this.changeUserStatus}>
+                    <option value='0' disabled>Default</option>
+                    {this.renderStatuslist()}
+                  </Input>
+                </td> :
+                <td>{element.status_str}</td>
+              }
             </tr>
           );
         }
@@ -118,7 +146,7 @@ return (
           </tr>
         </thead>
         <tbody>
-          {this.renderUsersList()}
+          {this.renderUsers()}
         </tbody>
       </Table>
     );
