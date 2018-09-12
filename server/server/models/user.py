@@ -102,6 +102,10 @@ class User(Base):
         """Return string with user role"""
         return self.roles.role
 
+    @classmethod
+    def get_users_by_ids(cls, request, id_arr):
+        return request.dbsession.query(cls).filter(User.id.in_(id_arr)).all()
+
     @staticmethod
     def update_user(request, json_data):
         """ Method to update user in database """
