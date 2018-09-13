@@ -35,7 +35,7 @@ class MapLayout extends Component {
   }
 
   componentDidMount = () => {
-    document.title = "Event Map | Event.me"
+    document.title = "Events Map | Event.me"
     this.filter();
   }
 
