@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Input, Badge } from 'react-materialize';
+import { Table, Input } from 'react-materialize';
 import { request, momentUTCToLocal } from '../utils';
 
 
