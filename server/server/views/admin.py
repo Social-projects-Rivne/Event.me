@@ -47,6 +47,6 @@ class AdminView(object):
             if 'role_id' in json:
                 user.role_id = json['role_id']
                 return {'role_id': json['role_id']}
-            if 'status_id' in json and 'status':
+            if 'status_id' in json:
                 user.status_id = json['status_id']
                 return {'status_id': json['status_id']}

@@ -36,8 +36,7 @@ def log_in_post(request):
             response['user'] = {
                 'nickname': user.nickname,
                 'avatar': user.avatar,
-                'user_id': user.id,
-                'user_role': user.role_id
+                'user_id': user.id
             }
             return response
         else:

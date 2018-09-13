@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import AdminPage from './AdminPage';
@@ -16,10 +16,8 @@ import ProfileEdit from './ProfileEdit';
 
 
 
-class Routes extends Component {
+function Routes() {
 
-
-render(){
   return (
     <React.Fragment>
         <Route path="/map" component={MapLayout} exact />
@@ -44,5 +42,5 @@ render(){
     </React.Fragment>
   )
 }
-}
+
 export default Routes;

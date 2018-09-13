@@ -13,9 +13,11 @@ class AdminPageUsers extends Component {
   componentDidMount() {
     request('/admin-page/users')
       .then(data => {
-        this.setState({ users: data.users_dict });
-        this.setState({ roles: data.roles_dict})
-        this.setState({ statuses: data.statuses_dict})
+        this.setState({
+          users: data.users_dict,
+          roles: data.roles_dict,
+          statuses: data.statuses_dict
+          });
       })
   }
 
@@ -28,15 +30,15 @@ class AdminPageUsers extends Component {
     request(`/admin-page/users/${id}`, "PUT", JSON.stringify(data))
       .then(data => {
         if ('role_id' in data) {
-        let users_arr = this.state.users;
-        for(let i = 0; i < users_arr.length; i++) {
-          if (users_arr[i].id === id) {
-            users_arr[i].role_id = data['role_id']
+          let users_arr = this.state.users;
+          for(let i = 0; i < users_arr.length; i++) {
+            if (users_arr[i].id == id) {
+              users_arr[i].role_id = data['role_id']
+            }
           }
-        }
-        this.setState({
-          users: users_arr
-        })
+          this.setState({
+            users: users_arr
+          })
         }
       })
   }
@@ -51,7 +53,7 @@ class AdminPageUsers extends Component {
         if ('status_id' in data) {
         let users_arr = this.state.users;
         for(let i = 0; i < users_arr.length; i++) {
-          if (users_arr[i].id === id) {
+          if (users_arr[i].id == id) {
             users_arr[i].status_id = data['status_id']
           }
         }
