@@ -194,3 +194,39 @@ label::after {
 
 /***All Inputs***/
 label::after { width: 10rem }
+
+/***Profile***/
+.profile-hr {
+    border-color: #f2f2f2;
+    color: #f2f2f2;
+}
+
+.profile-title-nick {
+    color: dimgray;
+    font-size: 0.6em;
+}
+
+.profile-bio {
+    padding-top: 0.5em;
+    font-size: 1.2em;
+}
+
+.profile-bio-loc {
+    padding-top: 1em;
+    font-size: 1.2em;
+}
+
+.profile-title {
+    font-size: 3em;
+    color: white;
+    text-align: center;
+}
+
+.profile-title-box {
+    margin-top: 1.5em;
+    text-align: center;
+}
+
+.profile-card {
+    margin-top: 3em;
+}
