@@ -99,6 +99,10 @@ class Event(Base):
         return request.dbsession.query(cls).filter(Event.id.in_(id_arr)).all()
 
     @classmethod
+    def get_events_by_user_id(cls, request, user_id):
+        return request.dbsession.query(cls).filter_by(author_id=user_id).all()
+
+    @classmethod
     def get_events_short_info(cls, request, period):
         """Return location, title and id of event on some time period"""
         datetime_now = datetime.now()

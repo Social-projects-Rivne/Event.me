@@ -31,6 +31,11 @@ class EventHistory(Base):
         return request.dbsession.query(cls).all()
 
     @classmethod
+    def get_event_history_by_user_id(cls, request, id_arr):
+        """Get event history by user id"""
+        return request.dbsession.query(cls).filter(EventHistory.event_id.in_(id_arr)).all()
+
+    @classmethod
     def get_all_by(cls, request, **kwargs):
         return request.dbsession.query(cls).filter_by(**kwargs).all()
 

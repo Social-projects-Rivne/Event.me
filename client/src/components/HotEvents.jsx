@@ -59,7 +59,7 @@ class HotEvents extends Component {
                   <span className="hot-event-description">
                     {element.description}
                   </span>
-                  <Row className="hot-event-after-name">
+                <Row className="hot-event-after-name">
                     <Col s={6}>
                       <p className="hot-event-other-info">Organizer: {element.author_name}</p>
                     </Col>

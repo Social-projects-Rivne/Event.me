@@ -8,16 +8,50 @@ class Profile extends Component {
 
     state = {
         user: {},
+        history: [],
+        any_history: false,
+        events: [],
+        display_method: null,
+        card_size: null
     };
 
     componentDidMount() {
         request('/profile/' + this.props.match.params.profile_id)
         .then(data => {
-            this.setState({ user: data });
+          this.setState({ user: data });
+        })
+        request('/profile-history/' + this.props.match.params.profile_id)
+        .then(data => {
+          console.log("DATA: " + data)
+          if (data.success) {
+            console.log("SUCCESS: " + data)
+            this.setState({
+              history: data.history,
+              events: data.events,
+              any_history: true
+            })
+            if (data.num_of_events === 1) {
+              this.setState({
+                display_method: 12,
+                card_size: 'large'
+             })
+              this.setState({  })
+            }
+            else {
+              this.setState({
+                display_method: 6,
+                card_size: 'medium'
+              })
+            }
+          }
+          else {
+            console.log("HMMM")
+            console.log(data)
+          }
         })
         document.getElementById('root').style = "background-color: #3700B3; \
-                                                  width: 100%; \
-                                                  height: 25em;"
+                                                 width: 100%; \
+                                                 height: 25em;"
     }
 
     componentWillUnmount() {
@@ -64,6 +98,50 @@ class Profile extends Component {
         }
     };
 
+    renderProfileHistory = () => {
+      return (
+        <React.Fragment>
+        {this.state.events.map((element) => {
+          return (
+            <Col key={element.id}>
+              <Card
+                horizontal
+                header={
+                  <CardTitle
+                    image={
+                      element.main_image
+                    }
+                  >
+                  </CardTitle>
+                }
+                actions={
+                  [
+                    <a
+                      href={"/#/event/" + element.id}>
+                        View Event
+                    </a>
+                  ]
+                }
+              >
+                <h4 className="title-profile">Event&nbsp;&nbsp;<span className="profile-title-nick">@{element.name}</span></h4>
+                <hr className="profile-hr"/>
+                <p className="profile-bio">
+                  {element.description}
+                </p>
+                <p className="profile-bio-loc">
+                  Start Date: {element.start_date}
+                </p>
+                <p className="profile-bio-loc">
+                  End Date: {element.end_date}
+                </p>
+              </Card>
+            </Col>
+          );
+        })}
+        </React.Fragment>
+      );
+    }
+
     render() {
       return (
         <div>
@@ -97,6 +175,14 @@ class Profile extends Component {
               Location: {this.state.user.location}
             </p>
           </Card>
+          <div className='profile-history-title-box'>
+            <span className="profile-history-title">
+              User History
+            </span>
+          </div>
+          <Row>
+            {this.renderProfileHistory()}
+          </Row>
         </div>
       );
    }

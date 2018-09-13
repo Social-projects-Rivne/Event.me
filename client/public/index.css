@@ -219,7 +219,6 @@ label::after { width: 10rem }
 .profile-title {
     font-size: 3em;
     color: white;
-    text-align: center;
 }
 
 .profile-title-box {
@@ -229,4 +228,26 @@ label::after { width: 10rem }
 
 .profile-card {
     margin-top: 3em;
+}
+
+.profile-history-title {
+    font-size: 3em;
+}
+
+.profile-history-title-box {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.profile-history-image {
+    /* display: flex;
+    height: 100%; */
+}
+
+.card.horizontal .card-image img {
+    border-radius: 2px 0 0 2px;
+    max-width: 100%;
+    height: 100%;
+    width: 100%;
 }
