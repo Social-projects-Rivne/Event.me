@@ -166,11 +166,9 @@ class Profile extends Component {
               [ <React.Fragment>{this.renderEditButton()}</React.Fragment> ]
             }
           >
-            <h4 className="title-profile">Profile&nbsp;&nbsp;<span className="profile-title-nick">@{this.state.user.nickname}</span></h4>
+            <h4 className="title-profile">Profile&nbsp;&nbsp;<span                  className="profile-title-nick">@{this.state.user.nickname}</span>
+            </h4>
             <hr className="profile-hr"/>
-            <p className="profile-bio">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis mauris nec cursus ultrices. Sed quis tempor sapien. Vestibulum bibendum tincidunt pharetra. Cras efficitur ultrices lacus in dictum.
-            </p>
             <p className="profile-bio-loc">
               Location: {this.state.user.location}
             </p>

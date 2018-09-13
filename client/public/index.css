@@ -240,11 +240,6 @@ label::after { width: 10rem }
     text-align: center;
 }
 
-.profile-history-image {
-    /* display: flex;
-    height: 100%; */
-}
-
 .card.horizontal .card-image img {
     border-radius: 2px 0 0 2px;
     max-width: 100%;

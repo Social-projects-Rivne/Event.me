@@ -20,7 +20,7 @@ class NavProfile extends Component {
               <Link to={"/profile/" + sessionStorage['User-id']}>
                 <img
                   alt="user pictogram"
-                  className="user-pictogram"
+                  className="user-pictogram circle"
                   width="32"
                   src={this.get_pictogram_url()}
                 />
