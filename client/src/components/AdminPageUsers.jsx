@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Input } from 'react-materialize';
+import { Table, Input, Badge } from 'react-materialize';
 import { request, momentUTCToLocal } from '../utils';
 
 
@@ -8,7 +8,8 @@ class AdminPageUsers extends Component {
     users: [],
     roles: [],
     statuses: [],
-    not_active_id: ""
+    non_active_id: 0,
+    change_color: ""
   };
 
   componentDidMount() {
@@ -17,22 +18,16 @@ class AdminPageUsers extends Component {
         this.setState({
           users: data.users_dict,
           roles: data.roles_dict,
-          statuses: data.statuses_dict
+          statuses: data.statuses_dict,
+          non_active_id: data.Non_active_status_id
           });
-    })
-    this.state.statuses.map((element) => {
-      if (element.status === "Not_active") {
-        return (
-          this.setState({not_active_id: element.id })
-        );
-      } else return 0;
-
     })
   }
 
   changeUserRole = (e) => {
     let { id } = e.currentTarget;
-    id = id.replace(/user-role-/g, '')
+    id = id.replace(/user-role-/, '')
+    e.currentTarget.className = "light-green"
     const data = {
       "role_id": e.currentTarget.value
     }
@@ -51,9 +46,11 @@ class AdminPageUsers extends Component {
         }
       })
   }
+
   changeUserStatus = (e) => {
     let { id } = e.currentTarget;
-    id = id.replace(/user-role-/g, '')
+    id = id.replace(/user-status-/, '')
+    e.currentTarget.className = "light-green"
     const data = {
       "status_id": e.currentTarget.value
     }
@@ -111,21 +108,21 @@ class AdminPageUsers extends Component {
               <td>{momentUTCToLocal(element.create_date).format('MMMM D, YYYY HH:mm')}</td>
               <td>
                 <Input s={12}
+                  className=""
                   type='select'
                   id={`user-role-${element.id}`}
-                  label="Materialize Select"
                   value={element.role_id}
                   onChange={this.changeUserRole}>
                   <option value='0' disabled>Default</option>
                   {this.renderRolelist()}
                 </Input>
               </td>
-              {(element.status_id !== this.state.not_active_id) ?
+              {(element.status_id !== this.state.non_active_id) ?
                 <td>
                   <Input s={12}
+                    className=""
                     type='select'
-                    id={`user-${element.id}`}
-                    label="Materialize Select"
+                    id={`user-status-${element.id}`}
                     value={element.status_id}
                     onChange={this.changeUserStatus}>
                     <option value='0' disabled>Default</option>
