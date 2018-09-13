@@ -9,7 +9,7 @@ export class ChangePassword extends Component {
         check_new_password: '',
     };
 
-    componentDidMount = () => document.title = "Chage Password | Event.me"
+    componentDidMount = () => document.title = "Change Password | Event.me"
 
     onChangeHandler = (e) => {
         let { id } = e.currentTarget
