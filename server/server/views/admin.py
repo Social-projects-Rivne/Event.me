@@ -26,7 +26,7 @@ class AdminView(object):
         users_dict = []
         roles_dict = []
         statuses_dict = []
-        roles_dict = [model_to_dict(obj) for obj in users_list]
+        users_dict = [model_to_dict(obj) for obj in users_list]
         roles_dict = [model_to_dict(obj) for obj in roles_list]
         statuses_dict = [model_to_dict(obj) for obj in statuses_list]
         return {
