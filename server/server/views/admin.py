@@ -26,17 +26,14 @@ class AdminView(object):
         users_dict = []
         roles_dict = []
         statuses_dict = []
-        for obj in users_list:
-            temp_dict = model_to_dict(obj)
-            temp_dict['status_str'] = obj.user_statuses.status
-            users_dict.append(temp_dict)
+        roles_dict = [model_to_dict(obj) for obj in users_list]
         roles_dict = [model_to_dict(obj) for obj in roles_list]
         statuses_dict = [model_to_dict(obj) for obj in statuses_list]
-        response = {}
-        response['users_dict'] = users_dict
-        response['roles_dict'] = roles_dict
-        response['statuses_dict'] = statuses_dict
-        return response
+        return {
+            'users_dict': users_dict,
+            'roles_dict': roles_dict,
+            'statuses_dict': statuses_dict
+        }
 
     @view(permission="admin")
     def put(self):

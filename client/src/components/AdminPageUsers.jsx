@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Table, Input } from 'react-materialize';
-import { request } from '../utils';
+import { request, momentUTCToLocal } from '../utils';
 
 
 class AdminPageUsers extends Component {
   state = {
     users: [],
     roles: [],
-    statuses: []
+    statuses: [],
+    not_active_id: ""
   };
 
   componentDidMount() {
@@ -18,12 +19,20 @@ class AdminPageUsers extends Component {
           roles: data.roles_dict,
           statuses: data.statuses_dict
           });
-      })
+    })
+    this.state.statuses.map((element) => {
+      if (element.status === "Not_active") {
+        return (
+          this.setState({not_active_id: element.id })
+        );
+      } else return 0;
+
+    })
   }
 
   changeUserRole = (e) => {
     let { id } = e.currentTarget;
-    id = id.slice(10);
+    id = id.replace(/user-role-/g, '')
     const data = {
       "role_id": e.currentTarget.value
     }
@@ -32,7 +41,7 @@ class AdminPageUsers extends Component {
         if ('role_id' in data) {
           let users_arr = this.state.users;
           for(let i = 0; i < users_arr.length; i++) {
-            if (users_arr[i].id == id) {
+            if (users_arr[i].id === parseInt(id,10)) {
               users_arr[i].role_id = data['role_id']
             }
           }
@@ -44,7 +53,7 @@ class AdminPageUsers extends Component {
   }
   changeUserStatus = (e) => {
     let { id } = e.currentTarget;
-    id = id.slice(5);
+    id = id.replace(/user-role-/g, '')
     const data = {
       "status_id": e.currentTarget.value
     }
@@ -53,7 +62,7 @@ class AdminPageUsers extends Component {
         if ('status_id' in data) {
         let users_arr = this.state.users;
         for(let i = 0; i < users_arr.length; i++) {
-          if (users_arr[i].id == id) {
+          if (users_arr[i].id === parseInt(id,10)) {
             users_arr[i].status_id = data['status_id']
           }
         }
@@ -99,7 +108,7 @@ class AdminPageUsers extends Component {
               <td>{element.id}</td>
               <td>{element.email}</td>
               <td>{element.nickname}</td>
-              <td>{element.create_date}</td>
+              <td>{momentUTCToLocal(element.create_date).format('MMMM D, YYYY HH:mm')}</td>
               <td>
                 <Input s={12}
                   type='select'
@@ -111,7 +120,7 @@ class AdminPageUsers extends Component {
                   {this.renderRolelist()}
                 </Input>
               </td>
-              {(element.status_str !== 'Non_active') ?
+              {(element.status_id !== this.state.not_active_id) ?
                 <td>
                   <Input s={12}
                     type='select'
@@ -123,7 +132,7 @@ class AdminPageUsers extends Component {
                     {this.renderStatuslist()}
                   </Input>
                 </td> :
-                <td>{element.status_str}</td>
+                <td>Non Active</td>
               }
             </tr>
           );
