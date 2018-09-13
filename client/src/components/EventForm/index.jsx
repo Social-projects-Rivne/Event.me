@@ -142,7 +142,10 @@ class EventForm extends Component {
                     .parentNode.lastChild.className = 'active';
                 }
               } else {
-                this.setState({ [key]: String(data.event[key]) });
+                if (key === 'title') this.setState(
+                  {title: data.event.title},
+                  () => document.title = "Edit | " + this.state.title + " | Event.me")
+                else this.setState({ [key]: String(data.event[key]) });
               }
               document.getElementById([key]).parentNode.lastChild.className = 'active';
             }
@@ -158,6 +161,7 @@ class EventForm extends Component {
       })
     }
     window.addEventListener('user-log', (e) => this.props.history.push('/'), { once: true });
+    document.title = "Add Event | Event.me"
   }
 
   updateEvent = (e) => {

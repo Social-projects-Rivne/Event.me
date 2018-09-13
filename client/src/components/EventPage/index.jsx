@@ -63,21 +63,21 @@ class EventPage extends Component {
       }
 
       request('/subscribe/' + sessionStorage['User-id'], "POST",
-              JSON.stringify(data))
-      .then(data => {
-        if (data.success) {
-          if (data.is_subbed) {
-            this.setState({
-              is_subbed: true,
-              sub_icon: 'check_circle',
-              sub_label: 'Unsubscribe'
-            })
+        JSON.stringify(data))
+        .then(data => {
+          if (data.success) {
+            if (data.is_subbed) {
+              this.setState({
+                is_subbed: true,
+                sub_icon: 'check_circle',
+                sub_label: 'Unsubscribe'
+              })
+            }
           }
-        }
-        else {
-          window.Materialize.toast("Something has gone wrong", 1500);
-        }
-      })
+          else {
+            window.Materialize.toast("Something has gone wrong", 1500);
+          }
+        })
     }
     else {
       window.Materialize.toast("You need to register in order to subscribe", 3500);
@@ -88,10 +88,10 @@ class EventPage extends Component {
   getEventData() {
     request(`/event/${this.props.match.params.id}`).then(data => {
       if ('event' in data) {
-        console.log(data)
         for (const key in data.event) {
           if (this.state.hasOwnProperty(key)) {
-            this.setState({ [key]: data.event[key] });
+            if (key === 'name') this.setState({ name: data.event.name }, () => document.title = this.state.name + " | Event.me")
+            else this.setState({ [key]: data.event[key] });
           };
         };
 
@@ -102,12 +102,9 @@ class EventPage extends Component {
         this.setState({
           category: data.category,
           tags: data.tags,
-        });
-
-        this.setState({
           any_subs: data.any_subs,
           status_str: data.status_str
-        })
+        });
 
         if (data.is_subbed) {
           this.setState({
@@ -116,6 +113,7 @@ class EventPage extends Component {
             sub_label: 'Unsubscribe'
           })
         }
+
         if (data.subscriptions) {
           this.setState({
             subs: data.subscriptions
@@ -129,22 +127,22 @@ class EventPage extends Component {
     if (this.state.any_subs) {
       return (
         <React.Fragment>
-        {this.state.subs.map((element) => {
-          let avatar = element.avatar === null ? "/person.jpg" : element.avatar
-          return (
-            <Col>
-              <Link to={/profile/ + element.id}>
-                <img
-                  className="circle sub-icons"
-                  key={element.id}
-                  src={avatar}
-                  alt="Default icon"
-                  title={element.nickname}
-                />
-              </Link>
-            </Col>
-          );
-        })}
+          {this.state.subs.map((element) => {
+            let avatar = element.avatar === null ? "/person.jpg" : element.avatar
+            return (
+              <Col>
+                <Link to={/profile/ + element.id}>
+                  <img
+                    className="circle sub-icons"
+                    key={element.id}
+                    src={avatar}
+                    alt="Default icon"
+                    title={element.nickname}
+                  />
+                </Link>
+              </Col>
+            );
+          })}
         </React.Fragment>
       )
     }
