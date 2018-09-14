@@ -42,7 +42,7 @@ class EventPage extends Component {
     }
   }
 
-  SubscribeEvent = (eve) => {
+  subscribeEvent = (eve) => {
     eve.preventDefault()
 
     let data = {
@@ -87,7 +87,6 @@ class EventPage extends Component {
   getEventData() {
     request(`/event/${this.props.match.params.id}`).then(data => {
       if ('event' in data) {
-        console.log(data)
         for (const key in data.event) {
           if (this.state.hasOwnProperty(key)) {
             this.setState({ [key]: data.event[key] });
@@ -261,7 +260,7 @@ class EventPage extends Component {
                 large
                 waves='light'
                 className='event-subscribe'
-                onClick={this.SubscribeEvent}
+                onClick={this.subscribeEvent}
               >
                 {this.state.sub_label}
                 <Icon left className='event-subscribe-icon'>
