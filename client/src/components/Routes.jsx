@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import HomePage from './HomePage';
+import AdminPage from './AdminPage';
+import AdminPageUsers from './AdminPageUsers';
 import MapLayout from './MapLayout';
 import ConfirmEmail from './ConfirmEmail';
 import RecoverInfo from './RecoverInfo';
@@ -13,13 +15,17 @@ import EventPage from './EventPage';
 import ProfileEdit from './ProfileEdit';
 
 
+
 function Routes() {
+
   return (
     <React.Fragment>
         <Route path="/map" component={MapLayout} exact />
         <Route path="/" component={HomePage} exact />
         <Route path="/recover" component={HomePage} exact />
       <div className="container">
+        <Route path="/admin-page" component={AdminPage} exact />
+        <Route path="/admin-page/users" component={AdminPageUsers} exact />
         <Route path="/email_confirm/:token" component={ConfirmEmail} />
         <Route path="/recover-info" component={RecoverInfo} />
         <Route path="/change-password/:token" component={ChangePassword} />

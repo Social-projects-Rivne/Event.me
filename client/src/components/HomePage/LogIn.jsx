@@ -36,6 +36,7 @@ class LogIn extends Component {
           sessionStorage.setItem("User-nickname", data.user.nickname);
           sessionStorage.setItem("User-avatar", data.user.avatar);
           sessionStorage.setItem("User-id", data.user.user_id);
+          sessionStorage.setItem("User-role", data.user.user_role);
           window.dispatchEvent(log_event);
         } else {
           this.setState({ msg: data.msg });

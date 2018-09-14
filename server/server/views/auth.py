@@ -6,6 +6,7 @@ from sqlalchemy import func
 
 from ..models.token import Token
 from ..models.user import User
+from ..models.user import Role
 from ..validation_schema import LogInSchema
 
 
@@ -36,7 +37,9 @@ def log_in_post(request):
             response['user'] = {
                 'nickname': user.nickname,
                 'avatar': user.avatar,
-                'user_id': user.id
+                'user_id': user.id,
+                'user_role': Role.get_role_by_id(request, user.id)
+
             }
             return response
         else:

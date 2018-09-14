@@ -18,7 +18,10 @@ class Profile extends Component {
     componentDidMount() {
         request('/profile/' + this.props.match.params.profile_id)
         .then(data => {
-          this.setState({ user: data });
+            this.setState(
+                { user: data },
+                () => document.title = this.state.user.nickname + " | Event.me"
+            );
         })
         request('/profile-history/' + this.props.match.params.profile_id)
         .then(data => {

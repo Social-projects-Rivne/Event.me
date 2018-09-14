@@ -86,7 +86,8 @@ class EventPage extends Component {
       if ('event' in data) {
         for (const key in data.event) {
           if (this.state.hasOwnProperty(key)) {
-            this.setState({ [key]: data.event[key] });
+            if (key === 'name') this.setState({ name: data.event.name }, () => document.title = this.state.name + " | Event.me")
+            else this.setState({ [key]: data.event[key] });
           };
         };
 
@@ -99,7 +100,7 @@ class EventPage extends Component {
           tags: data.tags,
           any_subs: data.any_subs,
           status_str: data.status_str
-        })
+        });
 
         if (data.is_subbed) {
           this.setState({
