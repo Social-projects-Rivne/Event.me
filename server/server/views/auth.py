@@ -6,6 +6,7 @@ from sqlalchemy import func
 
 from ..models.token import Token
 from ..models.user import User
+from ..models.user import Role
 from ..validation_schema import LogInSchema
 
 
@@ -27,6 +28,10 @@ def log_in_post(request):
         'user': {}
     }
     user = User.get_user_by_email(request, request.json['email'])
+    roles_list = Role.get_all(request)
+    for obj in roles_list:
+        if obj.id is user.role_id:
+            user_role = obj.role
     if (user is not None and
             user.check_password(request.validated['password'])):
         if user.is_active(request):
@@ -36,7 +41,9 @@ def log_in_post(request):
             response['user'] = {
                 'nickname': user.nickname,
                 'avatar': user.avatar,
-                'user_id': user.id
+                'user_id': user.id,
+                'user_role': user_role
+
             }
             return response
         else:
