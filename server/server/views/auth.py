@@ -28,10 +28,6 @@ def log_in_post(request):
         'user': {}
     }
     user = User.get_user_by_email(request, request.json['email'])
-    roles_list = Role.get_all(request)
-    for obj in roles_list:
-        if obj.id is user.role_id:
-            user_role = obj.role
     if (user is not None and
             user.check_password(request.validated['password'])):
         if user.is_active(request):
@@ -42,7 +38,7 @@ def log_in_post(request):
                 'nickname': user.nickname,
                 'avatar': user.avatar,
                 'user_id': user.id,
-                'user_role': user_role
+                'user_role': Role.get_role_by_id(request, user.id)
 
             }
             return response

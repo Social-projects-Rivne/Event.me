@@ -27,10 +27,10 @@ class Nav extends Component {
       );
     }
   }
-  
+
   renderAdminPageLink() {
     if (isLogged()) {
-      if (sessionStorage['User-role']) {
+      if (sessionStorage['User-role'] === 'admin') {
         return (
           <React.Fragment>
             <Link to="/admin-page/">Admin Page</Link>
