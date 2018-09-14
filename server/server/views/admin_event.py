@@ -47,10 +47,10 @@ class AdminViewEvent(object):
         request = self.request
         json = request.json_body
         get_event_status = EventHistory.get_current_event_status(request, event_id=json['event_id'])
-        if get_event_status.status_id == 1 and json['status_id'] == 3:
+        if get_event_status.status_id == 1:
             EventHistory.create_new(request,
                                     event_id=json['event_id'],
-                                    status_id=json['status_id'],
+                                    status_id=3,
                                     date=datetime.now(),
                                     comment='Moderator approved your event')
             return {'ok': "Event approved"}
