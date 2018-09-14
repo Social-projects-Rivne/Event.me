@@ -11,6 +11,7 @@ import HotEvents from '../HotEvents'
 
 class HomePage extends Component {
   componentDidMount() {
+    document.title = "Featured Events | Event.me";
     window.addEventListener('user-log', (e) => this.forceUpdate());
   }
 

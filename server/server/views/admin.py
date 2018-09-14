@@ -23,7 +23,7 @@ class AdminView(object):
         users_list = User.get_all(self.request)
         roles_list = Role.get_all(self.request)
         statuses_list = UserStatus.get_all(self.request)
-        Non_active_status_id_dict = UserStatus\
+        non_active_status_id_dict = UserStatus\
             .get_id_by_status(self.request, 'Non_active')
         users_dict = []
         roles_dict = []
@@ -35,7 +35,7 @@ class AdminView(object):
             'users_dict': users_dict,
             'roles_dict': roles_dict,
             'statuses_dict': statuses_dict,
-            'Non_active_status_id': Non_active_status_id_dict
+            'non_active_status_id': non_active_status_id_dict
         }
 
     @view(permission="admin")

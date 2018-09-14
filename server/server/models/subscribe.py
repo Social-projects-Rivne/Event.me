@@ -17,3 +17,25 @@ class Subscribe(Base):
 
     users = relationship("User", foreign_keys=(user_id,))
     events = relationship("Event", foreign_keys=(event_id,))
+
+    @classmethod
+    def get_subscription(cls, request, **kwargs):
+        return request.dbsession.query(cls).filter_by(**kwargs).one_or_none()
+
+    @classmethod
+    def get_all_subs(cls, request, **kwargs):
+        subscriptions = request.dbsession.query(cls).filter_by(**kwargs).all()
+        return subscriptions
+
+    @classmethod
+    def add_subscription(cls, request, **kwargs):
+        """Add subscription"""
+        request.dbsession.add(cls(**kwargs))
+
+    @classmethod
+    def del_subscription(cls, request, **kwargs):
+
+        subscription = request.dbsession.query(cls).filter_by(**kwargs).\
+                       one_or_none()
+        if subscription is not None:
+            request.dbsession.delete(subscription)

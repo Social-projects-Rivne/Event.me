@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Parallax, Row, Col, CardPanel, Icon, Chip } from 'react-materialize';
+import { Parallax, Row, Col, CardPanel, Icon, Chip, Button } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import EventMap from '../EventMap';
 import EventMeta from './EventMeta';
@@ -21,6 +21,11 @@ class EventPage extends Component {
     long: '',
     category: '',
     tags: {},
+    is_subbed: false,
+    sub_icon: 'check_circle_outlined',
+    sub_label: 'Subscribe',
+    subs: [],
+    any_subs: false
   }
 
   componentDidMount = () => {
@@ -37,12 +42,56 @@ class EventPage extends Component {
     }
   }
 
+  SubscribeEvent = (eve) => {
+    eve.preventDefault()
+
+    let data;
+    if (sessionStorage['User-id']) {
+      if (this.state.is_subbed) {
+        data = {
+          'if_subbed': false,
+          'event_id': this.props.match.params.id,
+          'user_id': sessionStorage['User-id']
+        }
+      }
+      else {
+        data = {
+          'if_subbed': true,
+          'event_id': this.props.match.params.id,
+          'user_id': sessionStorage['User-id']
+        }
+      }
+
+      request('/subscribe/' + sessionStorage['User-id'], "POST",
+        JSON.stringify(data))
+        .then(data => {
+          if (data.success) {
+            if (data.is_subbed) {
+              this.setState({
+                is_subbed: true,
+                sub_icon: 'check_circle',
+                sub_label: 'Unsubscribe'
+              })
+            }
+          }
+          else {
+            window.Materialize.toast("Something has gone wrong", 1500);
+          }
+        })
+    }
+    else {
+      window.Materialize.toast("You need to register in order to subscribe", 3500);
+      this.props.history.push('/');
+    }
+  };
+
   getEventData() {
     request(`/event/${this.props.match.params.id}`).then(data => {
       if ('event' in data) {
         for (const key in data.event) {
           if (this.state.hasOwnProperty(key)) {
-            this.setState({ [key]: data.event[key] });
+            if (key === 'name') this.setState({ name: data.event.name }, () => document.title = this.state.name + " | Event.me")
+            else this.setState({ [key]: data.event[key] });
           };
         };
 
@@ -53,10 +102,50 @@ class EventPage extends Component {
         this.setState({
           category: data.category,
           tags: data.tags,
-          status_str: data.status_str,
+          any_subs: data.any_subs,
+          status_str: data.status_str
         });
+
+        if (data.is_subbed) {
+          this.setState({
+            is_subbed: true,
+            sub_icon: 'check_circle',
+            sub_label: 'Unsubscribe'
+          })
+        }
+
+        if (data.subscriptions) {
+          this.setState({
+            subs: data.subscriptions
+          })
+        }
       };
     });
+  }
+
+  renderSubscribedUsers() {
+    if (this.state.any_subs) {
+      return (
+        <React.Fragment>
+          {this.state.subs.map((element) => {
+            let avatar = element.avatar === null ? "/person.jpg" : element.avatar
+            return (
+              <Col>
+                <Link to={/profile/ + element.id}>
+                  <img
+                    className="circle sub-icons"
+                    key={element.id}
+                    src={avatar}
+                    alt="Default icon"
+                    title={element.nickname}
+                  />
+                </Link>
+              </Col>
+            );
+          })}
+        </React.Fragment>
+      )
+    }
   }
 
   renderEditButton() {
@@ -164,9 +253,25 @@ class EventPage extends Component {
         {this.state.main_image ? <Parallax imageSrc={this.state.main_image} /> : ''}
         <CardPanel className="black-text">
           <Row>
-            <Col s={12} className="left-align">
+            <Col s={6} className="left-align">
               <h3>{this.state.name}</h3>
             </Col>
+            <Col s={6}>
+              <Button
+                large
+                waves='light'
+                className='event-subscribe'
+                onClick={this.SubscribeEvent}
+              >
+                {this.state.sub_label}
+                <Icon left className='event-subscribe-icon'>
+                  {this.state.sub_icon}
+                </Icon>
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            {this.renderSubscribedUsers()}
           </Row>
           <Row>
             <Col s={12} className="left-align valign-wrapper">

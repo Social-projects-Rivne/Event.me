@@ -16,7 +16,7 @@ class MapLayout extends Component {
         {
           this.props.events.map(eventShortInfo => {
             return (
-              <Marker key={eventShortInfo.id} position={[eventShortInfo.long, eventShortInfo.lat]}>
+              <Marker key={eventShortInfo.id} position={[eventShortInfo.lat, eventShortInfo.long]}>
                 <Popup onOpen={this.onPopupOpen}>
                   <Link to={`/event/${eventShortInfo.id}`}>{eventShortInfo.name}</Link>
                 </Popup>

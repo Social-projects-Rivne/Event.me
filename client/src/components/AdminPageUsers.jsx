@@ -8,8 +8,7 @@ class AdminPageUsers extends Component {
     users: [],
     roles: [],
     statuses: [],
-    non_active_id: 0,
-    change_color: ""
+    non_active_id: 0
   };
 
   componentDidMount() {
@@ -19,7 +18,7 @@ class AdminPageUsers extends Component {
           users: data.users_dict,
           roles: data.roles_dict,
           statuses: data.statuses_dict,
-          non_active_id: data.Non_active_status_id
+          non_active_id: data.non_active_status_id
           });
     })
   }
@@ -75,7 +74,7 @@ class AdminPageUsers extends Component {
       <React.Fragment>
         {this.state.roles.map((element) => {
           return (
-            <option value={element.id}>{element.role}</option>
+            <option key={element.id} value={element.id}>{element.role}</option>
           );
         })
       }
@@ -88,7 +87,9 @@ class AdminPageUsers extends Component {
       <React.Fragment>
         {this.state.statuses.map((element) => {
           if (element.status !== 'Non_active') {
-            return (<option value={element.id}>{element.status}</option>);
+            return (
+              <option key={element.id} value={element.id}>{element.status}</option>
+            );
           } else return 0;
         })
         }
@@ -101,7 +102,7 @@ class AdminPageUsers extends Component {
       <React.Fragment>
         {this.state.users.map((element) => {
           return (
-            <tr>
+            <tr key={element.id}>
               <td>{element.id}</td>
               <td>{element.email}</td>
               <td>{element.nickname}</td>
@@ -111,7 +112,7 @@ class AdminPageUsers extends Component {
                   className=""
                   type='select'
                   id={`user-role-${element.id}`}
-                  value={element.role_id}
+                  value={element.role_id.toString()}
                   onChange={this.changeUserRole}>
                   <option value='0' disabled>Default</option>
                   {this.renderRolelist()}
@@ -123,7 +124,7 @@ class AdminPageUsers extends Component {
                     className=""
                     type='select'
                     id={`user-status-${element.id}`}
-                    value={element.status_id}
+                    value={element.status_id.toString()}
                     onChange={this.changeUserStatus}>
                     <option value='0' disabled>Default</option>
                     {this.renderStatuslist()}

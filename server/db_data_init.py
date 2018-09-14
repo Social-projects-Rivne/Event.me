@@ -52,6 +52,7 @@ user_data = [
         "nickname": "oleksandttarar",
         "password": pbkdf2_sha256.hash("passwd"),
         "location": "Rivne",
+        "create_date": "2018-07-02 17:47:23",
         "first_name": "Oleksandr",
         "last_name": "Tarar",
         "status_id": 1,
@@ -62,6 +63,7 @@ user_data = [
         "nickname": "RingDestroyer",
         "password": pbkdf2_sha256.hash("iloveSam"),
         "location": "Shire",
+        "create_date": "2018-07-03 14:30:00",
         "first_name": "Frodo",
         "last_name": "Baggins",
         "status_id": 1,
@@ -72,10 +74,11 @@ user_data = [
         "nickname": "Ranger",
         "password": pbkdf2_sha256.hash("icewindDale"),
         "location": "Menzoberranzan",
+        "create_date": "2018-07-07 00:00:00",
         "first_name": "Drizzt",
         "last_name": "Do Urden",
         "status_id": 2,
-        "banned_to_date": "2018-09-01 00:00:00",
+        "banned_to_date": "2018-09-01 01:00:00",
         "role_id": 2
     },
     {
@@ -83,6 +86,7 @@ user_data = [
         "nickname": "KnowNothing",
         "password": pbkdf2_sha256.hash("Ygritte"),
         "location": "Wall",
+        "create_date": "2018-07-12 18:00:00",
         "first_name": "Aegon",
         "last_name": "Targaryen",
         "status_id": 1,
@@ -93,6 +97,7 @@ user_data = [
         "nickname": "WhiteWolf",
         "password": pbkdf2_sha256.hash("Merigold"),
         "location": "Kaer Morhen",
+        "create_date": "2018-08-03 12:00:00",
         "first_name": "Geralt",
         "last_name": "of Rivia",
         "status_id": 4,
@@ -102,8 +107,8 @@ user_data = [
 event_data = [
     {
         "name": "Oleh Vynnyk Rivne Show",
-        "long": 50.604884,
-        "lat": 26.277647,
+        "long": 26.277647,
+        "lat": 50.604884,
         "description": ("Oleh Vynnyk performed live on stage at 1,684 shows "
                         "and concerts during his career. Beginning with his "
                         "first Memphis show in 1954 to the last concert in "
@@ -117,8 +122,8 @@ event_data = [
                         "television shows. If the rehearsals, private "
                         "sessions, live shows and alternate takes are "
                         "included the total adds up to at least 990 songs."),
-        "start_date": "2018-08-28 20:00:00",
-        "end_date": "2018-08-28 23:00:00",
+        "start_date": "2018-09-28 20:00:00",
+        "end_date": "2018-09-28 23:00:00",
         "author_name": "oleksandttarar",
         "main_image": ("https://img.tsn.ua/cached/1533907428/"
                        "tsn-5c161a41b1f154cd63aedacab6e94568/thumbs/"
@@ -129,8 +134,8 @@ event_data = [
     },
     {
         "name": "Dark Elf Adventure",
-        "long": 51.619900,
-        "lat": 27.251617,
+        "long": 27.251617,
+        "lat": 51.619900,
         "description": "Drizzt long adventure",
         "start_date": "2018-09-13 00:00:00",
         "end_date": "2018-09-17 00:00:00",
@@ -141,8 +146,8 @@ event_data = [
     },
     {
         "name": "Salsa Club Rivne - dance bachata",
-        "long": 50.619900,
-        "lat": 26.251617,
+        "long": 26.251617,
+        "lat": 50.619900,
         "description": ("Танцювальні заняття будуть проводити двічі на "
                         "тиждень. Учасникам групи обов'язково потрібно мати з "
                         "собою змінне взуття. Організатори запевняють, що "
@@ -158,8 +163,8 @@ event_data = [
     },
     {
         "name": "Dig potatoes",
-        "long": 50.60122,
-        "lat": 26.299617,
+        "long": 26.299617,
+        "lat": 50.60122,
         "description": "If you want more potatoes, please help me and cats.",
         "start_date": "2018-09-14 17:30:00",
         "end_date": "2018-09-14 20:00:00",
@@ -170,8 +175,8 @@ event_data = [
     },
     {
         "name": "Alpha Film",
-        "long": 50.619972,
-        "lat": 26.250842,
+        "long": 26.250842,
+        "lat": 50.619972,
         "description": ("20 000 років тому Земля була холодним і незатишним "
                         "місцем, в якому смерть підстерігала людину на кожному"
                         " кроці, а життя залежало від того, чи вдалося "
@@ -192,8 +197,8 @@ event_data = [
     },
     {
         "name": "Rock MOZART LE CONCERT",
-        "long": 50.6179686,
-        "lat": 26.2544057,
+        "long": 26.2544057,
+        "lat": 50.6179686,
         "description": ("Світова прем’єра MOZART L'Opera Rock відбулась у "
                         "вересні 2009 року у Парижі. Іронічна Франція миттю "
                         "схилила голову перед революційною, практично "

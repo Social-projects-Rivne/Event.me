@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Row, Col, Input, Button, Modal } from 'react-materialize';
 import SelectCategory from './SelectCategory';
 import TagAutocomplete from './TagAutocomplete';
+import DraggableMarker from './DraggableMarker';
 import { request, momentUTCToLocal } from '../../utils';
 
 
@@ -21,8 +22,6 @@ class EventForm extends Component {
       end_date: '',
       error: {
         title: '',
-        long: '',
-        lat: '',
         description: '',
         category: '',
         start_date: '',
@@ -34,6 +33,7 @@ class EventForm extends Component {
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.deleteTag = this.deleteTag.bind(this);
+    this.coordinatesHandle = this.coordinatesHandle.bind(this);
   }
 
   deleteTag (tag) {
@@ -44,8 +44,6 @@ class EventForm extends Component {
     let isErrors = false;
     let errorMessages = {
       title: '',
-      long: '',
-      lat: '',
       description: '',
       category: '',
       start_date: '',
@@ -126,7 +124,7 @@ class EventForm extends Component {
         if ('event' in data) {
           data.event.title = data.event.name
           for (const key in data.event) {
-            if (key in this.state) {
+            if (key in this.state && key !== 'lat' && key !== 'long') {
               if (key === 'start_date' || key === 'end_date') {
                 this.setState({ [key]: momentUTCToLocal(data.event[key]).format('D MMMM, YYYY') });
 
@@ -144,12 +142,17 @@ class EventForm extends Component {
                     .parentNode.lastChild.className = 'active';
                 }
               } else {
-                this.setState({ [key]: String(data.event[key]) });
+                if (key === 'title') this.setState(
+                  {title: data.event.title},
+                  () => document.title = "Edit | " + this.state.title + " | Event.me")
+                else this.setState({ [key]: String(data.event[key]) });
               }
               document.getElementById([key]).parentNode.lastChild.className = 'active';
             }
           }
           this.setState({
+            'lat': data.event.lat,
+            'long': data.event.long,
             'category': data.category,
             'tags': data.tags,
             'status_str': data.status_str,
@@ -158,6 +161,7 @@ class EventForm extends Component {
       })
     }
     window.addEventListener('user-log', (e) => this.props.history.push('/'), { once: true });
+    document.title = "Add Event | Event.me"
   }
 
   updateEvent = (e) => {
@@ -226,17 +230,19 @@ class EventForm extends Component {
     };
   }
 
-  onChangeHandlerFloat = (e) => {
-    const { id } = e.currentTarget;
-    this.setState({ [id]: e.target.value.replace(/[^0-9.-]/, '') });
-  }
-
   closeEventHandler = (e) => {
     request(`/event/${this.props.match.params.id}`, 'DELETE').then(data => {
       if ('success' in data && data.success) {
         this.props.history.push(`/event/${this.props.match.params.id}`);
         window.Materialize.toast('Your event successfully closed', 3000);
       }
+    })
+  }
+
+  coordinatesHandle(lat, long) {
+    this.setState({
+      lat: lat,
+      long: long
     })
   }
 
@@ -304,22 +310,8 @@ class EventForm extends Component {
             />
           </Row>
           <Row>
-            <Input
-              s={6} id="long" type="text"
-              step="0.000001"
-              label="Longitude (must be a float)"
-              error={this.state.error.long}
-              value={this.state.long}
-              onChange={this.onChangeHandlerFloat}
-            />
-            <Input
-              s={6} id="lat" type="text"
-              step="0.000001"
-              label="Latitude (must be a float)"
-              error={this.state.error.lat}
-              value={this.state.lat}
-              onChange={this.onChangeHandlerFloat}
-            />
+            <h4>Drag and drop marker for choose event coordinates</h4>
+            <DraggableMarker lat={this.state.lat} long={this.state.long} coordinatesHandle={this.coordinatesHandle}/>
           </Row>
           <Row className="textarea-wrapper">
             <Input

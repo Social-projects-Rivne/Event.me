@@ -14,6 +14,8 @@ from ..models.event_status import EventStatus
 from ..models.event_tag import EventTag
 from ..models.tag import Tag
 from ..validation_schema import EventSchema
+from ..models.user import User
+from ..models.subscribe import Subscribe
 
 
 @resource(collection_path='/event', path='/event/{event_id}', renderer='json',
@@ -128,8 +130,22 @@ class EventView(object):
         }
         if request.user is not None and event_obj.author_id == request.user.id:
             response['status'] = model_to_dict(self.event_history)
-        response['status_str'] = self.event_status
-
+            response['status_str'] = self.event_status
+            subscriptions = Subscribe.get_all_subs(request,
+                                                   event_id=event_obj.id)
+            subscription = Subscribe.get_subscription(request,
+                                                      user_id=request.user.id,
+                                                      event_id=event_obj.id)
+            if subscriptions is not None:
+                user_arr = [model_to_dict(obj.users) for obj in subscriptions]
+                response['subscriptions'] = user_arr
+                response['any_subs'] = True
+                if subscription is not None:
+                    response['is_subbed'] = True
+                else:
+                    response['is_subbed'] = False
+            else:
+                response['any_subs'] = False
         return response
 
     @view(schema=EventSchema(), validators=(colander_body_validator,),
