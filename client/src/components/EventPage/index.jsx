@@ -48,15 +48,12 @@ class EventPage extends Component {
     let data = {
       'event_id': this.props.match.params.id,
       'user_id': sessionStorage['User-id'],
-      'if_subbed': null
+      'if_subbed': true
     };
 
     if (sessionStorage['User-id']) {
       if (this.state.is_subbed) {
         data['if_subbed'] = false
-      }
-      else {
-        data['if_subbed'] = true
       }
 
       request('/subscribe/' + sessionStorage['User-id'], "POST",
@@ -126,8 +123,7 @@ class EventPage extends Component {
       return (
         <React.Fragment>
         {this.state.subs.map((element) => {
-          const avatar = element.avatar ===
-                         null ? "img/person.jpg" : element.avatar
+          const avatar = element.avatar === null ? "img/person.jpg" : element.avatar
           return (
             <Col>
               <Link to={/profile/ + element.id}>
