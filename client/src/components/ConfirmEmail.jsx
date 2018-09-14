@@ -12,17 +12,17 @@ class ConfirmEmail extends Component{
         request('/email_confirm/'+this.props.match.params.token)
             .then(data=>{
                 this.setState({msg: data.msg})
-                if (
-                    this.state.msg === "Your email address is confirmed"
-                ){
-                    this.setState({message_to_user:
-                                  "Your email address is confirmed, please press the Home button and Log in"})
-                    window.Materialize.toast(this.state.msg, 3000)
+                if (this.state.msg === "Your email address is confirmed") {
+                    this.setState({
+                        message_to_user: "Your email address is confirmed, please press the Home button and Log in"
+                    });
+                    window.Materialize.toast(this.state.msg, 3000);
 
                 } else {
-                    this.setState({message_to_user: "Error404 HTTPNotFound"})
-                    window.Materialize.toast(this.state.msg, 3000)
+                    this.setState({message_to_user: "Error 404 Not Found"});
+                    window.Materialize.toast(this.state.msg, 3000);
                 }
+                document.title = "Email Confirmation | Event.me"
             })
     }
     render() {

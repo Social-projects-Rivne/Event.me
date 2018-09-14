@@ -14,7 +14,10 @@ class ProfileEdit extends Component {
     componentDidMount() {
         request('/profile/' + this.props.match.params.profile_id)
         .then(json => {
-            this.setState({user: json});
+            this.setState(
+                { user: json },
+                () => document.title = "Edit | " + this.state.user.nickname + " | Event.me"
+            );
             this.setState({
                 user: {
                     first_name_input: this.state.user.first_name,
