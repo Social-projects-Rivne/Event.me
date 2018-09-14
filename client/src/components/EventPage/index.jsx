@@ -42,42 +42,38 @@ class EventPage extends Component {
     }
   }
 
-  SubscribeEvent = (eve) => {
+  subscribeEvent = (eve) => {
     eve.preventDefault()
 
-    let data;
+    let data = {
+      'event_id': this.props.match.params.id,
+      'user_id': sessionStorage['User-id'],
+      'if_subbed': true
+    };
+
     if (sessionStorage['User-id']) {
       if (this.state.is_subbed) {
-        data = {
-          'if_subbed': false,
-          'event_id': this.props.match.params.id,
-          'user_id': sessionStorage['User-id']
-        }
-      }
-      else {
-        data = {
-          'if_subbed': true,
-          'event_id': this.props.match.params.id,
-          'user_id': sessionStorage['User-id']
-        }
+        data['if_subbed'] = false
       }
 
       request('/subscribe/' + sessionStorage['User-id'], "POST",
-        JSON.stringify(data))
-        .then(data => {
-          if (data.success) {
-            if (data.is_subbed) {
-              this.setState({
-                is_subbed: true,
-                sub_icon: 'check_circle',
-                sub_label: 'Unsubscribe'
-              })
-            }
-          }
-          else {
-            window.Materialize.toast("Something has gone wrong", 1500);
-          }
-        })
+              JSON.stringify(data))
+      .then(data => {
+        if (data.is_subbed) {
+          this.setState({
+            is_subbed: true,
+            sub_icon: 'check_circle',
+            sub_label: 'Unsubscribe'
+          })
+        }
+        else {
+          this.setState({
+            is_subbed: false,
+            sub_icon: 'check_circle_outlined',
+            sub_label: 'Subscribe',
+          })
+        }
+      })
     }
     else {
       window.Materialize.toast("You need to register in order to subscribe", 3500);
@@ -127,22 +123,22 @@ class EventPage extends Component {
     if (this.state.any_subs) {
       return (
         <React.Fragment>
-          {this.state.subs.map((element) => {
-            let avatar = element.avatar === null ? "/person.jpg" : element.avatar
-            return (
-              <Col>
-                <Link to={/profile/ + element.id}>
-                  <img
-                    className="circle sub-icons"
-                    key={element.id}
-                    src={avatar}
-                    alt="Default icon"
-                    title={element.nickname}
-                  />
-                </Link>
-              </Col>
-            );
-          })}
+        {this.state.subs.map((element) => {
+          const avatar = element.avatar === null ? "img/person.jpg" : element.avatar
+          return (
+            <Col>
+              <Link to={/profile/ + element.id}>
+                <img
+                  className="circle sub-icons"
+                  key={element.id}
+                  src={avatar}
+                  alt="Default icon"
+                  title={element.nickname}
+                />
+              </Link>
+            </Col>
+          );
+        })}
         </React.Fragment>
       )
     }
@@ -261,7 +257,7 @@ class EventPage extends Component {
                 large
                 waves='light'
                 className='event-subscribe'
-                onClick={this.SubscribeEvent}
+                onClick={this.subscribeEvent}
               >
                 {this.state.sub_label}
                 <Icon left className='event-subscribe-icon'>

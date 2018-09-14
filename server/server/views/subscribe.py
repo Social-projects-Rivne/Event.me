@@ -21,7 +21,6 @@ subscribe = Service(name='subscribe',
 @subscribe.post()
 def subscribe_post(request):
     response = {
-        'success': False,
         'is_subbed': None
     }
 
@@ -30,12 +29,10 @@ def subscribe_post(request):
     if data.get('if_subbed') is True:
         Subscribe.add_subscription(request, user_id=data.get('user_id'),
                                    event_id=data.get('event_id'))
-        response['success'] = True
         response['is_subbed'] = True
     else:
         Subscribe.del_subscription(request, user_id=data.get('user_id'),
                                    event_id=data.get('event_id'))
-        response['success'] = True
         response['is_subbed'] = False
 
     return response

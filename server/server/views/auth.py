@@ -38,7 +38,7 @@ def log_in_post(request):
                 'nickname': user.nickname,
                 'avatar': user.avatar,
                 'user_id': user.id,
-                'user_role': Role.get_role_by_id(request, user.id)
+                'user_role': Role.get_role_by_id(request, user.role_id)
 
             }
             return response
