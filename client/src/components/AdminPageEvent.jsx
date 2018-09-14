@@ -30,16 +30,6 @@ class AdminPageEvent extends Component {
 
   }
 
-  // changeEventStatus = (e) => {
-  //   let status_event = {
-  //     status_id: this.status_id,
-  //     event_id: this.event_id
-  //   }
-  //
-  //   request('/admin-page/events', "POST", JSON.stringify(status_event))
-  //       .then(data => {})
-  // }
-
   renderNewEvent() {
     return (
       <React.Fragment>
