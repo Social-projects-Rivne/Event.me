@@ -45,21 +45,18 @@ class EventPage extends Component {
   SubscribeEvent = (eve) => {
     eve.preventDefault()
 
-    let data;
+    let data = {
+      'event_id': this.props.match.params.id,
+      'user_id': sessionStorage['User-id'],
+      'if_subbed': null
+    };
+
     if (sessionStorage['User-id']) {
       if (this.state.is_subbed) {
-        data = {
-          'if_subbed': false,
-          'event_id': this.props.match.params.id,
-          'user_id': sessionStorage['User-id']
-        }
+        data['if_subbed'] = false
       }
       else {
-        data = {
-          'if_subbed': true,
-          'event_id': this.props.match.params.id,
-          'user_id': sessionStorage['User-id']
-         }
+        data['if_subbed'] = true
       }
 
       request('/subscribe/' + sessionStorage['User-id'], "POST",
