@@ -23,7 +23,6 @@ class HotEvents extends Component {
           display_method: 12,
           card_size: 'large'
        })
-        this.setState({  })
       }
       else if (data.num_of_hot_events === 2) {
         this.setState({

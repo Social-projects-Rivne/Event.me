@@ -128,9 +128,9 @@ class EventView(object):
             'category': event_obj.category.category,
             'tags': tags,
         }
+        response['status_str'] = self.event_status
         if request.user is not None and event_obj.author_id == request.user.id:
             response['status'] = model_to_dict(self.event_history)
-            response['status_str'] = self.event_status
             subscriptions = Subscribe.get_all_subs(request,
                                                    event_id=event_obj.id)
             subscription = Subscribe.get_subscription(request,

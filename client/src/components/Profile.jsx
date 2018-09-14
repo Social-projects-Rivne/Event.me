@@ -22,36 +22,26 @@ class Profile extends Component {
         })
         request('/profile-history/' + this.props.match.params.profile_id)
         .then(data => {
-          console.log("DATA: " + data)
-          if (data.success) {
-            console.log("SUCCESS: " + data)
+          this.setState({
+            history: data.history,
+            events: data.events,
+            any_history: true
+          })
+          if (data.num_of_events === 1) {
             this.setState({
-              history: data.history,
-              events: data.events,
-              any_history: true
-            })
-            if (data.num_of_events === 1) {
-              this.setState({
-                display_method: 12,
-                card_size: 'large'
-             })
-              this.setState({  })
-            }
-            else {
-              this.setState({
-                display_method: 6,
-                card_size: 'medium'
-              })
-            }
+              display_method: 12,
+              card_size: 'large'
+           })
           }
           else {
-            console.log("HMMM")
-            console.log(data)
+            this.setState({
+              display_method: 6,
+              card_size: 'medium'
+            })
           }
         })
-        document.getElementById('root').style = "background-color: #3700B3; \
-                                                 width: 100%; \
-                                                 height: 25em;"
+        const style = "background-color: #3700B3; width: 100%; height: 25em;"
+        document.getElementById('root').style = style
     }
 
     componentWillUnmount() {
@@ -90,10 +80,9 @@ class Profile extends Component {
     renderEditButton = () => {
         if (this.props.match.params.profile_id === sessionStorage['User-id']) {
             return (
-                <a
-                  href={"/#/profile-edit/" + sessionStorage['User-id']}>
-                    Edit
-                </a>
+              <Link to={"/profile-edit/" + sessionStorage['User-id']}>
+                Edit Profile
+              </Link>
             );
         }
     };
@@ -107,12 +96,7 @@ class Profile extends Component {
               <Card
                 horizontal
                 header={
-                  <CardTitle
-                    image={
-                      element.main_image
-                    }
-                  >
-                  </CardTitle>
+                  <CardTitle image={ element.main_image }></CardTitle>
                 }
                 actions={
                   [
@@ -156,8 +140,8 @@ class Profile extends Component {
             header={
               <CardTitle
                 image={
-                  this.state.user.avatar ===
-                  null ? "/default_profile.png" : this.state.user.avatar
+                  this.state.user.avatar === null ?
+                  "/default_profile.png" : this.state.user.avatar
                 }
               >
               </CardTitle>
@@ -166,7 +150,11 @@ class Profile extends Component {
               [ <React.Fragment>{this.renderEditButton()}</React.Fragment> ]
             }
           >
-            <h4 className="title-profile">Profile&nbsp;&nbsp;<span                  className="profile-title-nick">@{this.state.user.nickname}</span>
+            <h4 className="title-profile">
+              Profile&nbsp;&nbsp;
+              <span className="profile-title-nick">
+                @{this.state.user.nickname}
+              </span>
             </h4>
             <hr className="profile-hr"/>
             <p className="profile-bio-loc">

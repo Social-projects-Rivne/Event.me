@@ -59,23 +59,25 @@ class EventPage extends Component {
           'if_subbed': true,
           'event_id': this.props.match.params.id,
           'user_id': sessionStorage['User-id']
-        }
+         }
       }
 
       request('/subscribe/' + sessionStorage['User-id'], "POST",
               JSON.stringify(data))
       .then(data => {
-        if (data.success) {
-          if (data.is_subbed) {
-            this.setState({
-              is_subbed: true,
-              sub_icon: 'check_circle',
-              sub_label: 'Unsubscribe'
-            })
-          }
+        if (data.is_subbed) {
+          this.setState({
+            is_subbed: true,
+            sub_icon: 'check_circle',
+            sub_label: 'Unsubscribe'
+          })
         }
         else {
-          window.Materialize.toast("Something has gone wrong", 1500);
+          this.setState({
+            is_subbed: false,
+            sub_icon: 'check_circle_outlined',
+            sub_label: 'Subscribe',
+          })
         }
       })
     }
@@ -101,9 +103,6 @@ class EventPage extends Component {
         this.setState({
           category: data.category,
           tags: data.tags,
-        });
-
-        this.setState({
           any_subs: data.any_subs,
           status_str: data.status_str
         })
@@ -115,6 +114,7 @@ class EventPage extends Component {
             sub_label: 'Unsubscribe'
           })
         }
+
         if (data.subscriptions) {
           this.setState({
             subs: data.subscriptions
@@ -129,7 +129,8 @@ class EventPage extends Component {
       return (
         <React.Fragment>
         {this.state.subs.map((element) => {
-          let avatar = element.avatar === null ? "/person.jpg" : element.avatar
+          const avatar = element.avatar ===
+                         null ? "img/person.jpg" : element.avatar
           return (
             <Col>
               <Link to={/profile/ + element.id}>

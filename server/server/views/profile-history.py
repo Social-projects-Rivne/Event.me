@@ -21,21 +21,18 @@ profile_history = Service(name='profile-history',
 
 @profile_history.get()
 def profile_history_get(request):
-    response = {
-        'success': False,
-        'history': None
-    }
+    response = {}
 
     events = Event.get_events_by_user_id(request, request.user.id)
     id_arr = [obj.id for obj in events]
     response['num_of_events'] = len(id_arr)
-    history = EventHistory.\
-                    get_event_history_by_user_id(request, id_arr=id_arr)
+    history = EventHistory.get_event_history_by_user_id(request, id_arr=id_arr)
     history_dict = [model_to_dict(obj) for obj in history]
     events_dict = [model_to_dict(obj) for obj in events]
 
-    response['events'] = events_dict
-    response['history'] = history_dict
-    response['success'] = True
+    response = {
+        'events': events_dict,
+        'history': history_dict,
+    }
 
     return response
