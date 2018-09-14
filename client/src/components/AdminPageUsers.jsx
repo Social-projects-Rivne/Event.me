@@ -74,7 +74,7 @@ class AdminPageUsers extends Component {
       <React.Fragment>
         {this.state.roles.map((element) => {
           return (
-            <option value={element.id}>{element.role}</option>
+            <option key={element.id} value={element.id}>{element.role}</option>
           );
         })
       }
@@ -87,7 +87,9 @@ class AdminPageUsers extends Component {
       <React.Fragment>
         {this.state.statuses.map((element) => {
           if (element.status !== 'Non_active') {
-            return (<option value={element.id}>{element.status}</option>);
+            return (
+              <option key={element.id} value={element.id}>{element.status}</option>
+            );
           } else return 0;
         })
         }
@@ -100,7 +102,7 @@ class AdminPageUsers extends Component {
       <React.Fragment>
         {this.state.users.map((element) => {
           return (
-            <tr>
+            <tr key={element.id}>
               <td>{element.id}</td>
               <td>{element.email}</td>
               <td>{element.nickname}</td>

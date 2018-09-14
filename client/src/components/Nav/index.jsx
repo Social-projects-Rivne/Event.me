@@ -27,10 +27,25 @@ class Nav extends Component {
       );
     }
   }
+  
+  renderAdminPageLink() {
+    if (isLogged()) {
+      if (sessionStorage['User-role']) {
+        return (
+          <React.Fragment>
+            <Link to="/admin-page/">Admin Page</Link>
+          </React.Fragment>
+        );
+      }
+    }
+  }
 
   render() {
     return (
       <Navbar brand="Event.me" right>
+      <li>
+        {this.renderAdminPageLink()}
+      </li>
       <li>
         <Link to="/map">Map</Link>
       </li>
